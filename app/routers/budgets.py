@@ -46,8 +46,18 @@ def list_budgets(month: Optional[str] = None, db: Session = Depends(get_db),
     if month:
         q = q.filter(Budget.month == month)
     results = q.all()
-    return [{"id": b.id, "category": str(b.category).split(".")[-1],
-             "monthly_limit": b.monthly_limit, "month": b.month} for b in results]
+    output = []
+    for b in results:
+        try:
+            output.append({
+                "id": b.id,
+                "category": str(b.category).split(".")[-1],
+                "monthly_limit": b.monthly_limit,
+                "month": b.month
+            })
+        except Exception:
+            pass  # skip corrupted rows
+    return output
 
 @router.delete("/{budget_id}")
 def delete_budget(budget_id: int, db: Session = Depends(get_db),
