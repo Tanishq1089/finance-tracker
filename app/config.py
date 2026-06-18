@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     MAIL_FROM: str = ""
     MAIL_SERVER: str = "smtp.gmail.com"
     MAIL_PORT: int = 587
+    RESEND_API_KEY: str = ""
 
     class Config:
         env_file = ".env"
