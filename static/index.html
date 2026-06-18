@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Finance Tracker</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: system-ui, sans-serif; background:#f0f2f5; color:#1a1a2e; min-height:100vh; }
+
+  /* AUTH */
+  #auth-screen {
+    min-height:100vh; display:flex; align-items:center;
+    justify-content:center; background:linear-gradient(135deg,#667eea,#764ba2);
+  }
+  .auth-card {
+    background:white; border-radius:20px; padding:40px;
+    width:100%; max-width:420px; box-shadow:0 20px 60px rgba(0,0,0,0.2);
+  }
+  .auth-card h1 { font-size:26px; font-weight:700; color:#6366f1; margin-bottom:6px; }
+  .auth-card p  { color:#888; font-size:14px; margin-bottom:28px; }
+  .form-group { margin-bottom:18px; }
+  .form-group label { display:block; font-size:13px; font-weight:600;
+    color:#555; margin-bottom:6px; }
+  .form-group input {
+    width:100%; padding:12px 16px; border:2px solid #e8e8e8;
+    border-radius:10px; font-size:15px; outline:none; transition:.2s;
+  }
+  .form-group input:focus { border-color:#6366f1; }
+  .btn {
+    width:100%; padding:13px; border:none; border-radius:10px;
+    font-size:15px; font-weight:600; cursor:pointer; transition:.2s;
+  }
+  .btn-primary { background:#6366f1; color:white; }
+  .btn-primary:hover { background:#4f46e5; }
+  .btn-secondary { background:#f0f0ff; color:#6366f1; margin-top:10px; }
+  .btn-secondary:hover { background:#e0e0ff; }
+  .msg { margin-top:14px; padding:10px 14px; border-radius:8px;
+    font-size:13px; display:none; }
+  .msg.success { background:#f0fdf4; color:#16a34a; display:block; }
+  .msg.error   { background:#fef2f2; color:#dc2626; display:block; }
+  .toggle-link { text-align:center; margin-top:16px; font-size:13px; color:#888; }
+  .toggle-link a { color:#6366f1; cursor:pointer; font-weight:600; }
+
+  /* APP */
+  #app-screen { display:none; }
+  .topbar {
+    background:white; padding:16px 28px; display:flex;
+    align-items:center; justify-content:space-between;
+    border-bottom:1px solid #eee; position:sticky; top:0; z-index:10;
+  }
+  .topbar h2 { font-size:18px; color:#6366f1; font-weight:700; }
+  .topbar span { font-size:14px; color:#888; }
+  .logout-btn {
+    background:none; border:2px solid #eee; padding:7px 16px;
+    border-radius:8px; cursor:pointer; font-size:13px; color:#666;
+  }
+  .logout-btn:hover { border-color:#6366f1; color:#6366f1; }
+
+  .nav {
+    display:flex; gap:6px; padding:16px 28px;
+    background:white; border-bottom:1px solid #eee;
+    overflow-x:auto;
+  }
+  .nav-btn {
+    padding:8px 18px; border:none; border-radius:8px; cursor:pointer;
+    font-size:13px; font-weight:600; background:#f5f5f5; color:#666;
+    white-space:nowrap; transition:.2s;
+  }
+  .nav-btn.active { background:#6366f1; color:white; }
+
+  .content { padding:24px 28px; max-width:1100px; margin:auto; }
+
+  /* CARDS */
+  .stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:16px; margin-bottom:24px; }
+  .stat-card {
+    background:white; border-radius:14px; padding:20px;
+    border:1px solid #f0f0f0;
+  }
+  .stat-card .label { font-size:12px; color:#999; font-weight:600;
+    text-transform:uppercase; letter-spacing:.5px; }
+  .stat-card .value { font-size:28px; font-weight:700; color:#1a1a2e; margin-top:6px; }
+  .stat-card .sub   { font-size:12px; color:#6366f1; margin-top:4px; }
+
+  /* FORMS */
+  .card {
+    background:white; border-radius:14px; padding:24px;
+    border:1px solid #f0f0f0; margin-bottom:20px;
+  }
+  .card h3 { font-size:16px; font-weight:700; margin-bottom:18px; color:#1a1a2e; }
+  .row { display:flex; gap:12px; flex-wrap:wrap; }
+  .row .form-group { flex:1; min-width:140px; }
+  .small-btn {
+    padding:10px 20px; border:none; border-radius:8px; cursor:pointer;
+    font-size:13px; font-weight:600; transition:.2s;
+  }
+  .small-btn.add  { background:#6366f1; color:white; }
+  .small-btn.del  { background:#fef2f2; color:#dc2626; border:1px solid #fecaca; }
+  .small-btn:hover { opacity:.85; }
+
+  /* TABLE */
+  table { width:100%; border-collapse:collapse; font-size:14px; }
+  th { text-align:left; padding:10px 14px; font-size:12px; color:#999;
+    font-weight:600; text-transform:uppercase; border-bottom:1px solid #f0f0f0; }
+  td { padding:12px 14px; border-bottom:1px solid #f9f9f9; }
+  tr:hover td { background:#fafafa; }
+  .badge {
+    display:inline-block; padding:3px 10px; border-radius:20px;
+    font-size:11px; font-weight:600; text-transform:capitalize;
+  }
+  .badge.food          { background:#fef9c3; color:#854d0e; }
+  .badge.transport     { background:#dbeafe; color:#1e40af; }
+  .badge.utilities     { background:#dcfce7; color:#166534; }
+  .badge.entertainment { background:#f3e8ff; color:#6b21a8; }
+  .badge.health        { background:#ffe4e6; color:#9f1239; }
+  .badge.shopping      { background:#ffedd5; color:#9a3412; }
+  .badge.other         { background:#f1f5f9; color:#475569; }
+
+  /* BUDGET PROGRESS */
+  .budget-item { margin-bottom:16px; }
+  .budget-item .bi-header { display:flex; justify-content:space-between;
+    font-size:13px; margin-bottom:6px; }
+  .budget-item .bi-header span:first-child { font-weight:600; text-transform:capitalize; }
+  .budget-item .bi-header span:last-child  { color:#888; }
+  .progress-bar { height:8px; background:#f0f0f0; border-radius:4px; overflow:hidden; }
+  .progress-fill { height:100%; border-radius:4px; transition:.4s; }
+
+  /* CHART */
+  .chart-wrap { position:relative; height:260px; }
+
+  select, input[type=number], input[type=text], input[type=email],
+  input[type=month] {
+    width:100%; padding:10px 14px; border:2px solid #e8e8e8;
+    border-radius:10px; font-size:14px; outline:none;
+    background:white; transition:.2s;
+  }
+  select:focus, input:focus { border-color:#6366f1; }
+</style>
+</head>
+<body>
+
+<!-- AUTH SCREEN -->
+<div id="auth-screen">
+  <div class="auth-card">
+    <h1>💰 Finance Tracker</h1>
+    <p>Track expenses, set budgets, achieve goals</p>
+
+    <!-- STEP 1: Email -->
+    <div id="step-email">
+      <div class="form-group">
+        <label>Email address</label>
+        <input type="email" id="auth-email" placeholder="you@example.com">
+      </div>
+      <button class="btn btn-primary" onclick="sendOTP()">Send OTP</button>
+      <div id="msg-email" class="msg"></div>
+    </div>
+
+    <!-- STEP 2: OTP -->
+    <div id="step-otp" style="display:none">
+      <div class="form-group">
+        <label>Enter OTP sent to your email</label>
+        <input type="text" id="auth-otp" placeholder="6-digit OTP" maxlength="6">
+      </div>
+      <button class="btn btn-primary" onclick="verifyOTP()">Verify OTP</button>
+      <button class="btn btn-secondary" onclick="showStep('email')">Back</button>
+      <div id="msg-otp" class="msg"></div>
+    </div>
+
+    <!-- STEP 3: Register (only if new user) -->
+    <div id="step-register" style="display:none">
+      <p style="margin-bottom:16px;font-size:14px;color:#444">
+        New here! Set a username and password to complete signup.
+      </p>
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" id="reg-username" placeholder="Your name">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="reg-password" placeholder="Create a password">
+      </div>
+      <button class="btn btn-primary" onclick="registerUser()">Create Account</button>
+      <div id="msg-register" class="msg"></div>
+    </div>
+  </div>
+</div>
+
+<!-- APP SCREEN -->
+<div id="app-screen">
+  <div class="topbar">
+    <h2>💰 Finance Tracker</h2>
+    <span id="welcome-msg"></span>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>
+  <div class="nav">
+    <button class="nav-btn active" onclick="showTab('dashboard')">Dashboard</button>
+    <button class="nav-btn" onclick="showTab('expenses')">Expenses</button>
+    <button class="nav-btn" onclick="showTab('budgets')">Budgets</button>
+    <button class="nav-btn" onclick="showTab('reports')">Reports</button>
+  </div>
+
+  <div class="content">
+
+    <!-- DASHBOARD -->
+    <div id="tab-dashboard">
+      <div class="stats-grid" id="stats-grid"></div>
+      <div class="card">
+        <h3>Spending trend</h3>
+        <div class="chart-wrap"><canvas id="trend-chart"></canvas></div>
+      </div>
+    </div>
+
+    <!-- EXPENSES -->
+    <div id="tab-expenses" style="display:none">
+      <div class="card">
+        <h3>Add expense</h3>
+        <div class="row">
+          <div class="form-group">
+            <label>Amount (₹)</label>
+            <input type="number" id="exp-amount" placeholder="0.00" min="0">
+          </div>
+          <div class="form-group">
+            <label>Category</label>
+            <select id="exp-category">
+              <option value="food">Food</option>
+              <option value="transport">Transport</option>
+              <option value="utilities">Utilities</option>
+              <option value="entertainment">Entertainment</option>
+              <option value="health">Health</option>
+              <option value="shopping">Shopping</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <input type="text" id="exp-desc" placeholder="e.g. Lunch at cafe">
+          </div>
+        </div>
+        <button class="small-btn add" onclick="addExpense()">+ Add Expense</button>
+        <div id="msg-expense" class="msg" style="margin-top:12px"></div>
+      </div>
+      <div class="card">
+        <h3>Recent expenses</h3>
+        <div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+          <select id="filter-cat" onchange="loadExpenses()" style="width:160px">
+            <option value="">All categories</option>
+            <option value="food">Food</option>
+            <option value="transport">Transport</option>
+            <option value="utilities">Utilities</option>
+            <option value="entertainment">Entertainment</option>
+            <option value="health">Health</option>
+            <option value="shopping">Shopping</option>
+            <option value="other">Other</option>
+          </select>
+          <input type="month" id="filter-month" onchange="loadExpenses()"
+            style="width:180px" value="">
+        </div>
+        <table>
+          <thead><tr>
+            <th>Date</th><th>Category</th><th>Description</th>
+            <th>Amount</th><th></th>
+          </tr></thead>
+          <tbody id="expense-table"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- BUDGETS -->
+    <div id="tab-budgets" style="display:none">
+      <div class="card">
+        <h3>Set monthly budget</h3>
+        <div class="row">
+          <div class="form-group">
+            <label>Month</label>
+            <input type="month" id="bud-month">
+          </div>
+          <div class="form-group">
+            <label>Category</label>
+            <select id="bud-category">
+              <option value="food">Food</option>
+              <option value="transport">Transport</option>
+              <option value="utilities">Utilities</option>
+              <option value="entertainment">Entertainment</option>
+              <option value="health">Health</option>
+              <option value="shopping">Shopping</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Limit (₹)</label>
+            <input type="number" id="bud-limit" placeholder="5000" min="0">
+          </div>
+        </div>
+        <button class="small-btn add" onclick="setBudget()">Save Budget</button>
+        <div id="msg-budget" class="msg" style="margin-top:12px"></div>
+      </div>
+      <div class="card">
+        <h3>Budget vs spending</h3>
+        <div id="budget-progress"></div>
+      </div>
+    </div>
+
+    <!-- REPORTS -->
+    <div id="tab-reports" style="display:none">
+      <div class="card">
+        <h3>Monthly summary</h3>
+        <div style="display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap">
+          <input type="month" id="rep-month" style="width:200px">
+          <button class="small-btn add" onclick="loadReport()">Generate</button>
+        </div>
+        <table>
+          <thead><tr>
+            <th>Category</th><th>Spent</th><th>Budget</th><th>Status</th>
+          </tr></thead>
+          <tbody id="report-table"></tbody>
+        </table>
+      </div>
+      <div class="card">
+        <h3>Spending by category</h3>
+        <div class="chart-wrap"><canvas id="pie-chart"></canvas></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const API = '';
+let TOKEN = localStorage.getItem('ft_token') || '';
+let pieChartInstance = null;
+let trendChartInstance = null;
+
+// ── UTILS ──────────────────────────────────────────────
+function api(path, opts={}) {
+  const headers = { 'Content-Type': 'application/json' };
+  if (TOKEN) headers['Authorization'] = 'Bearer ' + TOKEN;
+  return fetch(API + path, { headers, ...opts });
+}
+
+function showMsg(id, text, type) {
+  const el = document.getElementById(id);
+  el.textContent = text;
+  el.className = 'msg ' + type;
+}
+
+function nowMonth() {
+  return new Date().toISOString().slice(0,7);
+}
+
+// ── AUTH ───────────────────────────────────────────────
+function showStep(step) {
+  ['email','otp','register'].forEach(s =>
+    document.getElementById('step-'+s).style.display = s===step ? 'block' : 'none'
+  );
+}
+
+async function sendOTP() {
+  const email = document.getElementById('auth-email').value.trim();
+  if (!email) return showMsg('msg-email','Enter your email','error');
+  const r = await api('/auth/send-otp', {
+    method:'POST', body: JSON.stringify({email})
+  });
+  const d = await r.json();
+  if (r.ok) {
+    showMsg('msg-email', d.msg, 'success');
+    setTimeout(() => showStep('otp'), 800);
+  } else {
+    showMsg('msg-email', d.detail || 'Error', 'error');
+  }
+}
+
+async function verifyOTP() {
+  const email = document.getElementById('auth-email').value.trim();
+  const otp   = document.getElementById('auth-otp').value.trim();
+
+  if (!otp) return showMsg('msg-otp', 'Enter the OTP', 'error');
+  if (otp.length !== 6) return showMsg('msg-otp', 'OTP must be 6 digits', 'error');
+
+  showMsg('msg-otp', 'Verifying...', 'success');
+
+  const r = await api('/auth/verify-otp', {
+    method: 'POST',
+    body: JSON.stringify({ email, otp })
+  });
+  const d = await r.json();
+
+  if (r.ok) {
+    // successful login
+    localStorage.setItem('ft_username', d.username);
+    TOKEN = d.access_token;
+    localStorage.setItem('ft_token', TOKEN);
+    enterApp(d.username);
+  } else if (r.status === 404) {
+    // user doesn't exist yet — go to register
+    showMsg('msg-otp', 'OTP verified! Complete your signup below.', 'success');
+    setTimeout(() => showStep('register'), 800);
+  } else {
+    showMsg('msg-otp', d.detail || 'Invalid or expired OTP', 'error');
+  }
+}
+async function registerUser() {
+  const email    = document.getElementById('auth-email').value.trim();
+  const username = document.getElementById('reg-username').value.trim();
+  const password = document.getElementById('reg-password').value;
+
+  if (!username) return showMsg('msg-register', 'Enter a username', 'error');
+  if (!password) return showMsg('msg-register', 'Enter a password', 'error');
+
+  showMsg('msg-register', 'Creating account...', 'success');
+
+  try {
+    // 10 second timeout
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10000);
+
+    const r = await fetch('/auth/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + TOKEN
+      },
+      body: JSON.stringify({ email, username, password }),
+      signal: controller.signal
+    });
+    clearTimeout(timeout);
+
+    const d = await r.json();
+
+    if (!r.ok) {
+      return showMsg('msg-register', d.detail || 'Registration failed', 'error');
+    }
+
+    showMsg('msg-register', 'Account created! Sending OTP to login...', 'success');
+
+    const otpRes = await fetch('/auth/send-otp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+
+    if (otpRes.ok) {
+      document.getElementById('auth-otp').value = '';
+      setTimeout(() => {
+        showStep('otp');
+        showMsg('msg-otp', 'OTP sent! Enter it to login.', 'success');
+      }, 1000);
+    } else {
+      showMsg('msg-register', 'Account created! Go back and login.', 'success');
+    }
+
+  } catch (err) {
+    if (err.name === 'AbortError') {
+      showMsg('msg-register', 'Request timed out. Check terminal for errors.', 'error');
+    } else {
+      showMsg('msg-register', 'Network error: ' + err.message, 'error');
+    }
+  }
+}
+function logout() {
+  TOKEN = '';
+  localStorage.removeItem('ft_token');
+  document.getElementById('app-screen').style.display = 'none';
+  document.getElementById('auth-screen').style.display = 'flex';
+  showStep('email');
+}
+
+function enterApp(username) {
+  document.getElementById('auth-screen').style.display = 'none';
+  document.getElementById('app-screen').style.display = 'block';
+  document.getElementById('welcome-msg').textContent = 'Hi, ' + (username||'there') + '!';
+  // set default months
+  const m = nowMonth();
+  document.getElementById('bud-month').value = m;
+  document.getElementById('filter-month').value = m;
+  document.getElementById('rep-month').value = m;
+  loadDashboard();
+}
+
+// ── NAV ────────────────────────────────────────────────
+function showTab(tab) {
+  ['dashboard','expenses','budgets','reports'].forEach(t => {
+    document.getElementById('tab-'+t).style.display = t===tab ? 'block' : 'none';
+  });
+  document.querySelectorAll('.nav-btn').forEach((b,i) => {
+    b.classList.toggle('active',
+      ['dashboard','expenses','budgets','reports'][i]===tab);
+  });
+  if (tab==='expenses') loadExpenses();
+  if (tab==='budgets')  loadBudgetProgress();
+  if (tab==='reports')  loadReport();
+}
+
+// ── DASHBOARD ──────────────────────────────────────────
+async function loadDashboard() {
+  const [y, m] = nowMonth().split('-');
+  const r = await api(`/reports/monthly-summary?year=${y}&month=${m}`);
+  const data = r.ok ? await r.json() : [];
+
+  const total = data.reduce((s,i) => s + i.spent, 0);
+  const overCount = data.filter(i => i.over_budget).length;
+
+  document.getElementById('stats-grid').innerHTML = `
+    <div class="stat-card">
+      <div class="label">This month spent</div>
+      <div class="value">₹${total.toLocaleString('en-IN',{maximumFractionDigits:0})}</div>
+      <div class="sub">${new Date().toLocaleString('default',{month:'long',year:'numeric'})}</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Categories tracked</div>
+      <div class="value">${data.length}</div>
+      <div class="sub">active this month</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Over budget</div>
+      <div class="value" style="color:${overCount>0?'#dc2626':'#16a34a'}">${overCount}</div>
+      <div class="sub">categories exceeded</div>
+    </div>
+  `;
+
+  loadTrendChart();
+}
+
+async function loadTrendChart() {
+  const r = await api('/reports/spending-trend');
+  if (!r.ok) return;
+  const data = await r.json();
+  if (trendChartInstance) trendChartInstance.destroy();
+  const ctx = document.getElementById('trend-chart').getContext('2d');
+  trendChartInstance = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: data.map(d => d.period),
+      datasets: [{
+        label: 'Total Spent (₹)',
+        data: data.map(d => d.total),
+        backgroundColor: '#6366f1aa',
+        borderColor: '#6366f1',
+        borderWidth: 2,
+        borderRadius: 6,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true, grid: { color: '#f0f0f0' } },
+                x: { grid: { display: false } } }
+    }
+  });
+}
+
+// ── EXPENSES ───────────────────────────────────────────
+async function addExpense() {
+  const amount   = parseFloat(document.getElementById('exp-amount').value);
+  const category = document.getElementById('exp-category').value;
+  const description = document.getElementById('exp-desc').value.trim();
+  if (!amount || amount <= 0) return showMsg('msg-expense','Enter a valid amount','error');
+  const r = await api('/expenses/', {
+    method:'POST',
+    body: JSON.stringify({amount, category, description})
+  });
+  const d = await r.json();
+  if (r.ok) {
+    showMsg('msg-expense','Expense added!','success');
+    document.getElementById('exp-amount').value = '';
+    document.getElementById('exp-desc').value = '';
+    loadExpenses();
+  } else {
+    showMsg('msg-expense', d.detail || 'Error adding expense','error');
+  }
+}
+
+async function loadExpenses() {
+  const cat   = document.getElementById('filter-cat').value;
+  const month = document.getElementById('filter-month').value;
+  let url = '/expenses/?';
+  if (cat)   url += `category=${cat}&`;
+  if (month) {
+    const [y, m] = month.split('-');
+    url += `year=${y}&month=${m}`;
+  }
+  const r = await api(url);
+  if (!r.ok) return;
+  const data = await r.json();
+  const tbody = document.getElementById('expense-table');
+  if (!data.length) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#aaa;padding:24px">No expenses found</td></tr>';
+    return;
+  }
+  tbody.innerHTML = data.map(e => `
+    <tr>
+      <td>${new Date(e.date).toLocaleDateString('en-IN')}</td>
+      <td><span class="badge ${e.category}">${e.category}</span></td>
+      <td>${e.description || '-'}</td>
+      <td style="font-weight:600">₹${e.amount.toLocaleString('en-IN')}</td>
+      <td><button class="small-btn del" onclick="deleteExpense(${e.id})">Delete</button></td>
+    </tr>
+  `).join('');
+}
+
+async function deleteExpense(id) {
+  if (!confirm('Delete this expense?')) return;
+  const r = await api('/expenses/'+id, {method:'DELETE'});
+  if (r.ok) loadExpenses();
+}
+
+// ── BUDGETS ────────────────────────────────────────────
+async function setBudget() {
+  const month    = document.getElementById('bud-month').value;
+  const category = document.getElementById('bud-category').value;
+  const limit    = parseFloat(document.getElementById('bud-limit').value);
+
+  if (!month || !limit || limit <= 0)
+    return showMsg('msg-budget', 'Fill all fields', 'error');
+
+  const r = await api('/budgets/', {
+    method: 'POST',
+    body: JSON.stringify({ category, monthly_limit: limit, month })
+  });
+
+  if (r.ok) {
+    showMsg('msg-budget', 'Budget saved!', 'success');
+    loadBudgetProgress();
+  } else {
+    const d = await r.json();
+    showMsg('msg-budget', d.detail || JSON.stringify(d), 'error');
+  }
+}
+async function loadBudgetProgress() {
+  const month = document.getElementById('bud-month').value || nowMonth();
+  const [y, m] = month.split('-');
+  const [br, sr] = await Promise.all([
+    api(`/budgets/?month=${month}`),
+    api(`/reports/monthly-summary?year=${y}&month=${m}`)
+  ]);
+  if (!br.ok || !sr.ok) return;
+  const budgets = await br.json();
+  const summary = await sr.json();
+  const spendMap = Object.fromEntries(summary.map(s => [s.category, s.spent]));
+  const container = document.getElementById('budget-progress');
+  if (!budgets.length) {
+    container.innerHTML = '<p style="color:#aaa;text-align:center;padding:20px">No budgets set for this month</p>';
+    return;
+  }
+  container.innerHTML = budgets.map(b => {
+    const spent = spendMap[b.category] || 0;
+    const pct   = Math.min((spent / b.monthly_limit) * 100, 100);
+    const color = pct >= 100 ? '#ef4444' : pct >= 80 ? '#f59e0b' : '#6366f1';
+    return `
+      <div class="budget-item">
+        <div class="bi-header">
+          <span>${b.category}</span>
+          <span>₹${spent.toLocaleString('en-IN')} / ₹${b.monthly_limit.toLocaleString('en-IN')}</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width:${pct}%;background:${color}"></div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ── REPORTS ────────────────────────────────────────────
+async function loadReport() {
+  const month = document.getElementById('rep-month').value || nowMonth();
+  const [y, m] = month.split('-');
+  const r = await api(`/reports/monthly-summary?year=${y}&month=${m}`);
+  if (!r.ok) return;
+  const data = await r.json();
+  const tbody = document.getElementById('report-table');
+  if (!data.length) {
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#aaa;padding:24px">No data for this month</td></tr>';
+  } else {
+    tbody.innerHTML = data.map(row => `
+      <tr>
+        <td><span class="badge ${row.category}">${row.category}</span></td>
+        <td style="font-weight:600">₹${row.spent.toLocaleString('en-IN')}</td>
+        <td>${row.budget ? '₹'+row.budget.toLocaleString('en-IN') : '<span style="color:#ccc">—</span>'}</td>
+        <td>
+          ${row.over_budget
+            ? '<span style="color:#dc2626;font-weight:600">⚠ Over budget</span>'
+            : row.budget
+              ? '<span style="color:#16a34a;font-weight:600">✓ Within budget</span>'
+              : '<span style="color:#aaa">No budget set</span>'
+          }
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  // pie chart
+  if (pieChartInstance) pieChartInstance.destroy();
+  const ctx = document.getElementById('pie-chart').getContext('2d');
+  const colors = ['#6366f1','#f59e0b','#10b981','#ef4444','#8b5cf6','#06b6d4','#f97316'];
+  pieChartInstance = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: data.map(d => d.category),
+      datasets: [{
+        data: data.map(d => d.spent),
+        backgroundColor: colors.slice(0, data.length),
+        borderWidth: 0,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'right' } }
+    }
+  });
+}
+
+// ── INIT ───────────────────────────────────────────────
+if (TOKEN) {
+  // try to restore session
+  api('/health').then(r => {
+    if (r.ok) enterApp(localStorage.getItem('ft_username') || '');
+    else logout();
+  });
+}
+</script>
+</body>
+</html>
