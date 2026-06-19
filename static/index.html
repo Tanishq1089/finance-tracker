@@ -579,28 +579,48 @@
   }
 
   // REFIXED CALENDAR INJECTION ENFORCING BOUNDED CHRONOLOGICAL PARAMETERS ONLY
+  // --- FIXED CALENDAR STATE SYNC WITH IMMEDIATE UPDATE ---
   function syncCalendarState(value) {
-    document.getElementById('filter-month').value = value;
-    document.getElementById('bud-month').value = value;
-    document.getElementById('rep-month').value = value;
+    // 1. Synchronize the drop-down menu states across all active tabs
+    const filterMonth = document.getElementById('filter-month');
+    const budMonth = document.getElementById('bud-month');
+    const repMonth = document.getElementById('rep-month');
     
+    if (filterMonth) filterMonth.value = value;
+    if (budMonth) budMonth.value = value;
+    if (repMonth) repMonth.value = value;
+    
+    // 2. Extract year and month to compute names
     const parts = value.split('-');
-    const dateObj = new Date(parts[0], parts[1]-1, 1);
+    const dateObj = new Date(parts[0], parts[1] - 1, 1);
     
-    // SAFE DEFENSIVE GUARDS PREVENTING UNCAUGHT DOM RUNTIME CRASHES
+    // Safely update the dashboard header text
     const timestampHeader = document.getElementById('live-dashboard-timestamp');
     if (timestampHeader) {
       timestampHeader.textContent = dateObj.toLocaleString('default', { month: 'long', year: 'numeric' });
     }
     
-    // FORCES ENTRY BOX TO RE-ALIGN BACKWARD TO TARGET CHOSEN MONTH AUTOMATICALLY
+    // Re-align the transaction entry box calendar date to the chosen month
     const dateBoxInput = document.getElementById('dash-exp-date');
     if (dateBoxInput) {
       dateBoxInput.value = `${parts[0]}-${parts[1]}-01`;
     }
     
-    loadDashboard();
+    // 3. 🚀 CRITICAL FIX: Instantly trigger background data refreshes for the active tab view!
+    const activeTab = document.querySelector('.nav-btn.active');
+    if (activeTab) {
+      if (activeTab.getAttribute('onclick').includes('dashboard')) loadDashboard();
+      if (activeTab.getAttribute('onclick').includes('expenses')) loadExpenses();
+      if (activeTab.getAttribute('onclick').includes('budgets')) loadBudgetProgress();
+      if (activeTab.getAttribute('onclick').includes('reports')) loadReport();
+    } else {
+      // Fallback fallback if layout state hasn't resolved yet
+      loadDashboard();
+    }
   }
+    
+    loadDashboard();
+  
 
   function showMsg(id, text, type) { triggerToast(text, type === 'success' ? 'success' : 'error'); }
   function nowMonth() { return "2026-06"; }
@@ -838,6 +858,27 @@
     const ctx = document.getElementById('pie-chart').getContext('2d');
     globalPieInstance = new Chart(ctx, { type: 'doughnut', data: { labels: data.map(d => d.category), datasets: [{ data: data.map(d => d.spent), backgroundColor: ['#4648d4','#f59e0b','#006c49','#ba1a1a','#8b5cf6','#06b6d4','#f97316'], borderWidth: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right' } } } });
   }
+  // --- UPDATED REFRESH ROUTE GUARD ---
+  document.addEventListener('DOMContentLoaded', () => {
+    buildTimelineOptions(); // Initializes calendar selectors securely
+
+    // Check if a secure session pass key is already locked into storage
+    if (TOKEN) { 
+      // Handshake with the backend health router to verify if the key is still active
+      api('/health').then(r => { 
+        if (r.ok) {
+          // Pass is authentic! Bypass landing panels and inject user workspace session directly
+          enterApp(localStorage.getItem('ft_username') || ''); 
+        } else { 
+          // Pass has expired or is invalid, wipe storage and clear workspace securely
+          logout(); 
+        } 
+      }).catch(() => logout()); 
+    } else {
+      // No active pass discovered, initialize the clean Stitch onboarding layout sequence
+      showStep('landing'); 
+    }
+  });
 </script>
 </body>
 </html>
