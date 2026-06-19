@@ -5,11 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FinTrust - Finance Tracker</title>
   
+  <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
   
+  <!-- Charts.js Dependency -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
@@ -275,7 +277,7 @@
       gap: 12px;
     }
     .toast-chip {
-      background: #0f172a;
+      background: #0b1c30;
       color: white;
       padding: 14px 24px;
       border-radius: 12px;
@@ -290,8 +292,8 @@
       transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
     .toast-chip.show { transform: translateY(0); opacity: 1; }
-    .toast-chip.success-type { border-left: 4px solid #006c49; background: #0b1c30; }
-    .toast-chip.error-type { border-left: 4px solid #ba1a1a; background: #0b1c30; }
+    .toast-chip.success-type { border-left: 4px solid #006c49; }
+    .toast-chip.error-type { border-left: 4px solid #ba1a1a; }
 
     /* BUDGET DESIGNS */
     .budget-item { margin-bottom:20px; }
@@ -304,8 +306,10 @@
 </head>
 <body>
 
+<!-- TOAST CONTAINER WRAPPER -->
 <div id="toast-container"></div>
 
+<!-- CUSTOM SECURITY CONFIRM MODAL -->
 <div id="confirm-modal" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,0.4); backdrop-filter:blur(4px); z-index:2000; align-items:center; justify-content:center;">
   <div style="background:white; padding:32px; border-radius:16px; width:100%; max-width:400px; text-align:center; box-shadow:0 20px 40px rgba(0,0,0,0.15);">
     <div style="width:56px; height:56px; background:#fdf2f2; color:#ba1a1a; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 20px; font-size:24px;"><i class="ti ti-trash"></i></div>
@@ -318,6 +322,7 @@
   </div>
 </div>
 
+<!-- AUTH CANVAS WORKSPACE -->
 <div id="auth-screen">
   <header class="stitch-nav">
     <div class="stitch-logo">FinTrust</div>
@@ -330,6 +335,7 @@
     </div>
   </header>
 
+  <!-- STEP 0: HERO SPLASH LANDING OVERVIEW -->
   <div id="step-landing" class="stitch-landing-hero">
     <div class="stitch-badge">Elevated Wealth Management</div>
     <h1 class="stitch-hero-title">Smart Wealth Tracking</h1>
@@ -338,6 +344,7 @@
     <p class="btn-stitch-link" style="margin-top:24px; font-size:12px;">© 2026 FinTrust Inc. Secure. Trusted. Clear.</p>
   </div>
 
+  <!-- STEP 1: EMAIL ACCESS ENTRY FIELD -->
   <div id="step-email" class="stitch-glass-card email-theme" style="display:none">
     <div class="stitch-card-icon"><i class="ti ti-lock-open"></i></div>
     <h2>Secure Access</h2>
@@ -351,6 +358,7 @@
     <div id="msg-email" class="msg"></div>
   </div>
 
+  <!-- STEP 2: VERIFY SIX DIGIT IDENTITY PASSPHRASE CODE -->
   <div id="step-otp" class="stitch-glass-card otp-theme" style="display:none">
     <div class="stitch-card-icon"><i class="ti ti-shield-check"></i></div>
     <h2>Verify Identity</h2>
@@ -369,6 +377,7 @@
     <div id="msg-otp" class="msg"></div>
   </div>
 
+  <!-- STEP 3: COMPLETION GATEWAY ACCOUNT REGISTRATION -->
   <div id="step-register" class="stitch-glass-card email-theme" style="display:none">
     <div class="success-chip">✓ OTP verified</div>
     <h2>Create Profile</h2>
@@ -386,6 +395,7 @@
   </div>
 </div>
 
+<!-- OPERATIONS WORKSPACE SYSTEM -->
 <div id="app-screen">
   <div class="app-layout">
     <aside class="sidebar">
@@ -410,6 +420,7 @@
             <p>Summary overview for this financial month metrics framework.</p>
           </div>
           
+          <!-- DYNAMIC HARD-EDGED SELECTOR COVERS ALL REQUIREMENTS -->
           <div class="filter-control-wrap" style="background:white; box-shadow:0 2px 8px rgba(0,0,0,0.04);">
             <i class="ti ti-calendar"></i>
             <select id="global-month-navigator" onchange="syncCalendarState(this.value)" style="font-size:13px; font-weight:700;"></select>
@@ -430,6 +441,7 @@
                     <option value="food">Food</option><option value="transport">Transport</option><option value="utilities">Utilities</option><option value="entertainment">Entertainment</option><option value="health">Health</option><option value="shopping">Shopping</option><option value="other">Other</option>
                   </select>
                 </div>
+                <!-- ADVANCED RETROACTIVE HISTORICAL TIMELINE CONFIGURATION KEY -->
                 <div class="form-group"><label>Transaction Date</label><input type="date" id="dash-exp-date"></div>
               </div>
               <div class="row" style="margin-bottom:0;">
@@ -472,7 +484,7 @@
         <div class="card">
           <h3>Set Spending Caps</h3>
           <div class="row" style="margin-top:10px; margin-bottom:24px;">
-            <div class="form-group"><label>Target Month</label><div class="filter-control-wrap" style="background:white; width:100%;"><i class="ti ti-calendar"></i><select id="bud-month" style="width:100%; font-weight:600; background:none; border:none;"></select></div></div>
+            <div class="form-group"><label>Target Month</label><div class="filter-control-wrap" style="background:white; width:100%;"><i class="ti ti-calendar"></i><select id="bud-month" onchange="loadBudgetProgress()" style="width:100%; font-weight:600; background:none; border:none;"></select></div></div>
             <div class="form-group"><label>Category Space</label><div class="filter-control-wrap" style="background:white; width:100%;"><i class="ti ti-category"></i><select id="bud-category" style="width:100%;"><option value="food">Food</option><option value="transport">Transport</option><option value="utilities">Utilities</option><option value="entertainment">Entertainment</option><option value="health">Health</option><option value="shopping">Shopping</option><option value="other">Other</option></select></div></div>
             <div class="form-group"><label>Monthly Limit (₹)</label><div class="filter-control-wrap" style="background:white; width:100%;"><i class="ti ti-currency-rupee"></i><input type="number" id="bud-limit" placeholder="5000" min="0" style="width:100%;"></div></div>
           </div>
@@ -495,6 +507,7 @@
   </div>
 </div>
 
+<!-- EDIT TRANSACTION MODAL -->
 <div id="edit-modal" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,0.3); backdrop-filter: blur(4px); z-index:100;align-items:center;justify-content:center;">
   <div style="background:white;border-radius:16px;padding:36px;width:100%;max-width:440px;margin:20px; box-shadow: 0px 10px 30px rgba(15, 23, 42, 0.1); border: 1px solid #e2e8f0;">
     <h3 style="margin-bottom:24px;font-size:18px;font-weight:700; color:#0b1c30;">Edit Expense</h3>
@@ -529,7 +542,7 @@
     return fetch(API + path, { headers, ...opts });
   }
 
-  // INTERACTIVE TOAST SYSTEM ENGNINE 
+  // FLOATING TOAST SYSTEM
   function triggerToast(text, type='success') {
     const container = document.getElementById('toast-container');
     const toast = document.createElement('div');
@@ -540,7 +553,7 @@
     setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 400); }, 3000);
   }
 
-  // MODULAR PROMPTS CONTROLLER
+  // CONFIRM MODALS
   function openConfirmModal(id, source) {
     deleteTargetId = id;
     deleteTargetSource = source;
@@ -548,7 +561,7 @@
   }
   function closeConfirmModal() { document.getElementById('confirm-modal').style.display = 'none'; }
 
-  // POPULATES CHRONOLOGICAL MULTI-MONTH MATRIX DROP MENUS AUTOMATICALLY
+  // POPULATE CHRONOLOGICAL MULTI-MONTHS DROPDOWN
   function buildTimelineOptions() {
     const selectors = ['global-month-navigator', 'filter-month', 'bud-month', 'rep-month'];
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -564,11 +577,12 @@
       const el = document.getElementById(id);
       if(el) {
         el.innerHTML = htmlContent;
-        if(id === 'global-month-navigator') el.value = `${currentYear}-06`; // Focus Default June
+        if(id === 'global-month-navigator') el.value = `${currentYear}-06`; 
       }
     });
   }
 
+  // ALIGNS INPUT DATE CONSTRAINTS DYNAMICALLY
   function syncCalendarState(value) {
     document.getElementById('filter-month').value = value;
     document.getElementById('bud-month').value = value;
@@ -577,14 +591,15 @@
     const parts = value.split('-');
     const dateObj = new Date(parts[0], parts[1]-1, 1);
     document.getElementById('live-dashboard-timestamp').textContent = dateObj.toLocaleString('default', { month: 'long', year: 'numeric' });
+    
+    // FORCES TRANSACTION SELECTOR TO AUTOMATICALLY MOVE INTO THE DISPLAYED MONTH PERIOD
+    document.getElementById('dash-exp-date').value = `${parts[0]}-${parts[1]}-01`;
+    
     loadDashboard();
   }
 
-  function showMsg(id, text, type) {
-    triggerToast(text, type === 'success' ? 'success' : 'error');
-  }
-
-  function nowMonth() { return "2026-06"; } // Set environment ground context to June 2026
+  function showMsg(id, text, type) { triggerToast(text, type === 'success' ? 'success' : 'error'); }
+  function nowMonth() { return "2026-06"; }
 
   function showStep(step) {
     const isLanding = step === 'landing';
@@ -660,7 +675,7 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     buildTimelineOptions();
-    // Connect Confirm Event Handlers 
+    
     document.getElementById('confirm-yes-btn').onclick = async () => {
       const r = await api('/expenses/' + deleteTargetId, { method: 'DELETE' });
       if (r.ok) {
@@ -682,7 +697,6 @@
     document.getElementById('welcome-msg').textContent = 'Hi, ' + nameString + '!';
     document.getElementById('dashboard-user-greeting').textContent = 'Welcome back, ' + nameString + '!';
     
-    document.getElementById('dash-exp-date').value = "2026-06-19"; // Set localized context dynamic day defaults
     syncCalendarState("2026-06");
   }
 
@@ -739,7 +753,7 @@
     
     if (!amount || amount <= 0 || !explicitDate) return triggerToast('Provide valid parameters','error');
     
-    // Package Payload body containing chronological parameters 
+    // ENFORCES FORMAT PARSING COMPATIBILITY STRINGS
     const bodyPayload = { amount, category, description, date: new Date(explicitDate).toISOString() };
     const r = await api('/expenses/', { method:'POST', body: JSON.stringify(bodyPayload) });
     if (r.ok) {
@@ -778,9 +792,9 @@
     const description = document.getElementById('edit-desc').value.trim();
     const r = await api('/expenses/'+id, { method: 'PUT', body: JSON.stringify({ amount, category, description }) });
     if (r.ok) {
-      triggerToast('Transaction parameters modified');
+      triggerToast('Transaction parameters modified successfully');
       closeEdit(); loadExpenses(); loadDashboard();
-    } else { triggerToast('Update aborted by server validation','error'); }
+    } else { triggerToast('Update aborted by validation','error'); }
   }
 
   async function setBudget() {
@@ -790,7 +804,7 @@
     if (!month || !limit || limit <= 0) return triggerToast('Provide valid cap parameters','error');
     const r = await api('/budgets/', { method: 'POST', body: JSON.stringify({ category, monthly_limit: limit, month }) });
     if (r.ok) {
-      triggerToast('Monthly spending constraint registered');
+      triggerToast('Monthly spending constraint registered successfully');
       document.getElementById('bud-limit').value = '';
       loadBudgetProgress();
     }
