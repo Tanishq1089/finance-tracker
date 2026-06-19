@@ -780,11 +780,26 @@
   }
 }
 
-  // Placeholder functions for other active pages
-  function loadBudgets() { console.log('Refreshing active target data profiles analytics matching select metrics view...'); }
-  function addExpense() { console.log('Add expense logic handling block'); }
-  function loadExpenses() { console.log('Refreshing contextual global transactional logging ledgers...'); }
-  function loadReport() { console.log('Compiling comprehensive category parameters analytics structural trends reports...'); }
+  
+async function loadDashboard() { console.log('Dashboard loaded'); }
+async function loadTrendChart() { }
+async function addExpense() {
+  const amount = parseFloat(document.getElementById('exp-amount').value);
+  const category = document.getElementById('exp-category').value;
+  const description = document.getElementById('exp-desc').value.trim();
+  if (!amount || amount <= 0) return showMsg('msg-expense','Enter a valid amount','error');
+  const r = await api('/expenses/', {
+    method:'POST',
+    body: JSON.stringify({amount, category, description})
+  });
+  const d = await r.json();
+  if (r.ok) showMsg('msg-expense','Expense added!','success');
+  else showMsg('msg-expense', d.detail || 'Error adding expense','error');
+}
+async function loadExpenses() {}
+async function loadBudgetProgress() {}
+async function loadReport() {}
+
 </script>
 </body>
 </html>
