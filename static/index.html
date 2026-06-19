@@ -1,12 +1,3 @@
-Here is your updated, fully restructured code.
-
-I have moved the tab navigation items into a modern **vertical left sidebar** layout that stays fixed on the screen, changed the spending trend from a bar chart to a smooth **line chart** using Chart.js, and kept the operational backend bug fixes we implemented earlier.
-
-### Updated Complete Code
-
-Replace the entire contents of your file with this version:
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -186,7 +177,7 @@ Replace the entire contents of your file with this version:
     }
     .btn-ghost:hover { background:#f5f5ff; }
 
-    /* OTP INTERFACE DESIGN */
+    /* OTP FIXED DESIGN */
     .otp-inputs { 
       display:flex; 
       gap:8px; 
@@ -242,7 +233,7 @@ Replace the entire contents of your file with this version:
       margin-bottom:16px;
     }
 
-    /* SIDEBAR INTERFACE STRUCTURE */
+    /* ENHANCED FULL SCREEN SIDEBAR LAYOUT */
     #app-screen { 
       display:none; 
       min-height: 100vh;
@@ -254,7 +245,7 @@ Replace the entire contents of your file with this version:
     }
 
     .sidebar {
-      width: 260px;
+      width: 280px; /* Enhanced wider element feel */
       background: white;
       border-right: 1px solid #e8e8f0;
       display: flex;
@@ -264,39 +255,39 @@ Replace the entire contents of your file with this version:
       bottom: 0;
       left: 0;
       z-index: 100;
-      padding: 24px 16px;
+      padding: 32px 20px;
     }
 
     .sidebar-brand {
       display: flex;
       align-items: center;
-      gap: 10px;
-      font-size: 18px;
+      gap: 12px;
+      font-size: 20px;
       font-weight: 700;
       color: #6366f1;
-      margin-bottom: 32px;
+      margin-bottom: 40px;
       padding-left: 12px;
     }
 
     .sidebar-nav {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
       flex: 1;
     }
 
     .nav-btn {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 12px 16px;
+      gap: 14px;
+      padding: 14px 18px;
       background: none;
       border: none;
-      border-radius: 10px;
+      border-radius: 12px;
       cursor: pointer;
       font-weight: 600;
       color: #666;
-      font-size: 14px;
+      font-size: 15px;
       text-align: left;
       transition: 0.2s;
       width: 100%;
@@ -310,20 +301,21 @@ Replace the entire contents of your file with this version:
     .nav-btn.active {
       background: #6366f1;
       color: white;
+      box-shadow: 0 4px 14px rgba(99, 102, 241, 0.2);
     }
 
     .sidebar-footer {
-      padding-top: 16px;
+      padding-top: 20px;
       border-top: 1px solid #f0f0f5;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 16px;
     }
 
     .user-profile-info {
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 600;
-      color: #333;
+      color: #2a2a3e;
       padding-left: 12px;
       white-space: nowrap;
       overflow: hidden;
@@ -336,14 +328,14 @@ Replace the entire contents of your file with this version:
       align-items: center;
       justify-content: center;
       gap: 8px;
-      padding: 10px;
+      padding: 12px;
       background: #fef2f2;
       color: #dc2626;
       border: 1px solid #fecaca;
-      border-radius: 8px;
+      border-radius: 10px;
       cursor: pointer;
       font-weight: 600;
-      font-size: 13px;
+      font-size: 14px;
       transition: 0.2s;
     }
     .logout-btn:hover {
@@ -351,48 +343,50 @@ Replace the entire contents of your file with this version:
       color: white;
     }
 
-    /* MAIN CONTENT WRAPPER */
+    /* EXPANDED CONTAINER PANELS */
     .main-content {
       flex: 1;
-      margin-left: 260px; /* Sidebar offset space width */
-      padding: 40px;
-      max-width: 1200px;
+      margin-left: 280px; 
+      padding: 40px 60px; /* Enhanced spacing parameters */
+      width: calc(100% - 280px);
     }
 
     @media(max-width: 991px) {
       .sidebar { width: 80px; padding: 24px 8px; }
       .sidebar-brand span, .nav-btn span, .user-profile-info { display: none; }
-      .nav-btn { justify-content: center; padding: 12px; font-size: 18px; }
-      .main-content { margin-left: 80px; padding: 20px; }
+      .nav-btn { justify-content: center; padding: 14px; font-size: 18px; }
+      .main-content { margin-left: 80px; padding: 24px; width: calc(100% - 80px); }
       .sidebar-footer { align-items: center; }
     }
 
     /* CARD COMPONENTS & GRIDS */
-    .stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; margin-bottom:24px; }
-    .stat-card { background:white; border-radius:14px; padding:20px; border:1px solid #f0f0f0; box-shadow: 0 4px 12px rgba(0,0,0,0.01); }
-    .stat-card .label { font-size:12px; color:#999; font-weight:600; text-transform:uppercase; letter-spacing:.5px; }
-    .stat-card .value { font-size:28px; font-weight:700; color:#1a1a2e; margin-top:6px; }
-    .stat-card .sub { font-size:12px; color:#6366f1; margin-top:4px; }
+    .stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:24px; margin-bottom:32px; }
+    .stat-card { background:white; border-radius:16px; padding:24px; border:1px solid #eef0f4; box-shadow: 0 4px 16px rgba(0,0,0,0.015); }
+    .stat-card .label { font-size: 12px; color:#888; font-weight:700; text-transform:uppercase; letter-spacing:.8px; }
+    .stat-card .value { font-size:32px; font-weight:700; color:#1a1a2e; margin-top:8px; }
+    .stat-card .sub { font-size:13px; color:#6366f1; margin-top:6px; font-weight: 500; }
 
-    .card { background: white; padding: 24px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); margin-bottom: 20px; }
-    .card h3 { font-size:16px; font-weight:700; margin-bottom:18px; color:#1a1a2e; }
-    .row { display: flex; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
-    .form-group { flex: 1; min-width: 200px; display: flex; flex-direction: column; gap: 6px; }
-    .form-group label { font-size: 12px; font-weight: 600; color: #666; }
-    .form-group input, .form-group select { padding: 10px; border: 1.5px solid #e8e8f0; border-radius: 8px; outline: none; background: white; }
-    
-    .small-btn { padding: 10px 20px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+    .card { background: white; padding: 32px; border-radius: 20px; border: 1px solid #eef0f4; box-shadow: 0 6px 24px rgba(0,0,0,0.015); margin-bottom: 28px; width: 100%; }
+    .card h3 { font-size:18px; font-weight:700; margin-bottom:24px; color:#1a1a2e; }
+    .row { display: flex; gap: 20px; margin-bottom: 20px; flex-wrap: wrap; }
+    .form-group { flex: 1; min-width: 240px; display: flex; flex-direction: column; gap: 8px; }
+    .form-group label { font-size: 13px; font-weight: 600; color: #555; }
+    .form-group input, .form-group select { padding: 12px 14px; border: 1.5px solid #e8e8f0; border-radius: 10px; font-size: 14px; outline: none; background: white; }
+    .form-group input:focus, .form-group select:focus { border-color: #6366f1; }
+
+    .small-btn { padding: 12px 24px; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 14px; transition: 0.2s; }
     .small-btn.add { background: #6366f1; color: white; }
     .small-btn.del { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
     .small-btn:hover { opacity: 0.85; }
     
-    .chart-wrap { position: relative; height: 300px; width: 100%; }
-    table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
-    th, td { padding: 12px; text-align: left; border-bottom: 1px solid #e8e8f0; }
-    th { font-size: 12px; text-transform: uppercase; color: #888; font-weight: 600; }
+    /* ENHANCED GRAPH HEIGHT CONTAINER */
+    .chart-wrap { position: relative; height: 420px; width: 100%; }
+    table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 15px; }
+    th, td { padding: 16px; text-align: left; border-bottom: 1px solid #e8e8f0; }
+    th { font-size: 12px; text-transform: uppercase; color: #888; font-weight: 700; letter-spacing: 0.5px; }
     tr:hover td { background:#fafafa; }
 
-    .badge { display:inline-block; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:600; text-transform:capitalize; }
+    .badge { display:inline-block; padding:4px 12px; border-radius:20px; font-size: 12px; font-weight:600; text-transform:capitalize; }
     .badge.food          { background:#fef9c3; color:#854d0e; }
     .badge.transport     { background:#dbeafe; color:#1e40af; }
     .badge.utilities     { background:#dcfce7; color:#166534; }
@@ -401,13 +395,13 @@ Replace the entire contents of your file with this version:
     .badge.shopping      { background:#ffedd5; color:#9a3412; }
     .badge.other         { background:#f1f5f9; color:#475569; }
 
-    /* BUDGET PROGRESS MODULES */
-    .budget-item { margin-bottom:16px; }
-    .budget-item .bi-header { display:flex; justify-content:space-between; font-size:13px; margin-bottom:6px; }
+    /* BUDGET PROGRESS GRAPH ELEMENTS */
+    .budget-item { margin-bottom:20px; }
+    .budget-item .bi-header { display:flex; justify-content:space-between; font-size:14px; margin-bottom:8px; }
     .budget-item .bi-header span:first-child { font-weight:600; text-transform:capitalize; }
-    .budget-item .bi-header span:last-child  { color:#888; }
-    .progress-bar { height:8px; background:#f0f0f0; border-radius:4px; overflow:hidden; }
-    .progress-fill { height:100%; border-radius:4px; transition:.4s; }
+    .budget-item .bi-header span:last-child  { color:#777; font-weight: 500; }
+    .progress-bar { height:10px; background:#f0f0f0; border-radius:5px; overflow:hidden; }
+    .progress-fill { height:100%; border-radius:5px; transition:.4s; }
   </style>
 </head>
 <body>
@@ -536,19 +530,19 @@ Replace the entire contents of your file with this version:
       
       <nav class="sidebar-nav">
         <button class="nav-btn active" onclick="showTab('dashboard')">
-          <i class="ti ti-dashboard" style="font-size:18px"></i>
+          <i class="ti ti-dashboard" style="font-size:20px"></i>
           <span>Dashboard</span>
         </button>
         <button class="nav-btn" onclick="showTab('expenses')">
-          <i class="ti ti-receipt" style="font-size:18px"></i>
+          <i class="ti ti-receipt" style="font-size:20px"></i>
           <span>Expenses</span>
         </button>
         <button class="nav-btn" onclick="showTab('budgets')">
-          <i class="ti ti-wallet" style="font-size:18px"></i>
+          <i class="ti ti-wallet" style="font-size:20px"></i>
           <span>Budgets</span>
         </button>
         <button class="nav-btn" onclick="showTab('reports')">
-          <i class="ti ti-chart-pie" style="font-size:18px"></i>
+          <i class="ti ti-chart-pie" style="font-size:20px"></i>
           <span>Reports</span>
         </button>
       </nav>
@@ -556,7 +550,7 @@ Replace the entire contents of your file with this version:
       <div class="sidebar-footer">
         <div class="user-profile-info" id="welcome-msg">Hi, User!</div>
         <button class="logout-btn" onclick="logout()">
-          <i class="ti ti-logout"></i>
+          <i class="ti ti-logout" style="font-size:16px"></i>
           <span>Logout</span>
         </button>
       </div>
@@ -567,7 +561,7 @@ Replace the entire contents of your file with this version:
       <div id="tab-dashboard">
         <div class="stats-grid" id="stats-grid"></div>
         <div class="card">
-          <h3>Spending trend</h3>
+          <h3>Category Spending Trends</h3>
           <div class="chart-wrap"><canvas id="trend-chart"></canvas></div>
         </div>
       </div>
@@ -724,7 +718,6 @@ Replace the entire contents of your file with this version:
       if (el) el.style.display = t===tab ? 'block' : 'none';
     });
     
-    // Manage vertical sidebar items highlighting visual classes
     document.querySelectorAll('.nav-btn').forEach(btn => {
       const isCurrent = btn.getAttribute('onclick').includes(tab);
       btn.classList.toggle('active', isCurrent);
@@ -877,7 +870,7 @@ Replace the entire contents of your file with this version:
     showStep('email');
   }
 
-  /* ── MODULE SYSTEMS ────────────────────────────────── */
+  /* ── APPLICATION METRICS & MODULES ────────────────── */
 
   async function loadDashboard() {
     const monthVal = nowMonth();
@@ -909,35 +902,70 @@ Replace the entire contents of your file with this version:
     loadTrendChart();
   }
 
-  // FIXED: Spending trend rendering changed dynamically from 'bar' structure config to a clean 'line' chart layout
+  // FIXED & UPGRADED: Renders a modern Multi-Line Breakdown for all tracking spending categories
   async function loadTrendChart() {
     const r = await api('/reports/spending-trend');
     if (!r.ok) return;
-    const data = await r.json();
+    const responseData = await r.json();
     
     if (trendChartInstance) trendChartInstance.destroy();
     const ctx = document.getElementById('trend-chart').getContext('2d');
+
+    // Extract unique time periods (e.g., "2026-05", "2026-06")
+    const periods = [...new Set(responseData.map(d => d.period))].sort();
+
+    // Map categories to dynamic brand identity colors
+    const categoryColors = {
+      'food': '#f59e0b',
+      'transport': '#3b82f6',
+      'utilities': '#10b981',
+      'entertainment': '#8b5cf6',
+      'health': '#ef4444',
+      'shopping': '#f97316',
+      'other': '#64748b'
+    };
+
+    // Construct lines map dynamically based on category history array sets
+    const trackingCategories = [...new Set(responseData.map(d => d.category || 'total'))];
     
+    const datasets = trackingCategories.map(cat => {
+      const color = categoryColors[cat.toLowerCase()] || '#6366f1';
+      
+      // Calculate coordinates values mapping missing spaces safely with 0
+      const pointValues = periods.map(p => {
+        const entry = responseData.find(d => d.period === p && (d.category || 'total').toLowerCase() === cat.toLowerCase());
+        return entry ? (entry.total || entry.spent || 0) : 0;
+      });
+
+      return {
+        label: cat.charAt(0).toUpperCase() + cat.slice(1),
+        data: pointValues,
+        borderColor: color,
+        backgroundColor: color + '15',
+        borderWidth: 3,
+        tension: 0.3,
+        fill: cat.toLowerCase() === 'total' || trackingCategories.length === 1,
+        pointRadius: 4,
+        pointHoverRadius: 7
+      };
+    });
+
     trendChartInstance = new Chart(ctx, {
-      type: 'line', 
+      type: 'line',
       data: {
-        labels: data.map(d => d.period),
-        datasets: [{
-          label: 'Total Spent (₹)',
-          data: data.map(d => d.total),
-          backgroundColor: 'rgba(99, 102, 241, 0.15)',
-          borderColor: '#6366f1',
-          borderWidth: 3,
-          tension: 0.35, // Gives curve smoothness
-          fill: true,
-          pointBackgroundColor: '#6366f1',
-          pointHoverRadius: 7
-        }]
+        labels: periods,
+        datasets: datasets
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        plugins: { legend: { display: false } },
+        plugins: {
+          legend: {
+            display: true,
+            position: 'top',
+            labels: { boxWidth: 12, usePointStyle: true, font: { weight: 600 } }
+          }
+        },
         scales: { 
           y: { beginAtZero: true, grid: { color: '#f0f0f0' } },
           x: { grid: { display: false } } 
@@ -1007,7 +1035,6 @@ Replace the entire contents of your file with this version:
     if (r.ok) loadExpenses();
   }
 
-  // FIXED: Structured parameter bindings into explicit JSON payload properties body maps
   async function setBudget() {
     const month = document.getElementById('bud-month').value;
     const category = document.getElementById('bud-category').value;
@@ -1141,4 +1168,3 @@ Replace the entire contents of your file with this version:
 </body>
 </html>
 
-```
