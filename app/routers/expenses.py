@@ -3,16 +3,27 @@ from sqlalchemy.orm import Session
 from sqlalchemy import extract
 from typing import Optional
 from pydantic import BaseModel
+from datetime import datetime
 from ..database import get_db
 from ..models.expense import Expense, Category
 from ..routers.auth import get_current_user
 
 router = APIRouter(prefix="/expenses", tags=["expenses"])
 
+# --- UPDATED PYDANTIC SCHEMAS TO SUPPORT HISTORICAL DATES ---
 class ExpenseCreate(BaseModel):
     amount: float
     category: str
     description: str = ""
+    date: Optional[datetime] = None  # ── ADDED: Allows custom transaction date payloads
+
+class ExpenseUpdate(BaseModel):
+    amount: Optional[float] = None
+    category: Optional[str] = None
+    description: Optional[str] = None
+    date: Optional[datetime] = None  # ── ADDED: Allows updating transaction dates
+
+# --- ROUTE OVERRIDES & BUSINESS LOGIC ---
 
 @router.post("/")
 def create_expense(data: ExpenseCreate, db: Session = Depends(get_db),
@@ -23,6 +34,11 @@ def create_expense(data: ExpenseCreate, db: Session = Depends(get_db),
         category=data.category,
         description=data.description
     )
+    
+    # ── CRITICAL FIX: If a custom date is provided from the UI, override the default CURRENT_TIMESTAMP
+    if data.date:
+        exp.date = data.date
+        
     db.add(exp)
     db.commit()
     db.refresh(exp)
@@ -54,15 +70,10 @@ def delete_expense(expense_id: int, db: Session = Depends(get_db),
         Expense.user_id == user.id
     ).first()
     if not exp:
-        return {"msg": "Not found"}
+        raise HTTPException(status_code=404, detail="Not found")
     db.delete(exp)
     db.commit()
     return {"msg": "Deleted"}
-
-class ExpenseUpdate(BaseModel):
-    amount: float = None
-    category: str = None
-    description: str = None
 
 @router.put("/{expense_id}")
 def update_expense(expense_id: int, data: ExpenseUpdate,
@@ -80,6 +91,9 @@ def update_expense(expense_id: int, data: ExpenseUpdate,
         exp.category = data.category
     if data.description is not None:
         exp.description = data.description
+    if data.date is not None:
+        exp.date = data.date
+        
     db.commit()
     db.refresh(exp)
     return {"id": exp.id, "amount": exp.amount,
