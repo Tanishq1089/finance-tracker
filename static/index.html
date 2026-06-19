@@ -5,15 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Finance Tracker</title>
   
+  <!-- Fonts & Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
   
+  <!-- Charts.js Dependency -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     body { font-family: system-ui, sans-serif; background:#f8fafc; color:#1e293b; min-height:100vh; }
 
-    /* AUTH SCREEN */
+    /* AUTH WINDOW SYSTEM CONTAINER */
     #auth-screen {
       min-height:100vh;
       display:flex;
@@ -54,13 +56,25 @@
     .auth-feature span { color:rgba(255,255,255,0.9); font-size:14px; }
     .auth-left-footer { color:rgba(255,255,255,0.4); font-size:12px; margin-top:40px; }
     .auth-right { background:white; padding:48px 40px; display:flex; flex-direction:column; justify-content:center; }
+    
+    /* INTERACTIVE STEP INDICATORS */
     .step-dots { display:flex; gap:6px; margin-bottom:24px; }
     .step-dot { height:6px; width:6px; border-radius:3px; background:#e2e8f0; transition:.3s; }
     .step-dot.active { width:24px; background:#6366f1; }
-    .auth-right h2 { font-size:24px; font-weight:700; color:#0f172a; margin-bottom:8px; }
     
-    /* FIXED CSS SELECTOR MATCHING INDUSTRY STANDARDS */
+    .auth-right h2 { font-size:24px; font-weight:800; color:#0f172a; margin-bottom:8px; letter-spacing:-0.5px; }
     .auth-right .sub { font-size:14px; color:#64748b; margin-bottom:32px; line-height:1.6; }
+    
+    /* WELCOME SCREEN CUSTOM DESIGNS (STEP 0) */
+    .quote-box {
+      background: #f8fafc;
+      border-left: 4px solid #6366f1;
+      padding: 16px 20px;
+      border-radius: 0 12px 12px 0;
+      margin-bottom: 32px;
+    }
+    .quote-text { font-size: 14px; font-style: italic; color: #475569; font-weight: 500; line-height: 1.5; }
+    .quote-author { font-size: 12px; font-weight: 700; color: #6366f1; margin-top: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
     
     .field { margin-bottom:20px; }
     .field label { display:block; font-size:11px; font-weight:700; color:#94a3b8; letter-spacing:1px; text-transform:uppercase; margin-bottom:8px; }
@@ -68,20 +82,25 @@
     .input-wrap i { position:absolute; left:14px; font-size:18px; color:#94a3b8; pointer-events:none; }
     .input-wrap input { width:100%; padding:12px 16px 12px 42px; border:1.5px solid #e2e8f0; border-radius:12px; font-size:14px; color:#0f172a; background:#f8fafc; outline:none; transition:.2s; }
     .input-wrap input:focus { border-color:#6366f1; background:white; box-shadow: 0 0 0 4px rgba(99,102,241,0.1); }
+    
     .btn-primary { width:100%; padding:14px; background:#6366f1; color:white; border:none; border-radius:12px; font-size:14px; font-weight:600; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition:.2s; margin-top:4px; }
     .btn-primary:hover { background:#4f46e5; transform:translateY(-1px); }
+    .btn-ghost { width:100%; padding:12px; background:none; color:#6366f1; border:1.5px solid #e2e8f0; border-radius:12px; font-size:14px; font-weight:600; cursor:pointer; margin-top:12px; transition:.2s; }
+    .btn-ghost:hover { background:#f8fafc; }
+
+    /* OTP DIGIT BOXES */
     .otp-inputs { display:flex; gap:8px; margin-bottom:20px; justify-content: space-between; }
     .otp-box { width: 100%; max-width: 48px; height: 52px; text-align:center; border:1.5px solid #e2e8f0; border-radius:12px; font-size:22px; font-weight:600; background:#f8fafc; color:#0f172a; outline:none; transition:.2s; }
     .otp-box:focus { border-color:#6366f1; background:white; box-shadow: 0 0 0 4px rgba(99,102,241,0.1); }
-    .timer { text-align:center; font-size:13px; color:#64748b; margin-top:16px; }
+    .timer { text-align:center; font-size:13px; color:#64748b; margin-top:16px; background:#f8fafc; padding:10px; border-radius:10px; border:1px dashed #e2e8f0; }
     .timer span, .timer a { color:#6366f1; font-weight:600; cursor:pointer; }
+    
     .msg { padding:12px 16px; border-radius:10px; font-size:14px; margin-top:16px; display:none; }
     .msg.success { background:#f0fdf4; color:#16a34a; border:1px solid #bbf7d0; display:block; }
     .msg.error   { background:#fef2f2; color:#dc2626; border:1px solid #fecaca; display:block; }
     .success-chip { display:inline-flex; align-items:center; gap:6px; background:#f0fdf4; color:#16a34a; border:1px solid #bbf7d0; font-size:13px; font-weight:600; padding:6px 14px; border-radius:20px; margin-bottom:20px; }
-    .btn-ghost { width:100%; padding:12px; background:none; color:#6366f1; border:1.5px solid #e2e8f0; border-radius:12px; font-size:14px; font-weight:600; cursor:pointer; margin-top:12px; transition:.2s; }
 
-    /* CORE SIDEBAR & MAIN LAYOUT */
+    /* CORE SIDEBAR & LAYOUT PANELS */
     #app-screen { display:none; min-height: 100vh; }
     .app-layout { display: flex; min-height: 100vh; }
 
@@ -117,7 +136,6 @@
     }
     .logout-btn:hover { background: #ef4444; color: white; }
 
-    /* WORKSPACE ADJUSTMENTS */
     .main-content {
       flex: 1;
       margin-left: 280px; 
@@ -132,7 +150,7 @@
       .main-content { margin-left: 80px; padding: 24px; width: calc(100% - 80px); }
     }
 
-    /* WELCOME HEADER LAYOUT */
+    /* PREMIUM WELCOME HEADER */
     .welcome-header {
       margin-bottom: 32px;
       display: flex;
@@ -146,6 +164,7 @@
     /* DASHBOARD STATISTIC CARDS */
     .stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:24px; margin-bottom:36px; }
     .stat-card { background:white; border-radius:24px; padding:28px; border:1px solid #e2e8f0; box-shadow:0 4px 20px rgba(15,23,42,0.015); display: flex; justify-content: space-between; align-items: center; transition: 0.2s; }
+    .stat-card:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(15,23,42,0.03); }
     .stat-card .info-side { display: flex; flex-direction: column; }
     .stat-card .label { font-size: 11px; color:#64748b; font-weight:700; text-transform:uppercase; letter-spacing:1px; }
     .stat-card .value { font-size: 32px; font-weight:800; color:#0f172a; margin-top:6px; letter-spacing: -0.5px; }
@@ -175,7 +194,7 @@
     .filter-control-wrap i { color: #94a3b8; font-size: 16px; }
     .filter-control-wrap select, .filter-control-wrap input { background: none; border: none; outline: none; font-size: 14px; font-weight: 600; color: #334155; cursor: pointer; padding-right: 4px; }
 
-    /* TWO-COLUMN GRID ARCHITECTURE */
+    /* GRID LAYOUTS */
     .dashboard-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 32px; align-items: start; }
     @media (max-width: 1150px) { .dashboard-grid { grid-template-columns: 1fr; } }
 
@@ -216,7 +235,7 @@
     .badge.shopping      { background:#fff7ed; color:#c2410c; }
     .badge.other         { background:#f8fafc; color:#475569; }
 
-    /* BUDGET PROGRESS MODULES */
+    /* BUDGET COMPONENTS */
     .budget-item { margin-bottom:20px; }
     .budget-item .bi-header { display:flex; justify-content:space-between; font-size:14px; margin-bottom:8px; }
     .budget-item .bi-header span:first-child { font-weight:700; text-transform:capitalize; color: #1e293b; }
@@ -227,8 +246,11 @@
 </head>
 <body>
 
+<!-- AUTH WINDOW INFRASTRUCTURE -->
 <div id="auth-screen">
   <div class="auth-wrap">
+    
+    <!-- LEFT PANEL -->
     <div class="auth-left">
       <div>
         <div class="auth-brand"><div class="icon">💰</div><span>Finance Tracker</span></div>
@@ -244,23 +266,60 @@
       <div class="auth-left-footer">finance-tracker-vopt.onrender.com</div>
     </div>
 
+    <!-- RIGHT PANEL -->
     <div class="auth-right">
-      <div id="step-email">
-        <div class="step-dots"><div class="step-dot active"></div><div class="step-dot"></div><div class="step-dot"></div></div>
+      
+      <!-- STEP 0: PRE-AUTHENTICATION INTRO/LANDING MODULE -->
+      <div id="step-landing">
+        <div class="step-dots">
+          <div class="step-dot active"></div>
+          <div class="step-dot"></div>
+          <div class="step-dot"></div>
+          <div class="step-dot"></div>
+        </div>
+        <h2>Smart Wealth Tracking</h2>
+        <p class="sub">Understand your money footprints, eradicate overspending, and scale towards concrete investment boundaries.</p>
+        
+        <!-- Premium Literary Financial Quote Card -->
+        <div class="quote-box">
+          <p class="quote-text">"Beware of little expenses; a small leak will sink a great ship."</p>
+          <p class="quote-author">— Benjamin Franklin</p>
+        </div>
+
+        <button class="btn-primary" onclick="showStep('email')">
+          Get Started <i class="ti ti-arrow-right"></i>
+        </button>
+      </div>
+
+      <!-- STEP 1: Email Capture phase -->
+      <div id="step-email" style="display:none">
+        <div class="step-dots">
+          <div class="step-dot"></div>
+          <div class="step-dot active"></div>
+          <div class="step-dot"></div>
+          <div class="step-dot"></div>
+        </div>
         <h2>Welcome back</h2>
-        <p class="sub">Enter your email address and we'll send you a one-time password to sign in.</p>
+        <p class="sub">Enter your email address and we'll send you a one-time password to access your dashboard layer secure space.</p>
         <div class="field">
           <label>Email address</label>
           <div class="input-wrap"><i class="ti ti-mail"></i><input type="email" id="auth-email" placeholder="you@example.com"></div>
         </div>
-        <button class="btn-primary" onclick="sendOTP()"><i class="ti ti-send"></i>Send OTP</button>
+        <button class="btn-primary" onclick="sendOTP()"><i class="ti ti-send"></i>Send Verification Code</button>
+        <button class="btn-ghost" onclick="showStep('landing')">← Back to Overview</button>
         <div id="msg-email" class="msg"></div>
       </div>
 
+      <!-- STEP 2: Secure OTP Match tier -->
       <div id="step-otp" style="display:none">
-        <div class="step-dots"><div class="step-dot"></div><div class="step-dot active"></div><div class="step-dot"></div></div>
-        <h2>Check your email</h2>
-        <p class="sub" id="otp-sub">Enter the 6-digit code sent to your email.</p>
+        <div class="step-dots">
+          <div class="step-dot"></div>
+          <div class="step-dot"></div>
+          <div class="step-dot active"></div>
+          <div class="step-dot"></div>
+        </div>
+        <h2>Security Check</h2>
+        <p class="sub" id="otp-sub">We sent a safe verification passcode directly to your inbox space.</p>
         <div class="otp-inputs">
           <input class="otp-box" id="otp0" maxlength="1" oninput="otpNext(this,0)" onkeydown="otpBack(event,0)">
           <input class="otp-box" id="otp1" maxlength="1" oninput="otpNext(this,1)" onkeydown="otpBack(event,1)">
@@ -269,14 +328,20 @@
           <input class="otp-box" id="otp4" maxlength="1" oninput="otpNext(this,4)" onkeydown="otpBack(event,4)">
           <input class="otp-box" id="otp5" maxlength="1" oninput="otpNext(this,5)" onkeydown="otpBack(event,5)">
         </div>
-        <button class="btn-primary" onclick="verifyOTP()"><i class="ti ti-shield-check"></i>Verify OTP</button>
+        <button class="btn-primary" onclick="verifyOTP()"><i class="ti ti-shield-check"></i>Verify and Unlock</button>
         <button class="btn-ghost" onclick="showStep('email')">← Back</button>
         <div class="timer">Expires in <span id="timer-val">5:00</span> · <a onclick="resendOTP()">Resend OTP</a></div>
         <div id="msg-otp" class="msg"></div>
       </div>
 
+      <!-- STEP 3: Register -->
       <div id="step-register" style="display:none">
-        <div class="step-dots"><div class="step-dot"></div><div class="step-dot"></div><div class="step-dot active"></div></div>
+        <div class="step-dots">
+          <div class="step-dot"></div>
+          <div class="step-dot"></div>
+          <div class="step-dot"></div>
+          <div class="step-dot active"></div>
+        </div>
         <div class="success-chip">✓ OTP verified</div>
         <h2>Create account</h2>
         <p class="sub">Almost there — set a username and password to complete signup.</p>
@@ -295,6 +360,7 @@
   </div>
 </div>
 
+<!-- WORKSPACE ROOT AREA CONTAINER -->
 <div id="app-screen">
   <div class="app-layout">
     
@@ -314,6 +380,7 @@
 
     <main class="main-content">
       
+      <!-- DASHBOARD PAGE VIEW -->
       <div id="tab-dashboard">
         <div class="welcome-header">
           <div>
@@ -389,6 +456,7 @@
         </div>
       </div>
 
+      <!-- EXPENSES PAGE VIEW -->
       <div id="tab-expenses" style="display:none">
         <div class="filter-bar-row">
           <h3>Transaction History Manager</h3>
@@ -423,6 +491,7 @@
         </div>
       </div>
 
+      <!-- BUDGETS PAGE VIEW -->
       <div id="tab-budgets" style="display:none">
         <div class="card">
           <h3>Set Spending Caps</h3>
@@ -466,6 +535,7 @@
         </div>
       </div>
 
+      <!-- REPORTS PAGE VIEW -->
       <div id="tab-reports" style="display:none">
         <div class="filter-bar-row">
           <h3>Monthly Trend Performance</h3>
@@ -496,6 +566,7 @@
   </div>
 </div>
 
+<!-- EDIT MODAL -->
 <div id="edit-modal" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,0.3); backdrop-filter: blur(4px); z-index:100;align-items:center;justify-content:center;">
   <div style="background:white;border-radius:24px;padding:36px;width:100%;max-width:440px;margin:20px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); border: 1px solid #e2e8f0;">
     <h3 style="margin-bottom:24px;font-size:18px;font-weight:800; color:#0f172a; letter-spacing:-0.5px;">Edit Expense Transaction</h3>
@@ -553,7 +624,7 @@
   }
 
   function showStep(step) {
-    ['email','otp','register'].forEach(s => {
+    ['landing', 'email','otp','register'].forEach(s => {
       const el = document.getElementById('step-'+s);
       if (el) el.style.display = s===step ? 'block' : 'none';
     });
@@ -580,12 +651,14 @@
     }
   }
 
+  // Multi-box focus navigation deletions
   function otpBack(e, idx) {
     if (e.key === 'Backspace' && !e.target.value && idx > 0) {
       document.getElementById('otp' + (idx - 1)).focus();
     }
   }
 
+  // Interactive step countdown clock bounds
   function startTimer() {
     let seconds = 300;
     clearInterval(timerInterval);
@@ -684,6 +757,8 @@
         if (r.ok) enterApp(localStorage.getItem('ft_username') || '');
         else logout();
       }).catch(() => logout());
+    } else {
+      showStep('landing'); // Default landing frame initialization hook
     }
   });
 
@@ -711,10 +786,10 @@
     TOKEN = ''; localStorage.removeItem('ft_token'); localStorage.removeItem('ft_username');
     document.getElementById('app-screen').style.display = 'none';
     document.getElementById('auth-screen').style.display = 'flex';
-    showStep('email');
+    showStep('landing');
   }
 
-  /* ── INTERACTIVE MODULE EXECUTION ENGINES ────────────────── */
+  /* ── APPLICATION METRICS COMPUTATION ENGINE ────────────────── */
 
   async function loadDashboard() {
     const monthVal = nowMonth();
@@ -840,7 +915,7 @@
     }
   }
 
-  /* ── SECURE TRANSACTION MODULE LEDGERS ────────────────── */
+  /* ── HIDDEN TRANSACTION MODULE ENGINE ────────────────── */
 
   async function loadExpenses() {
     const cat   = document.getElementById('filter-cat').value;
