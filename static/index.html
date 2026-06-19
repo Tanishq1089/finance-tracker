@@ -849,21 +849,42 @@
   async function setBudget() {
     const month = document.getElementById('bud-month').value;
     const category = document.getElementById('bud-category').value;
-    const limit = parseFloat(document.getElementById('bud-limit').value);
+    const limitInput = document.getElementById('bud-limit').value;
+    const limit = parseFloat(limitInput);
 
-    if (!month || !limit || limit <= 0) return showMsg('msg-budget','Fill all fields correctly','error');
+    if (!month || !limitInput || limit <= 0) {
+      return showMsg('msg-budget', 'Fill all fields correctly', 'error');
+    }
 
-    const r = await api(`/budgets/?category=${category}&monthly_limit=${limit}&month=${month}`, {
-      method:'POST'
-    });
-    const d = await r.json();
+    showMsg('msg-budget', 'Saving budget...', 'success');
 
-    if (r.ok) {
-      showMsg('msg-budget','Budget saved!','success');
-      document.getElementById('bud-limit').value = '';
-      loadBudgetProgress();
-    } else {
-      showMsg('msg-budget', d.detail || 'Error','error');
+    try {
+      // Fixed: Now sending data inside the body as a JSON object, which matches what your FastAPI/backend validation expects
+      const r = await api('/budgets/', {
+        method: 'POST',
+        body: JSON.stringify({
+          category: category,
+          monthly_limit: limit,
+          month: month
+        })
+      });
+      
+      const d = await r.json();
+
+      if (r.ok) {
+        showMsg('msg-budget', 'Budget saved successfully!', 'success');
+        document.getElementById('bud-limit').value = '';
+        loadBudgetProgress();
+      } else {
+        // Fixed: Properly extracting the string message to prevent '[object Object]' from printing
+        let errMsg = 'Error saving budget';
+        if (d.detail) {
+          errMsg = typeof d.detail === 'object' ? JSON.stringify(d.detail) : d.detail;
+        }
+        showMsg('msg-budget', errMsg, 'error');
+      }
+    } catch (err) {
+      showMsg('msg-budget', err.message, 'error');
     }
   }
 
