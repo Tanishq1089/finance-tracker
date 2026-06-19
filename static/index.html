@@ -520,6 +520,7 @@
     if (!el) return;
     el.textContent = txt;
     el.className = 'msg ' + type;
+    el.style.display = 'block';
   }
 
   function showStep(step) {
@@ -537,6 +538,18 @@
     document.querySelectorAll('.nav-btn').forEach(btn => {
       btn.classList.toggle('active', btn.getAttribute('onclick').includes(tab));
     });
+
+    // Automatically populate the month picker with the current month when the budget tab opens
+    if (tab === 'budgets') {
+      const budMonthInput = document.getElementById('bud-month');
+      if (budMonthInput && !budMonthInput.value) {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        budMonthInput.value = `${year}-${month}`;
+      }
+      loadBudgets(); // Fetch and display progress bars
+    }
   }
 
   function otpNext(el, idx) {
@@ -545,7 +558,6 @@
     }
   }
 
-  // Focus management backspace logic
   function otpBack(e, idx) {
     if (e.key === 'Backspace' && !e.target.value && idx > 0) {
       document.getElementById('otp' + (idx - 1)).focus();
@@ -694,7 +706,6 @@
     document.getElementById('app-screen').style.display = 'block';
     document.getElementById('welcome-msg').textContent = 'Welcome, ' + username;
     showTab('dashboard');
-    if (typeof loadExpenses === "function") loadExpenses();
   }
 
   function logout() {
@@ -713,13 +724,51 @@
     }
   });
 
-  // Structural placeholders for definitions
-  function addExpense() { console.log('Add expense triggered'); }
-  function loadExpenses() { console.log('Load expenses context data fallback'); }
-  function setBudget() { console.log('Save budget triggered'); }
-  function loadReport() { console.log('Load report summary metric context fallback'); }
+
+  // ── ACTIVE APPLICATION CORE LOGIC ──────────────────────
+
+  // Save Budget Execution
+  async function setBudget() {
+    const month = document.getElementById('bud-month').value;
+    const category = document.getElementById('bud-category').value;
+    const limit = document.getElementById('bud-limit').value;
+
+    if (!month || !limit || limit <= 0) {
+      return showMsg('msg-budget', 'Please provide a valid month and spending limit.', 'error');
+    }
+
+    showMsg('msg-budget', 'Saving configuration...', 'success');
+
+    try {
+      // Directs payload to your API endpoint (adjust URL route string if backend differs)
+      const r = await api('/budgets', {
+        method: 'POST',
+        body: JSON.stringify({
+          month: month, // e.g., "2026-05"
+          category: category,
+          limit: parseFloat(limit)
+        })
+      });
+
+      const d = await r.json();
+
+      if (r.ok) {
+        showMsg('msg-budget', 'Budget saved successfully!', 'success');
+        document.getElementById('bud-limit').value = ''; // Reset fields
+        loadBudgets(); // Refresh the progress charts area below
+      } else {
+        showMsg('msg-budget', d.detail || 'Failed to save configuration constraints.', 'error');
+      }
+    } catch (err) {
+      showMsg('msg-budget', 'Network error encountered: ' + err.message, 'error');
+    }
+  }
+
+  // Placeholder functions for other active pages
+  function loadBudgets() { console.log('Refreshing active target data profiles analytics matching select metrics view...'); }
+  function addExpense() { console.log('Add expense logic handling block'); }
+  function loadExpenses() { console.log('Refreshing contextual global transactional logging ledgers...'); }
+  function loadReport() { console.log('Compiling comprehensive category parameters analytics structural trends reports...'); }
 </script>
 </body>
 </html>
-
-```
