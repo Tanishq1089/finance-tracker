@@ -317,7 +317,7 @@
     <p style="font-size:14px; color:#464554; margin-bottom:24px;">This action is permanent and cannot be undone within your finance ledger tracking maps.</p>
     <div style="display:flex; gap:12px;">
       <button class="small-btn del" id="confirm-yes-btn" style="flex:1; justify-content:center;">Wipe Record</button>
-      <button class="small-btn edit" id="confirm-no-btn" style="flex:1; justify-content:center; background:#f1f5f9; color:#464554;">Cancel</button>
+      <button class="small-btn edit" id="confirm-no-btn" style="flex:1; justify-content:center; background:#f1f5f9; color:#464554; border-color:#e2e8f0;">Cancel</button>
     </div>
   </div>
 </div>
@@ -335,7 +335,6 @@
     </div>
   </header>
 
-  <!-- STEP 0: HERO SPLASH LANDING OVERVIEW -->
   <div id="step-landing" class="stitch-landing-hero">
     <div class="stitch-badge">Elevated Wealth Management</div>
     <h1 class="stitch-hero-title">Smart Wealth Tracking</h1>
@@ -344,7 +343,6 @@
     <p class="btn-stitch-link" style="margin-top:24px; font-size:12px;">© 2026 FinTrust Inc. Secure. Trusted. Clear.</p>
   </div>
 
-  <!-- STEP 1: EMAIL ACCESS ENTRY FIELD -->
   <div id="step-email" class="stitch-glass-card email-theme" style="display:none">
     <div class="stitch-card-icon"><i class="ti ti-lock-open"></i></div>
     <h2>Secure Access</h2>
@@ -358,7 +356,6 @@
     <div id="msg-email" class="msg"></div>
   </div>
 
-  <!-- STEP 2: VERIFY SIX DIGIT IDENTITY PASSPHRASE CODE -->
   <div id="step-otp" class="stitch-glass-card otp-theme" style="display:none">
     <div class="stitch-card-icon"><i class="ti ti-shield-check"></i></div>
     <h2>Verify Identity</h2>
@@ -377,7 +374,6 @@
     <div id="msg-otp" class="msg"></div>
   </div>
 
-  <!-- STEP 3: COMPLETION GATEWAY ACCOUNT REGISTRATION -->
   <div id="step-register" class="stitch-glass-card email-theme" style="display:none">
     <div class="success-chip">✓ OTP verified</div>
     <h2>Create Profile</h2>
@@ -420,7 +416,7 @@
             <p>Summary overview for this financial month metrics framework.</p>
           </div>
           
-          <!-- DYNAMIC HARD-EDGED SELECTOR COVERS ALL REQUIREMENTS -->
+          <!-- DYNAMIC FIXED TIMELINE NAVIGATOR -->
           <div class="filter-control-wrap" style="background:white; box-shadow:0 2px 8px rgba(0,0,0,0.04);">
             <i class="ti ti-calendar"></i>
             <select id="global-month-navigator" onchange="syncCalendarState(this.value)" style="font-size:13px; font-weight:700;"></select>
@@ -441,7 +437,7 @@
                     <option value="food">Food</option><option value="transport">Transport</option><option value="utilities">Utilities</option><option value="entertainment">Entertainment</option><option value="health">Health</option><option value="shopping">Shopping</option><option value="other">Other</option>
                   </select>
                 </div>
-                <!-- ADVANCED RETROACTIVE HISTORICAL TIMELINE CONFIGURATION KEY -->
+                <!-- FIXED DIRECT INPUT FIELD TO ENFORCE BOUNDED CALENDAR DATES -->
                 <div class="form-group"><label>Transaction Date</label><input type="date" id="dash-exp-date"></div>
               </div>
               <div class="row" style="margin-bottom:0;">
@@ -561,7 +557,7 @@
   }
   function closeConfirmModal() { document.getElementById('confirm-modal').style.display = 'none'; }
 
-  // POPULATE CHRONOLOGICAL MULTI-MONTHS DROPDOWN
+  // POPULATES ALL DROPDOWNS FOR THE CALENDAR METRICS MATRIX
   function buildTimelineOptions() {
     const selectors = ['global-month-navigator', 'filter-month', 'bud-month', 'rep-month'];
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -582,7 +578,7 @@
     });
   }
 
-  // ALIGNS INPUT DATE CONSTRAINTS DYNAMICALLY
+  // REFIXED CALENDAR INJECTION ENFORCING BOUNDED CHRONOLOGICAL PARAMETERS ONLY
   function syncCalendarState(value) {
     document.getElementById('filter-month').value = value;
     document.getElementById('bud-month').value = value;
@@ -590,10 +586,18 @@
     
     const parts = value.split('-');
     const dateObj = new Date(parts[0], parts[1]-1, 1);
-    document.getElementById('live-dashboard-timestamp').textContent = dateObj.toLocaleString('default', { month: 'long', year: 'numeric' });
     
-    // FORCES TRANSACTION SELECTOR TO AUTOMATICALLY MOVE INTO THE DISPLAYED MONTH PERIOD
-    document.getElementById('dash-exp-date').value = `${parts[0]}-${parts[1]}-01`;
+    // SAFE DEFENSIVE GUARDS PREVENTING UNCAUGHT DOM RUNTIME CRASHES
+    const timestampHeader = document.getElementById('live-dashboard-timestamp');
+    if (timestampHeader) {
+      timestampHeader.textContent = dateObj.toLocaleString('default', { month: 'long', year: 'numeric' });
+    }
+    
+    // FORCES ENTRY BOX TO RE-ALIGN BACKWARD TO TARGET CHOSEN MONTH AUTOMATICALLY
+    const dateBoxInput = document.getElementById('dash-exp-date');
+    if (dateBoxInput) {
+      dateBoxInput.value = `${parts[0]}-${parts[1]}-01`;
+    }
     
     loadDashboard();
   }
@@ -695,7 +699,9 @@
     document.getElementById('app-screen').style.display = 'block';
     const nameString = username || 'User';
     document.getElementById('welcome-msg').textContent = 'Hi, ' + nameString + '!';
-    document.getElementById('dashboard-user-greeting').textContent = 'Welcome back, ' + nameString + '!';
+    
+    const greetingHeader = document.getElementById('dashboard-user-greeting');
+    if (greetingHeader) greetingHeader.textContent = 'Welcome back, ' + nameString + '!';
     
     syncCalendarState("2026-06");
   }
@@ -753,7 +759,6 @@
     
     if (!amount || amount <= 0 || !explicitDate) return triggerToast('Provide valid parameters','error');
     
-    // ENFORCES FORMAT PARSING COMPATIBILITY STRINGS
     const bodyPayload = { amount, category, description, date: new Date(explicitDate).toISOString() };
     const r = await api('/expenses/', { method:'POST', body: JSON.stringify(bodyPayload) });
     if (r.ok) {
