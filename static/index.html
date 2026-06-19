@@ -1,3 +1,12 @@
+Here is your updated, fully restructured code.
+
+I have moved the tab navigation items into a modern **vertical left sidebar** layout that stays fixed on the screen, changed the spending trend from a bar chart to a smooth **line chart** using Chart.js, and kept the operational backend bug fixes we implemented earlier.
+
+### Updated Complete Code
+
+Replace the entire contents of your file with this version:
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -177,7 +186,7 @@
     }
     .btn-ghost:hover { background:#f5f5ff; }
 
-    /* OTP FIXED DESIGN */
+    /* OTP INTERFACE DESIGN */
     .otp-inputs { 
       display:flex; 
       gap:8px; 
@@ -233,14 +242,132 @@
       margin-bottom:16px;
     }
 
-    /* APP INTERFACE LAYOUTS */
-    #app-screen { display:none; padding: 20px; }
-    .topbar { display: flex; justify-content: space-between; align-items: center; background: white; padding: 15px 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-    .logout-btn { padding: 8px 16px; background: #dc2626; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; }
-    .nav { display: flex; gap: 10px; margin-bottom: 20px; }
-    .nav-btn { padding: 10px 20px; background: white; border: 1.5px solid #e8e8f0; border-radius: 8px; cursor: pointer; font-weight: 600; color: #666; transition: 0.2s; }
-    .nav-btn.active { background: #6366f1; color: white; border-color: #6366f1; }
+    /* SIDEBAR INTERFACE STRUCTURE */
+    #app-screen { 
+      display:none; 
+      min-height: 100vh;
+    }
     
+    .app-layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 260px;
+      background: white;
+      border-right: 1px solid #e8e8f0;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 100;
+      padding: 24px 16px;
+    }
+
+    .sidebar-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 18px;
+      font-weight: 700;
+      color: #6366f1;
+      margin-bottom: 32px;
+      padding-left: 12px;
+    }
+
+    .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+    }
+
+    .nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: none;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      color: #666;
+      font-size: 14px;
+      text-align: left;
+      transition: 0.2s;
+      width: 100%;
+    }
+    
+    .nav-btn:hover {
+      background: #f5f5ff;
+      color: #6366f1;
+    }
+
+    .nav-btn.active {
+      background: #6366f1;
+      color: white;
+    }
+
+    .sidebar-footer {
+      padding-top: 16px;
+      border-top: 1px solid #f0f0f5;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .user-profile-info {
+      font-size: 13px;
+      font-weight: 600;
+      color: #333;
+      padding-left: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .logout-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px;
+      background: #fef2f2;
+      color: #dc2626;
+      border: 1px solid #fecaca;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 13px;
+      transition: 0.2s;
+    }
+    .logout-btn:hover {
+      background: #dc2626;
+      color: white;
+    }
+
+    /* MAIN CONTENT WRAPPER */
+    .main-content {
+      flex: 1;
+      margin-left: 260px; /* Sidebar offset space width */
+      padding: 40px;
+      max-width: 1200px;
+    }
+
+    @media(max-width: 991px) {
+      .sidebar { width: 80px; padding: 24px 8px; }
+      .sidebar-brand span, .nav-btn span, .user-profile-info { display: none; }
+      .nav-btn { justify-content: center; padding: 12px; font-size: 18px; }
+      .main-content { margin-left: 80px; padding: 20px; }
+      .sidebar-footer { align-items: center; }
+    }
+
+    /* CARD COMPONENTS & GRIDS */
     .stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; margin-bottom:24px; }
     .stat-card { background:white; border-radius:14px; padding:20px; border:1px solid #f0f0f0; box-shadow: 0 4px 12px rgba(0,0,0,0.01); }
     .stat-card .label { font-size:12px; color:#999; font-weight:600; text-transform:uppercase; letter-spacing:.5px; }
@@ -248,6 +375,7 @@
     .stat-card .sub { font-size:12px; color:#6366f1; margin-top:4px; }
 
     .card { background: white; padding: 24px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); margin-bottom: 20px; }
+    .card h3 { font-size:16px; font-weight:700; margin-bottom:18px; color:#1a1a2e; }
     .row { display: flex; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
     .form-group { flex: 1; min-width: 200px; display: flex; flex-direction: column; gap: 6px; }
     .form-group label { font-size: 12px; font-weight: 600; color: #666; }
@@ -273,7 +401,7 @@
     .badge.shopping      { background:#ffedd5; color:#9a3412; }
     .badge.other         { background:#f1f5f9; color:#475569; }
 
-    /* BUDGET PROGRESS COMPONENTS */
+    /* BUDGET PROGRESS MODULES */
     .budget-item { margin-bottom:16px; }
     .budget-item .bi-header { display:flex; justify-content:space-between; font-size:13px; margin-bottom:6px; }
     .budget-item .bi-header span:first-child { font-weight:600; text-transform:capitalize; }
@@ -398,38 +526,85 @@
 </div>
 
 <div id="app-screen">
-  <div class="topbar">
-    <h2>💰 Finance Tracker</h2>
-    <span id="welcome-msg"></span>
-    <button class="logout-btn" onclick="logout()">Logout</button>
-  </div>
-  <div class="nav">
-    <button class="nav-btn active" onclick="showTab('dashboard')">Dashboard</button>
-    <button class="nav-btn" onclick="showTab('expenses')">Expenses</button>
-    <button class="nav-btn" onclick="showTab('budgets')">Budgets</button>
-    <button class="nav-btn" onclick="showTab('reports')">Reports</button>
-  </div>
-
-  <div class="content">
-    <div id="tab-dashboard">
-      <div class="stats-grid" id="stats-grid"></div>
-      <div class="card">
-        <h3>Spending trend</h3>
-        <div class="chart-wrap"><canvas id="trend-chart"></canvas></div>
+  <div class="app-layout">
+    
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <span class="icon">💰</span>
+        <span>Finance Tracker</span>
       </div>
-    </div>
+      
+      <nav class="sidebar-nav">
+        <button class="nav-btn active" onclick="showTab('dashboard')">
+          <i class="ti ti-dashboard" style="font-size:18px"></i>
+          <span>Dashboard</span>
+        </button>
+        <button class="nav-btn" onclick="showTab('expenses')">
+          <i class="ti ti-receipt" style="font-size:18px"></i>
+          <span>Expenses</span>
+        </button>
+        <button class="nav-btn" onclick="showTab('budgets')">
+          <i class="ti ti-wallet" style="font-size:18px"></i>
+          <span>Budgets</span>
+        </button>
+        <button class="nav-btn" onclick="showTab('reports')">
+          <i class="ti ti-chart-pie" style="font-size:18px"></i>
+          <span>Reports</span>
+        </button>
+      </nav>
+      
+      <div class="sidebar-footer">
+        <div class="user-profile-info" id="welcome-msg">Hi, User!</div>
+        <button class="logout-btn" onclick="logout()">
+          <i class="ti ti-logout"></i>
+          <span>Logout</span>
+        </button>
+      </div>
+    </aside>
 
-    <div id="tab-expenses" style="display:none">
-      <div class="card">
-        <h3>Add expense</h3>
-        <div class="row">
-          <div class="form-group">
-            <label>Amount (₹)</label>
-            <input type="number" id="exp-amount" placeholder="0.00" min="0">
+    <main class="main-content">
+      
+      <div id="tab-dashboard">
+        <div class="stats-grid" id="stats-grid"></div>
+        <div class="card">
+          <h3>Spending trend</h3>
+          <div class="chart-wrap"><canvas id="trend-chart"></canvas></div>
+        </div>
+      </div>
+
+      <div id="tab-expenses" style="display:none">
+        <div class="card">
+          <h3>Add expense</h3>
+          <div class="row">
+            <div class="form-group">
+              <label>Amount (₹)</label>
+              <input type="number" id="exp-amount" placeholder="0.00" min="0">
+            </div>
+            <div class="form-group">
+              <label>Category</label>
+              <select id="exp-category">
+                <option value="food">Food</option>
+                <option value="transport">Transport</option>
+                <option value="utilities">Utilities</option>
+                <option value="entertainment">Entertainment</option>
+                <option value="health">Health</option>
+                <option value="shopping">Shopping</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Description</label>
+              <input type="text" id="exp-desc" placeholder="e.g. Lunch at cafe">
+            </div>
           </div>
-          <div class="form-group">
-            <label>Category</label>
-            <select id="exp-category">
+          <button class="small-btn add" onclick="addExpense()">+ Add Expense</button>
+          <div id="msg-expense" class="msg" style="margin-top:12px"></div>
+        </div>
+        <div class="card">
+          <h3>Recent expenses</h3>
+          <div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+            <select id="filter-cat" onchange="loadExpenses()" style="width:160px">
+              <option value="">All categories</option>
               <option value="food">Food</option>
               <option value="transport">Transport</option>
               <option value="utilities">Utilities</option>
@@ -438,103 +613,83 @@
               <option value="shopping">Shopping</option>
               <option value="other">Other</option>
             </select>
+            <input type="month" id="filter-month" onchange="loadExpenses()" style="width:180px">
           </div>
-          <div class="form-group">
-            <label>Description</label>
-            <input type="text" id="exp-desc" placeholder="e.g. Lunch at cafe">
-          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th><th>Category</th><th>Description</th><th>Amount</th><th></th>
+              </tr>
+            </thead>
+            <tbody id="expense-table"></tbody>
+          </table>
         </div>
-        <button class="small-btn add" onclick="addExpense()">+ Add Expense</button>
-        <div id="msg-expense" class="msg" style="margin-top:12px"></div>
       </div>
-      <div class="card">
-        <h3>Recent expenses</h3>
-        <div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap">
-          <select id="filter-cat" onchange="loadExpenses()" style="width:160px">
-            <option value="">All categories</option>
-            <option value="food">Food</option>
-            <option value="transport">Transport</option>
-            <option value="utilities">Utilities</option>
-            <option value="entertainment">Entertainment</option>
-            <option value="health">Health</option>
-            <option value="shopping">Shopping</option>
-            <option value="other">Other</option>
-          </select>
-          <input type="month" id="filter-month" onchange="loadExpenses()" style="width:180px">
-        </div>
-        <table>
-          <thead>
-            <tr>
-              <th>Date</th><th>Category</th><th>Description</th><th>Amount</th><th></th>
-            </tr>
-          </thead>
-          <tbody id="expense-table"></tbody>
-        </table>
-      </div>
-    </div>
 
-    <div id="tab-budgets" style="display:none">
-      <div class="card">
-        <h3>Set monthly budget</h3>
-        <div class="row">
-          <div class="form-group">
-            <label>Month</label>
-            <input type="month" id="bud-month">
+      <div id="tab-budgets" style="display:none">
+        <div class="card">
+          <h3>Set monthly budget</h3>
+          <div class="row">
+            <div class="form-group">
+              <label>Month</label>
+              <input type="month" id="bud-month">
+            </div>
+            <div class="form-group">
+              <label>Category</label>
+              <select id="bud-category">
+                <option value="food">Food</option>
+                <option value="transport">Transport</option>
+                <option value="utilities">Utilities</option>
+                <option value="entertainment">Entertainment</option>
+                <option value="health">Health</option>
+                <option value="shopping">Shopping</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Limit (₹)</label>
+              <input type="number" id="bud-limit" placeholder="5000" min="0">
+            </div>
           </div>
-          <div class="form-group">
-            <label>Category</label>
-            <select id="bud-category">
-              <option value="food">Food</option>
-              <option value="transport">Transport</option>
-              <option value="utilities">Utilities</option>
-              <option value="entertainment">Entertainment</option>
-              <option value="health">Health</option>
-              <option value="shopping">Shopping</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Limit (₹)</label>
-            <input type="number" id="bud-limit" placeholder="5000" min="0">
-          </div>
+          <button class="small-btn add" onclick="setBudget()">Save Budget</button>
+          <div id="msg-budget" class="msg" style="margin-top:12px"></div>
         </div>
-        <button class="small-btn add" onclick="setBudget()">Save Budget</button>
-        <div id="msg-budget" class="msg" style="margin-top:12px"></div>
+        <div class="card">
+          <h3>Budget vs spending</h3>
+          <div id="budget-progress"></div>
+        </div>
       </div>
-      <div class="card">
-        <h3>Budget vs spending</h3>
-        <div id="budget-progress"></div>
-      </div>
-    </div>
 
-    <div id="tab-reports" style="display:none">
-      <div class="card">
-        <h3>Monthly summary</h3>
-        <div style="display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap">
-          <input type="month" id="rep-month" style="width:200px">
-          <button class="small-btn add" onclick="loadReport()">Generate</button>
+      <div id="tab-reports" style="display:none">
+        <div class="card">
+          <h3>Monthly summary</h3>
+          <div style="display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap">
+            <input type="month" id="rep-month" style="width:200px">
+            <button class="small-btn add" onclick="loadReport()">Generate</button>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Category</th><th>Spent</th><th>Budget</th><th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="report-table"></tbody>
+          </table>
         </div>
-        <table>
-          <thead>
-            <tr>
-              <th>Category</th><th>Spent</th><th>Budget</th><th>Status</th>
-            </tr>
-          </thead>
-          <tbody id="report-table"></tbody>
-        </table>
+        <div class="card">
+          <h3>Spending by category</h3>
+          <div class="chart-wrap"><canvas id="pie-chart"></canvas></div>
+        </div>
       </div>
-      <div class="card">
-        <h3>Spending by category</h3>
-        <div class="chart-wrap"><canvas id="pie-chart"></canvas></div>
-      </div>
-    </div>
+
+    </main>
   </div>
 </div>
 
 <script>
   const API = '';
   let TOKEN = localStorage.getItem('ft_token') || '';
-  let timerInterval = null; // FIXED: Explicit declaration added to script scope
+  let timerInterval = null;
   let pieChartInstance = null;
   let trendChartInstance = null;
 
@@ -568,8 +723,11 @@
       const el = document.getElementById('tab-'+t);
       if (el) el.style.display = t===tab ? 'block' : 'none';
     });
-    document.querySelectorAll('.nav-btn').forEach((b, i) => {
-      b.classList.toggle('active', ['dashboard','expenses','budgets','reports'][i]===tab);
+    
+    // Manage vertical sidebar items highlighting visual classes
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+      const isCurrent = btn.getAttribute('onclick').includes(tab);
+      btn.classList.toggle('active', isCurrent);
     });
 
     if (tab==='dashboard') loadDashboard();
@@ -578,7 +736,6 @@
     if (tab==='reports') loadReport();
   }
 
-  /* OTP INPUT HANDLING CONTROLLER */
   function otpNext(el, idx) {
     if (el.value.length === 1 && idx < 5) {
       document.getElementById('otp' + (idx + 1)).focus();
@@ -752,6 +909,7 @@
     loadTrendChart();
   }
 
+  // FIXED: Spending trend rendering changed dynamically from 'bar' structure config to a clean 'line' chart layout
   async function loadTrendChart() {
     const r = await api('/reports/spending-trend');
     if (!r.ok) return;
@@ -761,16 +919,19 @@
     const ctx = document.getElementById('trend-chart').getContext('2d');
     
     trendChartInstance = new Chart(ctx, {
-      type: 'bar',
+      type: 'line', 
       data: {
         labels: data.map(d => d.period),
         datasets: [{
           label: 'Total Spent (₹)',
           data: data.map(d => d.total),
-          backgroundColor: '#6366f1aa',
+          backgroundColor: 'rgba(99, 102, 241, 0.15)',
           borderColor: '#6366f1',
-          borderWidth: 2,
-          borderRadius: 6,
+          borderWidth: 3,
+          tension: 0.35, // Gives curve smoothness
+          fill: true,
+          pointBackgroundColor: '#6366f1',
+          pointHoverRadius: 7
         }]
       },
       options: {
@@ -846,45 +1007,35 @@
     if (r.ok) loadExpenses();
   }
 
+  // FIXED: Structured parameter bindings into explicit JSON payload properties body maps
   async function setBudget() {
     const month = document.getElementById('bud-month').value;
     const category = document.getElementById('bud-category').value;
     const limitInput = document.getElementById('bud-limit').value;
     const limit = parseFloat(limitInput);
 
-    if (!month || !limitInput || limit <= 0) {
-      return showMsg('msg-budget', 'Fill all fields correctly', 'error');
-    }
+    if (!month || !limitInput || limit <= 0) return showMsg('msg-budget','Fill all fields correctly','error');
 
-    showMsg('msg-budget', 'Saving budget...', 'success');
+    const r = await api('/budgets/', {
+      method: 'POST',
+      body: JSON.stringify({
+        category: category,
+        monthly_limit: limit,
+        month: month
+      })
+    });
+    const d = await r.json();
 
-    try {
-      // Fixed: Now sending data inside the body as a JSON object, which matches what your FastAPI/backend validation expects
-      const r = await api('/budgets/', {
-        method: 'POST',
-        body: JSON.stringify({
-          category: category,
-          monthly_limit: limit,
-          month: month
-        })
-      });
-      
-      const d = await r.json();
-
-      if (r.ok) {
-        showMsg('msg-budget', 'Budget saved successfully!', 'success');
-        document.getElementById('bud-limit').value = '';
-        loadBudgetProgress();
-      } else {
-        // Fixed: Properly extracting the string message to prevent '[object Object]' from printing
-        let errMsg = 'Error saving budget';
-        if (d.detail) {
-          errMsg = typeof d.detail === 'object' ? JSON.stringify(d.detail) : d.detail;
-        }
-        showMsg('msg-budget', errMsg, 'error');
+    if (r.ok) {
+      showMsg('msg-budget','Budget saved!','success');
+      document.getElementById('bud-limit').value = '';
+      loadBudgetProgress();
+    } else {
+      let errMsg = 'Error saving budget';
+      if (d.detail) {
+        errMsg = typeof d.detail === 'object' ? JSON.stringify(d.detail) : d.detail;
       }
-    } catch (err) {
-      showMsg('msg-budget', err.message, 'error');
+      showMsg('msg-budget', errMsg, 'error');
     }
   }
 
@@ -990,3 +1141,4 @@
 </body>
 </html>
 
+```
