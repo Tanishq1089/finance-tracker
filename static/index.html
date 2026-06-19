@@ -729,40 +729,56 @@
 
   // Save Budget Execution
   async function setBudget() {
-    const month = document.getElementById('bud-month').value;
-    const category = document.getElementById('bud-category').value;
-    const limit = document.getElementById('bud-limit').value;
+  const month = document.getElementById('bud-month').value;
+  const category = document.getElementById('bud-category').value;
+  const limit = parseFloat(document.getElementById('bud-limit').value);
 
-    if (!month || !limit || limit <= 0) {
-      return showMsg('msg-budget', 'Please provide a valid month and spending limit.', 'error');
-    }
-
-    showMsg('msg-budget', 'Saving configuration...', 'success');
-
-    try {
-      // Directs payload to your API endpoint (adjust URL route string if backend differs)
-      const r = await api('/budgets', {
-        method: 'POST',
-        body: JSON.stringify({
-          month: month, // e.g., "2026-05"
-          category: category,
-          limit: parseFloat(limit)
-        })
-      });
-
-      const d = await r.json();
-
-      if (r.ok) {
-        showMsg('msg-budget', 'Budget saved successfully!', 'success');
-        document.getElementById('bud-limit').value = ''; // Reset fields
-        loadBudgets(); // Refresh the progress charts area below
-      } else {
-        showMsg('msg-budget', d.detail || 'Failed to save configuration constraints.', 'error');
-      }
-    } catch (err) {
-      showMsg('msg-budget', 'Network error encountered: ' + err.message, 'error');
-    }
+  if (!month || !limit || limit <= 0) {
+    return showMsg(
+      'msg-budget',
+      'Please provide a valid month and spending limit.',
+      'error'
+    );
   }
+
+  try {
+    const r = await api('/budgets/', {
+      method: 'POST',
+      body: JSON.stringify({
+        category: category,
+        monthly_limit: limit,
+        month: month
+      })
+    });
+
+    const d = await r.json();
+
+    if (r.ok) {
+      showMsg(
+        'msg-budget',
+        'Budget saved successfully!',
+        'success'
+      );
+
+      document.getElementById('bud-limit').value = '';
+
+      loadBudgets();
+    } else {
+      showMsg(
+        'msg-budget',
+        d.detail || JSON.stringify(d),
+        'error'
+      );
+    }
+
+  } catch (err) {
+    showMsg(
+      'msg-budget',
+      err.message,
+      'error'
+    );
+  }
+}
 
   // Placeholder functions for other active pages
   function loadBudgets() { console.log('Refreshing active target data profiles analytics matching select metrics view...'); }
