@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Finance Tracker</title>
+  <title>FinTrust - Finance Tracker</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
   
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -16,139 +16,142 @@
     * { margin:0; padding:0; box-sizing:border-box; }
     body { font-family: 'Inter', system-ui, sans-serif; background:#f8f9ff; color:#0b1c30; min-height:100vh; }
 
-    /* AUTH WINDOW SYSTEM CONTAINER */
+    /* STITCH FULL-BLEED DYNAMIC BACKGROUND LAYER */
     #auth-screen {
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:#f1f5f9;
-      padding:20px;
+      min-height: 100vh;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(rgba(11, 28, 48, 0.75), rgba(11, 28, 48, 0.85)), url('assets/screen.png');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      padding: 24px;
+      position: relative;
     }
-    .auth-wrap {
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      width:100%;
-      max-width:860px;
-      background: white;
-      border-radius:24px;
-      overflow:hidden;
-      box-shadow:0 10px 50px rgba(99,102,241,0.1);
-    }
-    @media(max-width:768px){
-      .auth-wrap { grid-template-columns:1fr; max-width:460px; }
-      .auth-left  { display:none; }
-    }
-    .auth-left {
-      background:#4648d4;
-      padding:48px 40px;
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
-    }
-    .auth-brand { display:flex; align-items:center; gap:12px; margin-bottom:40px; }
-    .auth-brand .icon { width:40px; height:40px; background:rgba(255,255,255,0.18); border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:22px; }
-    .auth-brand span { font-family: 'Hanken Grotesk', sans-serif; color:white; font-size:18px; font-weight:600; letter-spacing:-0.5px; }
-    .auth-left h1 { font-family: 'Hanken Grotesk', sans-serif; color:white; font-size:28px; font-weight:700; line-height:1.3; margin-bottom:16px; }
-    .auth-left p { color:rgba(255,255,255,0.75); font-size:14px; line-height:1.7; margin-bottom:32px; }
-    .auth-features { display:flex; flex-direction:column; gap:16px; }
-    .auth-feature { display:flex; align-items:center; gap:12px; }
-    .auth-feature .check { width:24px; height:24px; background:rgba(255,255,255,0.15); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:13px; color:white; }
-    .auth-feature span { color:rgba(255,255,255,0.9); font-size:14px; }
-    .auth-left-footer { color:rgba(255,255,255,0.4); font-size:12px; margin-top:40px; }
-    .auth-right { background:white; padding:48px 40px; display:flex; flex-direction:column; justify-content:center; }
-    
-    /* INTERACTIVE STEP INDICATORS */
-    .step-dots { display:flex; gap:6px; margin-bottom:24px; }
-    .step-dot { height:6px; width:6px; border-radius:3px; background:#e2e8f0; transition:.3s; }
-    .step-dot.active { width:24px; background:#4648d4; }
-    
-    .auth-right h2 { font-family: 'Hanken Grotesk', sans-serif; font-size:24px; font-weight:600; color:#0f172a; margin-bottom:8px; letter-spacing:-0.5px; }
-    .auth-right .sub { font-size:14px; color:#64748b; margin-bottom:32px; line-height:1.6; }
-    
-    /* STITCH UI LANDING STYLES (STEP 0) */
-    .stitch-landing-container { display: flex; flex-direction: column; width: 100%; }
-    .stitch-title { font-family: 'Hanken Grotesk', sans-serif; font-size: 32px; font-weight: 700; color: #0b1c30; line-height: 40px; letter-spacing: -0.01em; margin-bottom: 12px; }
-    .stitch-desc { font-family: 'Inter', sans-serif; font-size: 14px; color: #464554; line-height: 20px; margin-bottom: 24px; }
-    
-    .stitch-quote-card {
-      background: #eff4ff;
-      border-left: 4px solid #4648d4;
-      padding: 16px;
-      border-radius: 0px 8px 8px 0px;
-      margin-bottom: 32px;
-    }
-    .stitch-quote-text { font-family: 'Inter', sans-serif; font-size: 14px; font-style: italic; color: #0b1c30; line-height: 20px; }
-    .stitch-quote-author { font-family: 'JetBrains Mono', sans-serif; font-size: 12px; font-weight: 500; color: #4648d4; letter-spacing: 0.05em; margin-top: 8px; text-transform: uppercase; }
-    
-    .field { margin-bottom:20px; }
-    .field label { display:block; font-size:11px; font-weight:700; color:#94a3b8; letter-spacing:1px; text-transform:uppercase; margin-bottom:8px; }
-    .input-wrap { position:relative; display:flex; align-items:center; }
-    .input-wrap i { position:absolute; left:14px; font-size:18px; color:#94a3b8; pointer-events:none; }
-    .input-wrap input { width:100%; padding:12px 16px 12px 42px; border:1.5px solid #e2e8f0; border-radius:8px; font-size:14px; color:#0f172a; background:#f8fafc; outline:none; transition:.2s; }
-    .input-wrap input:focus { border-color:#4648d4; background:white; box-shadow: 0 0 0 3px rgba(70,72,212,0.1); }
-    
-    /* TACTILE FEEDBACK TRANSITIONS */
-    .btn-primary { width:100%; padding:14px; background:#4648d4; color:white; border:none; border-radius:8px; font-size:14px; font-weight:600; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition:.2s; margin-top:4px; }
-    .btn-primary:hover { background:#6063ee; transform: translateY(-2px); }
-    .btn-primary:active { transform: scale(0.98); }
-    .btn-ghost { width:100%; padding:12px; background:none; color:#4648d4; border:1.5px solid #e2e8f0; border-radius:8px; font-size:14px; font-weight:600; cursor:pointer; margin-top:12px; transition:.2s; }
-    .btn-ghost:hover { background:#f8fafc; }
 
-    /* OTP DIGIT BOXES */
-    .otp-inputs { display:flex; gap:8px; margin-bottom:20px; justify-content: space-between; }
-    .otp-box { width: 100%; max-width: 48px; height: 52px; text-align:center; border:1.5px solid #e2e8f0; border-radius:8px; font-size:22px; font-weight:600; background:#f8fafc; color:#0f172a; outline:none; transition:.2s; }
-    .otp-box:focus { border-color:#4648d4; background:white; box-shadow: 0 0 0 3px rgba(70,72,212,0.1); }
-    .timer { text-align:center; font-size:13px; color:#64748b; margin-top:16px; background:#f8fafc; padding:10px; border-radius:8px; border:1px dashed #e2e8f0; }
-    .timer span, .timer a { color:#4648d4; font-weight:600; cursor:pointer; }
-    
-    .msg { padding:12px 16px; border-radius:8px; font-size:14px; margin-top:16px; display:none; }
-    .msg.success { background:#f0fdf4; color:#16a34a; border:1px solid #bbf7d0; display:block; }
-    .msg.error   { background:#fef2f2; color:#dc2626; border:1px solid #fecaca; display:block; }
-    .success-chip { display:inline-flex; align-items:center; gap:6px; background:#f0fdf4; color:#16a34a; border:1px solid #bbf7d0; font-size:13px; font-weight:600; padding:6px 14px; border-radius:20px; margin-bottom:20px; }
+    /* STITCH LANDING VIEW HEADERS NAVIGATION BAR */
+    .stitch-nav {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 32px 48px;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .stitch-logo { color: white; font-family: 'Hanken Grotesk', sans-serif; font-size: 20px; font-weight: 700; letter-spacing: -0.5px; }
+    .stitch-links { display: flex; gap: 32px; align-items: center; }
+    .stitch-links a { color: rgba(255, 255, 255, 0.7); text-decoration: none; font-size: 14px; font-weight: 500; transition: 0.2s; }
+    .stitch-links a:hover { color: white; }
+    .stitch-nav-right { display: flex; gap: 24px; align-items: center; }
+    .btn-login-ghost { background: none; border: none; color: white; font-size: 14px; font-weight: 500; cursor: pointer; }
 
-    /* CORE SIDEBAR & LAYOUT PANELS */
+    /* LANDING MODULE (STEP 0) */
+    .stitch-landing-hero {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding-top: 60px;
+    }
+    .stitch-badge {
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(4px);
+      color: rgba(255, 255, 255, 0.9);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .stitch-hero-title { font-family: 'Hanken Grotesk', sans-serif; font-size: 56px; font-weight: 700; color: white; line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 20px; }
+    .stitch-hero-desc { font-size: 16px; color: rgba(255, 255, 255, 0.7); line-height: 1.6; margin-bottom: 36px; max-width: 580px; }
+
+    /* CENTERED TRANSLUCENT GLASS FORMS CARD */
+    .stitch-glass-card {
+      background: rgba(15, 23, 42, 0.45);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 40px;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .stitch-card-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    .stitch-glass-card.email-theme .stitch-card-icon { background: rgba(70, 72, 212, 0.15); color: #c0c1ff; border: 1px solid rgba(70, 72, 212, 0.3); }
+    .stitch-glass-card.otp-theme .stitch-card-icon { background: rgba(0, 108, 73, 0.15); color: #6ffbbe; border: 1px solid rgba(0, 108, 73, 0.3); }
+
+    .stitch-glass-card h2 { font-family: 'Hanken Grotesk', sans-serif; color: white; font-size: 24px; font-weight: 600; margin-bottom: 8px; letter-spacing: -0.5px; }
+    .stitch-glass-card .sub { color: rgba(255, 255, 255, 0.6); font-size: 14px; margin-bottom: 28px; line-height: 1.5; }
+
+    /* SLICK HIGH-CONTRAST FORM FIELDS */
+    .field { width: 100%; text-align: left; margin-bottom: 24px; }
+    .field label { display: block; font-size: 11px; font-weight: 600; color: rgba(255, 255, 255, 0.5); letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 8px; }
+    .input-wrap input { width: 100%; padding: 14px 16px; border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; font-size: 14px; color: white; background: rgba(255, 255, 255, 0.05); outline: none; transition: 0.2s; }
+    .input-wrap input:focus { border-color: #4648d4; background: rgba(255, 255, 255, 0.08); box-shadow: 0 0 0 4px rgba(70, 72, 212, 0.25); }
+    .input-wrap input::placeholder { color: rgba(255, 255, 255, 0.3); }
+
+    /* CORE BUTTON ENGINES */
+    .btn-stitch-primary { width: 100%; padding: 14px; background: #4648d4; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+    .btn-stitch-primary:hover { background: #6063ee; transform: translateY(-2px); }
+    .btn-stitch-primary:active { transform: scale(0.98); }
+    
+    .btn-stitch-link { background: none; border: none; color: rgba(255, 255, 255, 0.5); font-size: 13px; font-weight: 500; cursor: pointer; margin-top: 16px; transition: 0.2s; text-decoration: none; }
+    .btn-stitch-link:hover { color: white; }
+
+    /* OTP SECTIONS EXTRUDED BOXES */
+    .otp-inputs { display: flex; gap: 10px; margin-bottom: 24px; width: 100%; justify-content: space-between; }
+    .otp-box { width: 100%; max-width: 48px; height: 52px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; font-size: 22px; font-weight: 600; background: rgba(255, 255, 255, 0.05); color: white; outline: none; transition: 0.2s; }
+    .otp-box:focus { border-color: #4648d4; background: rgba(255, 255, 255, 0.08); box-shadow: 0 0 0 4px rgba(70, 72, 212, 0.25); }
+    .timer { font-size: 13px; color: rgba(255, 255, 255, 0.5); margin-top: 20px; width: 100%; text-align: center; }
+    .timer span, .timer a { color: #6063ee; font-weight: 600; cursor: pointer; text-decoration: none; }
+    
+    .msg { padding: 12px 16px; border-radius: 8px; font-size: 14px; margin-top: 16px; width: 100%; text-align: left; display: none; }
+    .msg.success { background: rgba(16, 185, 129, 0.15); color: #6ffbbe; border: 1px solid rgba(16, 185, 129, 0.3); display: block; }
+    .msg.error   { background: rgba(239, 68, 68, 0.15); color: #ff8585; border: 1px solid rgba(239, 68, 68, 0.3); display: block; }
+
+    /* CORE APP PANEL SYSTEM STYLES */
     #app-screen { display:none; min-height: 100vh; }
     .app-layout { display: flex; min-height: 100vh; }
 
-    .sidebar {
-      width: 280px;
-      background: #0b1c30;
-      display: flex;
-      flex-direction: column;
-      position: fixed;
-      top: 0; bottom: 0; left: 0;
-      z-index: 100;
-      padding: 36px 24px;
-    }
+    .sidebar { width: 280px; background: #0b1c30; display: flex; flex-direction: column; position: fixed; top: 0; bottom: 0; left: 0; z-index: 100; padding: 36px 24px; }
     .sidebar-brand { display: flex; align-items: center; gap: 12px; font-size: 20px; font-weight: 700; color: white; margin-bottom: 44px; }
     .sidebar-brand .icon { background: #4648d4; width: 38px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
     .sidebar-nav { display: flex; flex-direction: column; gap: 10px; flex: 1; }
-    
-    .nav-btn {
-      display: flex; align-items: center; gap: 14px; padding: 14px 18px;
-      background: none; border: none; border-radius: 12px; cursor: pointer;
-      font-weight: 600; color: #94a3b8; font-size: 15px; text-align: left; transition: 0.2s; width: 100%;
-    }
+    .nav-btn { display: flex; align-items: center; gap: 14px; padding: 14px 18px; background: none; border: none; border-radius: 12px; cursor: pointer; font-weight: 600; color: #94a3b8; font-size: 15px; text-align: left; transition: 0.2s; width: 100%; }
     .nav-btn:hover { background: rgba(255,255,255,0.04); color: white; }
     .nav-btn.active { background: #4648d4; color: white; box-shadow: 0 4px 18px rgba(70, 72, 212, 0.35); }
-
     .sidebar-footer { padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; gap: 18px; }
     .user-profile-info { font-size: 14px; font-weight: 600; color: #f1f5f9; padding-left: 6px; }
-    
-    .logout-btn {
-      width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px;
-      background: rgba(239, 68, 68, 0.08); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.15);
-      border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 14px; transition: 0.2s;
-    }
+    .logout-btn { width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; background: rgba(239, 68, 68, 0.08); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.15); border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 14px; transition: 0.2s; }
     .logout-btn:hover { background: #ef4444; color: white; }
 
-    .main-content {
-      flex: 1;
-      margin-left: 280px; 
-      padding: 44px 56px;
-      width: calc(100% - 280px);
-    }
+    .main-content { flex: 1; margin-left: 280px; padding: 44px 56px; width: calc(100% - 280px); }
 
     @media(max-width: 991px) {
       .sidebar { width: 80px; padding: 24px 8px; }
@@ -157,51 +160,32 @@
       .main-content { margin-left: 80px; padding: 24px; width: calc(100% - 80px); }
     }
 
-    /* WELCOME HEADER */
-    .welcome-header {
-      margin-bottom: 32px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+    /* PREMIUM APP CARD SCHEMAS */
+    .welcome-header { margin-bottom: 32px; display: flex; justify-content: space-between; align-items: center; }
     .welcome-header h2 { font-family: 'Hanken Grotesk', sans-serif; font-size: 28px; font-weight: 700; color: #0b1c30; letter-spacing: -0.5px; }
     .welcome-header p { font-size: 14px; color: #464554; margin-top: 4px; font-weight: 500; }
     .welcome-date-badge { display: flex; align-items: center; gap: 8px; background: white; border: 1.5px solid #e2e8f0; padding: 10px 16px; border-radius: 14px; font-size: 13px; font-weight: 600; color: #213145; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
 
-    /* DASHBOARD STATISTIC CARDS */
     .stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:24px; margin-bottom:36px; }
     .stat-card { background:white; border-radius:16px; padding:28px; border:1px solid #e2e8f0; box-shadow:0px 4px 20px rgba(15, 23, 42, 0.05); display: flex; justify-content: space-between; align-items: center; transition: 0.2s; }
     .stat-card:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(15,23,42,0.03); }
     .stat-card .info-side { display: flex; flex-direction: column; }
     .stat-card .label { font-size: 11px; color:#464554; font-weight:700; text-transform:uppercase; letter-spacing:1px; }
     .stat-card .value { font-family: 'JetBrains Mono', sans-serif; font-size: 32px; font-weight:500; color:#0b1c30; margin-top:6px; letter-spacing: -0.5px; }
-    .stat-card .sub { font-size:13px; color:#4648d4; margin-top:8px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+    .stat-card .sub { font-size:13px; color:#4648d4; margin-top:8px; font-weight: 600; display: flex; align-items: center; gap: 4px; }
     .stat-card .icon-side { width: 56px; height: 56px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
     
     .stat-card.blue .icon-side { background: #eff4ff; color: #4648d4; }
     .stat-card.green .icon-side { background: #ecfdf5; color: #006c49; }
     .stat-card.red .icon-side { background: #fef2f2; color: #ba1a1a; }
 
-    /* UNIFIED DROPDOWNS BAR */
-    .filter-bar-row {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      background: white;
-      padding: 16px 24px;
-      border-radius: 12px;
-      border: 1.5px solid #e2e8f0;
-      box-shadow: 0px 4px 20px rgba(15, 23, 42, 0.05);
-      margin-bottom: 24px;
-      flex-wrap: wrap;
-    }
+    .filter-bar-row { display: flex; align-items: center; gap: 16px; background: white; padding: 16px 24px; border-radius: 12px; border: 1.5px solid #e2e8f0; box-shadow: 0px 4px 20px rgba(15, 23, 42, 0.05); margin-bottom: 24px; flex-wrap: wrap; }
     .filter-bar-row h3 { font-size: 16px; font-weight: 700; color: #0b1c30; margin-right: 8px; }
     .filter-control-wrap { display: flex; align-items: center; gap: 10px; background: #f8fafc; border: 1.5px solid #e2e8f0; padding: 8px 14px; border-radius: 8px; transition: 0.2s; }
     .filter-control-wrap:focus-within { border-color: #4648d4; background: white; }
     .filter-control-wrap i { color: #767586; font-size: 16px; }
     .filter-control-wrap select, .filter-control-wrap input { background: none; border: none; outline: none; font-size: 14px; font-weight: 600; color: #213145; cursor: pointer; padding-right: 4px; }
 
-    /* TWO-COLUMN GRID ARCHITECTURE */
     .dashboard-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 32px; align-items: start; }
     @media (max-width: 1150px) { .dashboard-grid { grid-template-columns: 1fr; } }
 
@@ -215,16 +199,6 @@
     .form-group input, .form-group select { padding: 12px 16px; border: 1.5px solid #e2e8f0; border-radius: 8px; font-size: 14px; outline: none; background: #f8fafc; transition: 0.2s; }
     .form-group input:focus, .form-group select:focus { border-color: #4648d4; background: white; box-shadow: 0 0 0 3px rgba(70,72,212,0.08); }
 
-    .small-btn { padding: 12px 22px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
-    .small-btn.add { background: #4648d4; color: white; }
-    .small-btn.add:hover { background: #6063ee; }
-    .small-btn.del { background: #fef2f2; color: #ba1a1a; border: 1px solid #ffdad6; padding: 8px 16px; font-size: 13px; }
-    .small-btn.del:hover { background: #ba1a1a; color: white; }
-    .small-btn:hover { transform: translateY(-1px); }
-    
-    .chart-wrap { position: relative; height: 320px; width: 100%; }
-    
-    /* CLASSY PREMIUM TABLE STYLING */
     table { width: 100%; border-collapse: collapse; }
     th, td { padding: 16px 20px; text-align: left; border-bottom: 1px solid #f1f5f9; }
     th { font-size: 11px; text-transform: uppercase; color: #464554; font-weight: 700; letter-spacing: 1px; background: #f8fafc; }
@@ -242,129 +216,93 @@
     .badge.health        { background:#fdf2f2; color:#b91c1c; }
     .badge.shopping      { background:#fff7ed; color:#c2410c; }
     .badge.other         { background:#f8fafc; color:#475569; }
-
-    /* BUDGET PROGRESS ENTRIES */
-    .budget-item { margin-bottom:20px; }
-    .budget-item .bi-header { display:flex; justify-content:space-between; font-size:14px; margin-bottom:8px; }
-    .budget-item .bi-header span:first-child { font-weight:700; text-transform:capitalize; color: #0b1c30; }
-    .budget-item .bi-header span:last-child  { font-family: 'JetBrains Mono', sans-serif; color:#464554; font-weight: 500; }
-    .progress-bar { height:10px; background:#f1f5f9; border-radius:6px; overflow:hidden; }
-    .progress-fill { height:100%; border-radius:6px; transition:.4s; }
   </style>
 </head>
 <body>
 
 <div id="auth-screen">
-  <div class="auth-wrap">
+  
+  <header class="stitch-nav">
+    <div class="stitch-logo">FinTrust</div>
+    <nav class="stitch-links">
+      <a href="#features">Features</a>
+      <a href="#solutions">Solutions</a>
+      <a href="#security">Security</a>
+      <a href="#pricing">Pricing</a>
+    </nav>
+    <div class="stitch-nav-right">
+      <button class="btn-login-ghost" onclick="showStep('email')">Login</button>
+      <button class="btn-stitch-primary" style="padding: 10px 20px; font-size: 13px;" onclick="showStep('email')">Get Started</button>
+    </div>
+  </header>
+
+  <div id="step-landing" class="stitch-landing-hero">
+    <div class="stitch-badge">Elevated Wealth Management</div>
+    <h1 class="stitch-hero-title">Smart Wealth Tracking</h1>
+    <p class="stitch-hero-desc">Precision-engineered financial oversight for the modern investor. Monitor assets, analyze expenses, and grow your net worth with institutional-grade security.</p>
+    <button class="btn-stitch-primary" style="max-width: 240px;" onclick="showStep('email')">Start Secure Tracking</button>
+    <p class="btn-stitch-link" style="margin-top:24px; font-size:12px;">© 2026 FinTrust Inc. Secure. Trusted. Clear.</p>
+  </div>
+
+  <div id="step-email" class="stitch-glass-card email-theme" style="display:none">
+    <div class="stitch-card-icon"><i class="ti ti-lock-open"></i></div>
+    <h2>Secure Access</h2>
+    <p class="sub">Enter your email to continue your journey.</p>
     
-    <div class="auth-left">
-      <div>
-        <div class="auth-brand"><div class="icon">💰</div><span>Finance Tracker</span></div>
-        <h1>Take control of your money</h1>
-        <p>Track expenses, set smart budgets, and understand where every rupee goes.</p>
-        <div class="auth-features">
-          <div class="auth-feature"><div class="check">✓</div><span>Email OTP — no passwords to forget</span></div>
-          <div class="auth-feature"><div class="check">✓</div><span>7 categories with budget alerts</span></div>
-          <div class="auth-feature"><div class="check">✓</div><span>Monthly reports and trend charts</span></div>
-          <div class="auth-feature"><div class="check">✓</div><span>Secured with JWT authentication</span></div>
-        </div>
-      </div>
-      <div class="auth-left-footer">finance-tracker-vopt.onrender.com</div>
-    </div>
-
-    <div class="auth-right">
-      
-      <div id="step-landing">
-        <div class="step-dots">
-          <div class="step-dot active"></div>
-          <div class="step-dot"></div>
-          <div class="step-dot"></div>
-          <div class="step-dot"></div>
-        </div>
-        <h1 class="stitch-title">Apex Finance</h1>
-        <p class="stitch-desc">Understand your money footprints, eliminate baseline leakage constraints, and scale effortlessly toward balanced allocation parameters.</p>
-        
-        <div class="stitch-quote-card">
-          <p class="stitch-quote-text">"Beware of little expenses; a small leak will sink a great ship."</p>
-          <p class="stitch-quote-author">— Benjamin Franklin</p>
-        </div>
-
-        <button class="btn-primary" onclick="showStep('email')">
-          Get Started <i class="ti ti-arrow-right"></i>
-        </button>
-      </div>
-
-      <div id="step-email" style="display:none">
-        <div class="step-dots">
-          <div class="step-dot"></div>
-          <div class="step-dot active"></div>
-          <div class="step-dot"></div>
-          <div class="step-dot"></div>
-        </div>
-        <h2>Welcome back</h2>
-        <p class="sub">Enter your email address and we'll send you a one-time password to access your secure workspace dashboard tier.</p>
-        <div class="field">
-          <label>Email address</label>
-          <div class="input-wrap"><i class="ti ti-mail"></i><input type="email" id="auth-email" placeholder="you@example.com"></div>
-        </div>
-        <button class="btn-primary" onclick="sendOTP()"><i class="ti ti-send"></i>Send Verification Code</button>
-        <button class="btn-ghost" onclick="showStep('landing')">← Back to Overview</button>
-        <div id="msg-email" class="msg"></div>
-      </div>
-
-      <div id="step-otp" style="display:none">
-        <div class="step-dots">
-          <div class="step-dot"></div>
-          <div class="step-dot"></div>
-          <div class="step-dot active"></div>
-          <div class="step-dot"></div>
-        </div>
-        <h2>Security Check</h2>
-        <p class="sub" id="otp-sub">We sent a safe verification passcode directly to your email account.</p>
-        <div class="otp-inputs">
-          <input class="otp-box" id="otp0" maxlength="1" oninput="otpNext(this,0)" onkeydown="otpBack(event,0)">
-          <input class="otp-box" id="otp1" maxlength="1" oninput="otpNext(this,1)" onkeydown="otpBack(event,1)">
-          <input class="otp-box" id="otp2" maxlength="1" oninput="otpNext(this,2)" onkeydown="otpBack(event,2)">
-          <input class="otp-box" id="otp3" maxlength="1" oninput="otpNext(this,3)" onkeydown="otpBack(event,3)">
-          <input class="otp-box" id="otp4" maxlength="1" oninput="otpNext(this,4)" onkeydown="otpBack(event,4)">
-          <input class="otp-box" id="otp5" maxlength="1" oninput="otpNext(this,5)" onkeydown="otpBack(event,5)">
-        </div>
-        <button class="btn-primary" onclick="verifyOTP()"><i class="ti ti-shield-check"></i>Verify and Unlock</button>
-        <button class="btn-ghost" onclick="showStep('email')">← Back</button>
-        <div class="timer">Expires in <span id="timer-val">5:00</span> · <a onclick="resendOTP()">Resend OTP</a></div>
-        <div id="msg-otp" class="msg"></div>
-      </div>
-
-      <div id="step-register" style="display:none">
-        <div class="step-dots">
-          <div class="step-dot"></div>
-          <div class="step-dot"></div>
-          <div class="step-dot"></div>
-          <div class="step-dot active"></div>
-        </div>
-        <div class="success-chip">✓ OTP verified</div>
-        <h2>Create account</h2>
-        <p class="sub">Almost there — set a username and password to complete signup.</p>
-        <div class="field">
-          <label>Username</label>
-          <div class="input-wrap"><i class="ti ti-user"></i><input type="text" id="reg-username" placeholder="Your name"></div>
-        </div>
-        <div class="field">
-          <label>Password</label>
-          <div class="input-wrap"><i class="ti ti-lock"></i><input type="password" id="reg-password" placeholder="Create a password (min 6 chars)"></div>
-        </div>
-        <button class="btn-primary" onclick="registerUser()"><i class="ti ti-rocket"></i>Create account</button>
-        <div id="msg-register" class="msg"></div>
+    <div class="field">
+      <label>Email Address</label>
+      <div class="input-wrap">
+        <input type="email" id="auth-email" placeholder="alex@fintrust.com">
       </div>
     </div>
+    
+    <button class="btn-stitch-primary" onclick="sendOTP()">Continue</button>
+    <button class="btn-stitch-link" onclick="showStep('landing')">Back to Home</button>
+    <div id="msg-email" class="msg"></div>
+  </div>
+
+  <div id="step-otp" class="stitch-glass-card otp-theme" style="display:none">
+    <div class="stitch-card-icon"><i class="ti ti-shield-check"></i></div>
+    <h2>Verify Identity</h2>
+    <p class="sub">We've sent a 6-digit code to your email.</p>
+    
+    <div class="otp-inputs">
+      <input class="otp-box" id="otp0" maxlength="1" oninput="otpNext(this,0)" onkeydown="otpBack(event,0)">
+      <input class="otp-box" id="otp1" maxlength="1" oninput="otpNext(this,1)" onkeydown="otpBack(event,1)">
+      <input class="otp-box" id="otp2" maxlength="1" oninput="otpNext(this,2)" onkeydown="otpBack(event,2)">
+      <input class="otp-box" id="otp3" maxlength="1" oninput="otpNext(this,3)" onkeydown="otpBack(event,3)">
+      <input class="otp-box" id="otp4" maxlength="1" oninput="otpNext(this,4)" onkeydown="otpBack(event,4)">
+      <input class="otp-box" id="otp5" maxlength="1" oninput="otpNext(this,5)" onkeydown="otpBack(event,5)">
+    </div>
+    
+    <button class="btn-stitch-primary" onclick="verifyOTP()">Verify Code</button>
+    <button class="btn-stitch-link" onclick="showStep('email')">Back</button>
+    
+    <div class="timer">Didn't receive code? <span id="timer-val">5:00</span> · <a onclick="resendOTP()">Resend</a></div>
+    <div id="msg-otp" class="msg"></div>
+  </div>
+
+  <div id="step-register" class="stitch-glass-card email-theme" style="display:none">
+    <div class="success-chip">✓ OTP verified</div>
+    <h2>Create Profile</h2>
+    <p class="sub">Set up secure dashboard operational metrics tokens.</p>
+    <div class="field">
+      <label>Username</label>
+      <div class="input-wrap"><input type="text" id="reg-username" placeholder="Alex Counter"></div>
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <div class="input-wrap"><input type="password" id="reg-password" placeholder="••••••••"></div>
+    </div>
+    <button class="btn-stitch-primary" onclick="registerUser()">Complete Account</button>
+    <div id="msg-register" class="msg"></div>
   </div>
 </div>
 
 <div id="app-screen">
   <div class="app-layout">
-    
     <aside class="sidebar">
-      <div class="sidebar-brand"><div class="icon">💰</div><span>Finance Tracker</span></div>
+      <div class="sidebar-brand"><div class="icon">💰</div><span>FinTrust</span></div>
       <nav class="sidebar-nav">
         <button class="nav-btn active" onclick="showTab('dashboard')"><i class="ti ti-layout-dashboard"></i><span>Dashboard</span></button>
         <button class="nav-btn" onclick="showTab('expenses')"><i class="ti ti-credit-card"></i><span>Expenses</span></button>
@@ -378,32 +316,21 @@
     </aside>
 
     <main class="main-content">
-      
       <div id="tab-dashboard">
         <div class="welcome-header">
           <div>
             <h2 id="dashboard-user-greeting">Welcome back, User!</h2>
-            <p>Here is your absolute summary overview for this financial month parameter metrics.</p>
+            <p>Summary overview for this financial tracking parameter set.</p>
           </div>
-          <div class="welcome-date-badge">
-            <i class="ti ti-calendar-event"></i>
-            <span id="live-dashboard-timestamp">June, 2026</span>
-          </div>
+          <div class="welcome-date-badge"><i class="ti ti-calendar-event"></i><span id="live-dashboard-timestamp">June, 2026</span></div>
         </div>
-
         <div class="stats-grid" id="stats-grid"></div>
-        
         <div class="dashboard-grid">
           <div class="left-pillar">
             <div class="card">
-              <div class="card-header-flex">
-                <h3>Quick Expense Entry</h3>
-              </div>
+              <div class="card-header-flex"><h3>Quick Expense Entry</h3></div>
               <div class="row">
-                <div class="form-group">
-                  <label>Amount (₹)</label>
-                  <input type="number" id="dash-exp-amount" placeholder="0.00" min="0">
-                </div>
+                <div class="form-group"><label>Amount (₹)</label><input type="number" id="dash-exp-amount" placeholder="0.00" min="0"></div>
                 <div class="form-group">
                   <label>Category</label>
                   <select id="dash-exp-category">
@@ -416,40 +343,22 @@
                     <option value="other">Other</option>
                   </select>
                 </div>
-                <div class="form-group">
-                  <label>Description</label>
-                  <input type="text" id="dash-exp-desc" placeholder="Cafe lunch, rent...">
-                </div>
+                <div class="form-group"><label>Description</label><input type="text" id="dash-exp-desc" placeholder="Cafe dinner..."></div>
               </div>
               <button class="small-btn add" onclick="addDashExpense()"><i class="ti ti-plus"></i> Add Entry</button>
-              <div id="msg-dash-expense" class="msg" style="margin-top:12px"></div>
+              <div id="msg-dash-expense" class="msg"></div>
             </div>
-
             <div class="card">
-              <div class="card-header-flex">
-                <h3>Recent Activities</h3>
-                <a onclick="showTab('expenses')" style="color:#4648d4; font-weight:700; font-size:13px; cursor:pointer;">View History →</a>
-              </div>
+              <div class="card-header-flex"><h3>Recent Activities</h3><a onclick="showTab('expenses')" style="color:#4648d4; font-weight:700; font-size:13px; cursor:pointer;">View History →</a></div>
               <table>
-                <thead>
-                  <tr><th>Date</th><th>Category</th><th>Description</th><th>Amount</th><th>Action</th></tr>
-                </thead>
+                <thead><tr><th>Date</th><th>Category</th><th>Description</th><th>Amount</th><th>Action</th></tr></thead>
                 <tbody id="dash-expense-table"></tbody>
               </table>
             </div>
           </div>
-
           <div class="right-pillar">
-            <div class="card">
-              <h3>Monthly Breakdown</h3>
-              <div class="chart-wrap" style="height:260px; margin-top:15px;">
-                <canvas id="dash-pie-chart"></canvas>
-              </div>
-            </div>
-            <div class="card">
-              <h3>Active Budget Progress</h3>
-              <div id="dash-budget-progress" style="margin-top:10px;"></div>
-            </div>
+            <div class="card"><h3>Monthly Breakdown</h3><div class="chart-wrap" style="height:260px; margin-top:15px;"><canvas id="dash-pie-chart"></canvas></div></div>
+            <div class="card"><h3>Active Budget Progress</h3><div id="dash-budget-progress" style="margin-top:10px;"></div></div>
           </div>
         </div>
       </div>
@@ -457,137 +366,50 @@
       <div id="tab-expenses" style="display:none">
         <div class="filter-bar-row">
           <h3>Transaction History Manager</h3>
-          
-          <div class="filter-control-wrap">
-            <i class="ti ti-category"></i>
-            <select id="filter-cat" onchange="loadExpenses()">
-              <option value="">All Categories</option>
-              <option value="food">Food</option>
-              <option value="transport">Transport</option>
-              <option value="utilities">Utilities</option>
-              <option value="entertainment">Entertainment</option>
-              <option value="health">Health</option>
-              <option value="shopping">Shopping</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
-
-          <div class="filter-control-wrap">
-            <i class="ti ti-calendar"></i>
-            <input type="month" id="filter-month" onchange="loadExpenses()">
-          </div>
+          <div class="filter-control-wrap"><i class="ti ti-category"></i><select id="filter-cat" onchange="loadExpenses()"><option value="">All Categories</option><option value="food">Food</option><option value="transport">Transport</option><option value="utilities">Utilities</option><option value="entertainment">Entertainment</option><option value="health">Health</option><option value="shopping">Shopping</option><option value="other">Other</option></select></div>
+          <div class="filter-control-wrap"><i class="ti ti-calendar"></i><input type="month" id="filter-month" onchange="loadExpenses()"></div>
         </div>
-
-        <div class="card" style="padding-top: 10px;">
-          <table>
-            <thead>
-              <tr><th>Date</th><th>Category</th><th>Description</th><th>Amount</th><th>Edit</th><th>Delete</th></tr>
-            </thead>
-            <tbody id="expense-table"></tbody>
-          </table>
-        </div>
+        <div class="card" style="padding-top:10px;"><table><thead><tr><th>Date</th><th>Category</th><th>Description</th><th>Amount</th><th>Edit</th><th>Delete</th></tr></thead><tbody id="expense-table"></tbody></table></div>
       </div>
 
       <div id="tab-budgets" style="display:none">
         <div class="card">
           <h3>Set Spending Caps</h3>
-          <div class="row" style="margin-top: 10px; margin-bottom: 24px;">
-            <div class="form-group">
-              <label>Target Month</label>
-              <div class="filter-control-wrap" style="background: white;">
-                <i class="ti ti-calendar" style="margin-right:4px;"></i>
-                <input type="month" id="bud-month" style="width:100%;">
-              </div>
-            </div>
-            <div class="form-group">
-              <label>Category Space</label>
-              <div class="filter-control-wrap" style="background: white;">
-                <i class="ti ti-category" style="margin-right:4px;"></i>
-                <select id="bud-category" style="width:100%;">
-                  <option value="food">Food</option>
-                  <option value="transport">Transport</option>
-                  <option value="utilities">Utilities</option>
-                  <option value="entertainment">Entertainment</option>
-                  <option value="health">Health</option>
-                  <option value="shopping">Shopping</option>
-                  <option value="other">Other</option>
-                </select>
-              </div>
-            </div>
-            <div class="form-group">
-              <label>Monthly Limit (₹)</label>
-              <div class="filter-control-wrap" style="background: white;">
-                <i class="ti ti-currency-rupee" style="margin-right:4px;"></i>
-                <input type="number" id="bud-limit" placeholder="5000" min="0" style="width:100%;">
-              </div>
-            </div>
+          <div class="row" style="margin-top:10px; margin-bottom:24px;">
+            <div class="form-group"><label>Target Month</label><div class="filter-control-wrap" style="background:white;"><i class="ti ti-calendar"></i><input type="month" id="bud-month" style="width:100%;"></div></div>
+            <div class="form-group"><label>Category Space</label><div class="filter-control-wrap" style="background:white;"><i class="ti ti-category"></i><select id="bud-category" style="width:100%;"><option value="food">Food</option><option value="transport">Transport</option><option value="utilities">Utilities</option><option value="entertainment">Entertainment</option><option value="health">Health</option><option value="shopping">Shopping</option><option value="other">Other</option></select></div></div>
+            <div class="form-group"><label>Monthly Limit (₹)</label><div class="filter-control-wrap" style="background:white;"><i class="ti ti-currency-rupee"></i><input type="number" id="bud-limit" placeholder="5000" min="0" style="width:100%;"></div></div>
           </div>
           <button class="small-btn add" onclick="setBudget()"><i class="ti ti-device-floppy"></i> Save Constraints</button>
-          <div id="msg-budget" class="msg" style="margin-top:12px"></div>
+          <div id="msg-budget" class="msg"></div>
         </div>
-        <div class="card">
-          <h3>Allocations Variance Ledger</h3>
-          <div id="budget-progress"></div>
-        </div>
+        <div class="card"><h3>Allocations Variance Ledger</h3><div id="budget-progress"></div></div>
       </div>
 
       <div id="tab-reports" style="display:none">
-        <div class="filter-bar-row">
-          <h3>Monthly Trend Performance</h3>
-          
-          <div class="filter-control-wrap">
-            <i class="ti ti-calendar"></i>
-            <input type="month" id="rep-month">
-          </div>
-
-          <button class="small-btn add" onclick="loadReport()"><i class="ti ti-refresh"></i> Generate Matrix</button>
-        </div>
-
-        <div class="card">
-          <table>
-            <thead>
-              <tr><th>Category</th><th>Spent</th><th>Budget Target</th><th>Status</th></tr>
-            </thead>
-            <tbody id="report-table"></tbody>
-          </table>
-        </div>
-        <div class="card">
-          <h3>Proportional Distribution Chart</h3>
-          <div class="chart-wrap"><canvas id="pie-chart"></canvas></div>
-        </div>
+        <div class="filter-bar-row"><h3>Monthly Trend Performance</h3><div class="filter-control-wrap"><i class="ti ti-calendar"></i><input type="month" id="rep-month"></div><button class="small-btn add" onclick="loadReport()"><i class="ti ti-refresh"></i> Generate Matrix</button></div>
+        <div class="card"><table><thead><tr><th>Category</th><th>Spent</th><th>Budget Target</th><th>Status</th></tr></thead><tbody id="report-table"></tbody></table></div>
+        <div class="card"><h3>Proportional Distribution Chart</h3><div class="chart-wrap"><canvas id="pie-chart"></canvas></div></div>
       </div>
-
     </main>
   </div>
 </div>
 
 <div id="edit-modal" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,0.3); backdrop-filter: blur(4px); z-index:100;align-items:center;justify-content:center;">
   <div style="background:white;border-radius:16px;padding:36px;width:100%;max-width:440px;margin:20px; box-shadow: 0px 10px 30px rgba(15, 23, 42, 0.1); border: 1px solid #e2e8f0;">
-    <h3 style="margin-bottom:24px;font-size:18px;font-weight:700; color:#0b1c30; letter-spacing:-0.5px;">Edit Expense Transaction</h3>
+    <h3 style="margin-bottom:24px;font-size:18px;font-weight:700; color:#0b1c30;">Edit Expense</h3>
     <input type="hidden" id="edit-id">
-    <div class="form-group" style="margin-bottom:18px">
-      <label>Amount (₹)</label>
-      <input type="number" id="edit-amount" style="background:#f8fafc;">
-    </div>
-    <div class="form-group" style="margin-bottom:18px">
+    <div class="form-group"><label>Amount (₹)</label><input type="number" id="edit-amount"></div>
+    <div class="form-group">
       <label>Category</label>
-      <select id="edit-category" style="background:#f8fafc;">
-        <option value="food">Food</option>
-        <option value="transport">Transport</option>
-        <option value="utilities">Utilities</option>
-        <option value="entertainment">Entertainment</option>
-        <option value="health">Health</option>
-        <option value="shopping">Shopping</option>
-        <option value="other">Other</option>
+      <select id="edit-category">
+        <option value="food">Food</option><option value="transport">Transport</option><option value="utilities">Utilities</option><option value="entertainment">Entertainment</option><option value="health">Health</option><option value="shopping">Shopping</option><option value="other">Other</option>
       </select>
     </div>
-    <div class="form-group" style="margin-bottom:24px">
-      <label>Description</label>
-      <input type="text" id="edit-desc" style="background:#f8fafc;">
-    </div>
-    <div style="display:flex;gap:12px">
-      <button class="small-btn add" style="flex:1;padding:12px; justify-content:center;" onclick="saveEdit()">Save changes</button>
-      <button class="small-btn del" style="flex:1;padding:12px; justify-content:center;" onclick="closeEdit()">Cancel</button>
+    <div class="form-group"><label>Description</label><input type="text" id="edit-desc"></div>
+    <div style="display:flex;gap:12px; margin-top:24px;">
+      <button class="small-btn add" style="flex:1; justify-content:center;" onclick="saveEdit()">Save changes</button>
+      <button class="small-btn del" style="flex:1; justify-content:center;" onclick="closeEdit()">Cancel</button>
     </div>
   </div>
 </div>
@@ -613,14 +435,17 @@
     el.style.display = 'block';
   }
 
-  function nowMonth() {
-    return new Date().toISOString().slice(0,7);
-  }
+  function nowMonth() { return new Date().toISOString().slice(0,7); }
 
   function showStep(step) {
-    ['landing', 'email','otp','register'].forEach(s => {
+    // Toggles layout states seamlessly matching Stitch layers
+    const isLanding = step === 'landing';
+    document.getElementById('step-landing').style.display = isLanding ? 'flex' : 'none';
+    document.querySelector('.stitch-nav').style.display = isLanding ? 'flex' : 'none';
+    
+    ['email','otp','register'].forEach(s => {
       const el = document.getElementById('step-'+s);
-      if (el) el.style.display = s===step ? 'block' : 'none';
+      if (el) el.style.display = s===step ? 'flex' : 'none';
     });
   }
 
@@ -639,28 +464,15 @@
     if (tab==='reports') loadReport();
   }
 
-  function otpNext(el, idx) {
-    if (el.value.length === 1 && idx < 5) {
-      document.getElementById('otp' + (idx + 1)).focus();
-    }
-  }
-
-  function otpBack(e, idx) {
-    if (e.key === 'Backspace' && !e.target.value && idx > 0) {
-      document.getElementById('otp' + (idx - 1)).focus();
-    }
-  }
+  function otpNext(el, idx) { if (el.value.length === 1 && idx < 5) document.getElementById('otp' + (idx + 1)).focus(); }
+  function otpBack(e, idx) { if (e.key === 'Backspace' && !e.target.value && idx > 0) document.getElementById('otp' + (idx - 1)).focus(); }
 
   function startTimer() {
-    let seconds = 300;
-    clearInterval(timerInterval);
+    let seconds = 300; clearInterval(timerInterval);
     const timerEl = document.getElementById('timer-val');
     if (timerEl) timerEl.textContent = '5:00';
-
     timerInterval = setInterval(() => {
-      seconds--;
-      const m = Math.floor(seconds / 60);
-      const s = seconds % 60;
+      seconds--; const m = Math.floor(seconds / 60); const s = seconds % 60;
       if (timerEl) timerEl.textContent = m + ':' + String(s).padStart(2, '0');
       if (seconds <= 0) clearInterval(timerInterval);
     }, 1000);
@@ -669,394 +481,160 @@
   async function sendOTP() {
     const email = document.getElementById('auth-email').value.trim();
     if (!email) return showMsg('msg-email','Enter your email','error');
-    
     const r = await api('/auth/send-otp', { method:'POST', body: JSON.stringify({email}) });
     const d = await r.json();
     if (r.ok) {
       showMsg('msg-email', d.msg || 'OTP Sent successfully', 'success');
-      document.getElementById('otp-sub').textContent = 'Code sent to ' + email;
       setTimeout(() => { showStep('otp'); startTimer(); document.getElementById('otp0')?.focus(); }, 800);
-    } else {
-      showMsg('msg-email', d.detail || 'Error', 'error');
-    }
+    } else { showMsg('msg-email', d.detail || 'Error', 'error'); }
   }
 
   async function resendOTP() {
     const email = document.getElementById('auth-email').value.trim();
     const r = await api('/auth/send-otp', { method:'POST', body: JSON.stringify({email}) });
-    if (r.ok) {
-      showMsg('msg-otp', 'New OTP sent!', 'success');
-      startTimer();
-      for (let i = 0; i < 6; i++) document.getElementById('otp' + i).value = '';
-      document.getElementById('otp0').focus();
-    } else {
-      const d = await r.json();
-      showMsg('msg-otp', d.detail || 'Failed to resend OTP', 'error');
-    }
+    if (r.ok) { showMsg('msg-otp', 'New OTP sent!', 'success'); startTimer(); for (let i = 0; i < 6; i++) document.getElementById('otp' + i).value = ''; document.getElementById('otp0').focus(); }
+    else { const d = await r.json(); showMsg('msg-otp', d.detail || 'Failed to resend OTP', 'error'); }
   }
 
   async function verifyOTP() {
     const email = document.getElementById('auth-email').value.trim();
     const otp = [0,1,2,3,4,5].map(i => document.getElementById('otp' + i).value).join('');
-
     if (otp.length !== 6) return showMsg('msg-otp','Enter all 6 digits','error');
     showMsg('msg-otp', 'Verifying...', 'success');
-
     const r = await api('/auth/verify-otp', { method:'POST', body: JSON.stringify({email, otp}) });
     const d = await r.json();
     if (r.ok) {
-      localStorage.setItem('ft_username', d.username);
-      TOKEN = d.access_token;
-      localStorage.setItem('ft_token', TOKEN);
-      clearInterval(timerInterval);
-      enterApp(d.username);
+      localStorage.setItem('ft_username', d.username); TOKEN = d.access_token; localStorage.setItem('ft_token', TOKEN);
+      clearInterval(timerInterval); enterApp(d.username);
     } else if (r.status === 404 || (d.detail && d.detail.includes('not found'))) {
-      showMsg('msg-otp','OTP verified! Please complete signup.','success');
-      setTimeout(() => showStep('register'), 800);
-    } else {
-      showMsg('msg-otp', d.detail || 'Invalid OTP', 'error');
-    }
+      showMsg('msg-otp','OTP verified! Please complete signup.','success'); setTimeout(() => showStep('register'), 800);
+    } else { showMsg('msg-otp', d.detail || 'Invalid OTP', 'error'); }
   }
 
   async function registerUser() {
-    const email    = document.getElementById('auth-email').value.trim();
+    const email = document.getElementById('auth-email').value.trim();
     const username = document.getElementById('reg-username').value.trim();
     const password = document.getElementById('reg-password').value;
-
     if (!username || !password) return showMsg('msg-register','Fill all fields','error');
-    
     const r = await api('/auth/register', { method:'POST', body: JSON.stringify({email, username, password}) });
-    const d = await r.json();
     if (r.ok) {
-      showMsg('msg-register','Account created! Sending verification code...','success');
-      const lr = await api('/auth/send-otp', { method:'POST', body: JSON.stringify({email}) });
-      if (lr.ok) {
-        setTimeout(() => {
-          showStep('otp'); startTimer();
-          for (let i = 0; i < 6; i++) document.getElementById('otp' + i).value = '';
-          document.getElementById('otp0').focus();
-          showMsg('msg-otp', 'Account created! Enter the new OTP to log in.', 'success');
-        }, 1200);
-      }
-    } else {
-      showMsg('msg-register', d.detail || 'Error', 'error');
+      setTimeout(async () => {
+        await api('/auth/send-otp', { method:'POST', body: JSON.stringify({email}) });
+        showStep('otp'); startTimer(); for (let i = 0; i < 6; i++) document.getElementById('otp' + i).value = ''; document.getElementById('otp0').focus();
+      }, 1000);
     }
   }
 
   document.addEventListener('DOMContentLoaded', () => {
-    if (TOKEN) {
-      api('/health').then(r => {
-        if (r.ok) enterApp(localStorage.getItem('ft_username') || '');
-        else logout();
-      }).catch(() => logout());
-    } else {
-      showStep('landing');
-    }
+    if (TOKEN) { api('/health').then(r => { if (r.ok) enterApp(localStorage.getItem('ft_username') || ''); else logout(); }).catch(() => logout()); }
+    else { showStep('landing'); }
   });
 
   function enterApp(username) {
     document.getElementById('auth-screen').style.display = 'none';
     document.getElementById('app-screen').style.display = 'block';
-    
     const nameString = username || 'User';
     document.getElementById('welcome-msg').textContent = 'Hi, ' + nameString + '!';
     document.getElementById('dashboard-user-greeting').textContent = 'Welcome back, ' + nameString + '!';
-    
-    const today = new Date();
-    const formattedDate = today.toLocaleString('default', { month: 'long', year: 'numeric' });
-    document.getElementById('live-dashboard-timestamp').textContent = formattedDate;
-    
-    const m = nowMonth();
-    document.getElementById('bud-month').value = m;
-    document.getElementById('filter-month').value = m;
-    document.getElementById('rep-month').value = m;
-    
+    document.getElementById('live-dashboard-timestamp').textContent = new Date().toLocaleString('default', { month: 'long', year: 'numeric' });
+    const m = nowMonth(); document.getElementById('bud-month').value = m; document.getElementById('filter-month').value = m; document.getElementById('rep-month').value = m;
     showTab('dashboard');
   }
 
-  function logout() {
-    TOKEN = ''; localStorage.removeItem('ft_token'); localStorage.removeItem('ft_username');
-    document.getElementById('app-screen').style.display = 'none';
-    document.getElementById('auth-screen').style.display = 'flex';
-    showStep('landing');
-  }
-
-  /* ── APPLICATION METRICS COMPUTATION ENGINE ────────────────── */
+  function logout() { TOKEN = ''; localStorage.removeItem('ft_token'); localStorage.removeItem('ft_username'); document.getElementById('app-screen').style.display = 'none'; document.getElementById('auth-screen').style.display = 'flex'; showStep('landing'); }
 
   async function loadDashboard() {
-    const monthVal = nowMonth();
-    const [y, m] = monthVal.split('-');
-    
-    const [summaryRes, expensesRes, budgetsRes] = await Promise.all([
-      api(`/reports/monthly-summary?year=${y}&month=${m}`),
-      api(`/expenses/?year=${y}&month=${m}`),
-      api(`/budgets/?month=${monthVal}`)
-    ]);
-
+    const monthVal = nowMonth(); const [y, m] = monthVal.split('-');
+    const [summaryRes, expensesRes, budgetsRes] = await Promise.all([api(`/reports/monthly-summary?year=${y}&month=${m}`), api(`/expenses/?year=${y}&month=${m}`), api(`/budgets/?month=${monthVal}`)]);
     const summaryData = summaryRes.ok ? await summaryRes.json() : [];
     const expensesData = expensesRes.ok ? await expensesRes.json() : [];
     const budgetsData = budgetsRes.ok ? await budgetsRes.json() : [];
-
     const totalSpent = summaryData.reduce((s, i) => s + i.spent, 0);
     const totalBudget = budgetsData.reduce((s, i) => s + i.monthly_limit, 0);
     const overBudgetCount = summaryData.filter(i => i.over_budget).length;
 
     document.getElementById('stats-grid').innerHTML = `
-      <div class="stat-card blue">
-        <div class="info-side">
-          <div class="label">Monthly Expenditures</div>
-          <div class="value">₹${totalSpent.toLocaleString('en-IN')}</div>
-          <div class="sub"><i class="ti ti-calendar"></i> ${new Date().toLocaleString('default',{month:'long'})} Summary</div>
-        </div>
-        <div class="icon-side"><i class="ti ti-cash"></i></div>
-      </div>
-      <div class="stat-card green">
-        <div class="info-side">
-          <div class="label">Total Budget Caps</div>
-          <div class="value">₹${totalBudget.toLocaleString('en-IN')}</div>
-          <div class="sub"><i class="ti ti-wallet"></i> Max Allocation</div>
-        </div>
-        <div class="icon-side"><i class="ti ti-pig-money"></i></div>
-      </div>
-      <div class="stat-card red">
-        <div class="info-side">
-          <div class="label">Cap Threshold Alert</div>
-          <div class="value" style="color:${overBudgetCount > 0 ? '#ba1a1a': '#006c49'}">${overBudgetCount}</div>
-          <div class="sub"><i class="ti ti-alert-triangle"></i> Exceeded Spaces</div>
-        </div>
-        <div class="icon-side"><i class="ti ti-bell-ringing"></i></div>
-      </div>
+      <div class="stat-card blue"><div class="info-side"><div class="label">Monthly Expenditures</div><div class="value">₹${totalSpent.toLocaleString('en-IN')}</div><div class="sub"><i class="ti ti-calendar"></i> Summary</div></div><div class="icon-side"><i class="ti ti-cash"></i></div></div>
+      <div class="stat-card green"><div class="info-side"><div class="label">Total Budget Caps</div><div class="value">₹${totalBudget.toLocaleString('en-IN')}</div><div class="sub"><i class="ti ti-wallet"></i> Max Allocation</div></div><div class="icon-side"><i class="ti ti-pig-money"></i></div></div>
+      <div class="stat-card red"><div class="info-side"><div class="label">Cap Threshold Alert</div><div class="value" style="color:${overBudgetCount > 0 ? '#ba1a1a': '#006c49'}">${overBudgetCount}</div><div class="sub"><i class="ti ti-alert-triangle"></i> Exceeded Spaces</div></div><div class="icon-side"><i class="ti ti-bell-ringing"></i></div></div>
     `;
 
     const dashTbody = document.getElementById('dash-expense-table');
-    if (!expensesData.length) {
-      dashTbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#aaa;padding:20px">No metrics logged this month</td></tr>';
-    } else {
+    if (!expensesData.length) { dashTbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#aaa;padding:20px">No metrics logged</td></tr>'; }
+    else {
       dashTbody.innerHTML = expensesData.slice(0, 5).map(e => {
         const dateObj = new Date(e.date);
-        const day = String(dateObj.getDate()).padStart(2, '0');
-        const monthName = dateObj.toLocaleString('default', { month: 'short' });
-        return `
-          <tr>
-            <td>${day} ${monthName}</td>
-            <td><span class="badge ${e.category}">${e.category}</span></td>
-            <td>${e.description || '-'}</td>
-            <td class="amount-cell">₹${e.amount.toLocaleString('en-IN')}</td>
-            <td><button class="small-btn del" onclick="deleteDashExpense(${e.id})">Delete</button></td>
-          </tr>
-        `;
+        return `<tr><td>${String(dateObj.getDate()).padStart(2, '0')} ${dateObj.toLocaleString('default', { month: 'short' })}</td><td><span class="badge ${e.category}">${e.category}</span></td><td>${e.description || '-'}</td><td class="amount-cell">₹${e.amount.toLocaleString('en-IN')}</td><td><button class="small-btn del" onclick="deleteDashExpense(${e.id})">Delete</button></td></tr>`;
       }).join('');
     }
 
     const dashBudgetContainer = document.getElementById('dash-budget-progress');
-    if (!budgetsData.length) {
-      dashBudgetContainer.innerHTML = '<p style="color:#aaa; font-size:13px; text-align:center; padding:10px;">No caps mapped for this period.</p>';
-    } else {
+    if (!budgetsData.length) { dashBudgetContainer.innerHTML = '<p style="color:#aaa; font-size:13px; text-align:center; padding:10px;">No caps mapped.</p>'; }
+    else {
       const spendMap = Object.fromEntries(summaryData.map(s => [s.category, s.spent]));
       dashBudgetContainer.innerHTML = budgetsData.slice(0, 3).map(b => {
-        const spent = spendMap[b.category] || 0;
-        const pct = Math.min((spent / b.monthly_limit) * 100, 100);
-        const color = pct >= 100 ? '#ba1a1a' : pct >= 80 ? '#f59e0b' : '#4648d4';
-        return `
-          <div class="budget-item">
-            <div class="bi-header"><span>${b.category}</span><span>₹${spent.toLocaleString('en-IN')} / ₹${b.monthly_limit.toLocaleString('en-IN')}</span></div>
-            <div class="progress-bar"><div class="progress-fill" style="width:${pct}%; background:${color}"></div></div>
-          </div>
-        `;
+        const spent = spendMap[b.category] || 0; const pct = Math.min((spent / b.monthly_limit) * 100, 100);
+        return `<div class="budget-item"><div class="bi-header"><span>${b.category}</span><span>₹${spent.toLocaleString('en-IN')} / ₹${b.monthly_limit.toLocaleString('en-IN')}</span></div><div class="progress-bar"><div class="progress-fill" style="width:${pct}%; background:${pct >= 100 ? '#ba1a1a' : '#4648d4'}"></div></div></div>`;
       }).join('');
     }
 
     if (dashPieInstance) dashPieInstance.destroy();
     if (summaryData.length > 0) {
       const ctx = document.getElementById('dash-pie-chart').getContext('2d');
-      dashPieInstance = new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-          labels: summaryData.map(d => d.category),
-          datasets: [{
-            data: summaryData.map(d => d.spent),
-            backgroundColor: ['#4648d4','#f59e0b','#006c49','#ba1a1a','#8b5cf6','#06b6d4','#f97316'],
-            borderWidth: 0
-          }]
-        },
-        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, usePointStyle: true } } } }
-      });
+      dashPieInstance = new Chart(ctx, { type: 'doughnut', data: { labels: summaryData.map(d => d.category), datasets: [{ data: summaryData.map(d => d.spent), backgroundColor: ['#4648d4','#f59e0b','#006c49','#ba1a1a','#8b5cf6','#06b6d4','#f97316'], borderWidth: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, usePointStyle: true } } } } });
     }
   }
 
   async function addDashExpense() {
-    const amount = parseFloat(document.getElementById('dash-exp-amount').value);
-    const category = document.getElementById('dash-exp-category').value;
-    const description = document.getElementById('dash-exp-desc').value.trim();
-
+    const amount = parseFloat(document.getElementById('dash-exp-amount').value); const category = document.getElementById('dash-exp-category').value; const description = document.getElementById('dash-exp-desc').value.trim();
     if (!amount || amount <= 0) return showMsg('msg-dash-expense','Enter valid parameters','error');
-    
     const r = await api('/expenses/', { method:'POST', body: JSON.stringify({amount, category, description}) });
-    if (r.ok) {
-      showMsg('msg-dash-expense','Logged successfully!','success');
-      document.getElementById('dash-exp-amount').value = '';
-      document.getElementById('dash-exp-desc').value = '';
-      loadDashboard();
-    }
+    if (r.ok) { document.getElementById('dash-exp-amount').value = ''; document.getElementById('dash-exp-desc').value = ''; loadDashboard(); }
   }
 
-  async function deleteDashExpense(id) {
-    if (confirm('Remove transaction record?')) {
-      const r = await api('/expenses/'+id, {method:'DELETE'});
-      if (r.ok) loadDashboard();
-    }
-  }
-
-  /* ── SECURE TRANSACTION MODULE LEDGERS ────────────────── */
+  async function deleteDashExpense(id) { if (confirm('Remove record?')) { const r = await api('/expenses/'+id, {method:'DELETE'}); if (r.ok) loadDashboard(); } }
 
   async function loadExpenses() {
-    const cat   = document.getElementById('filter-cat').value;
-    const month = document.getElementById('filter-month').value;
-    let url = '/expenses/?';
-    if (cat) url += 'category='+cat+'&';
-    if (month) { const [y,m]=month.split('-'); url += 'year='+y+'&month='+m; }
-    const r = await api(url);
-    if (!r.ok) return;
-    const data = await r.json();
-    const tbody = document.getElementById('expense-table');
-    if (!data.length) {
-      tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:#aaa;padding:24px">No expenses found</td></tr>';
-      return;
-    }
+    const cat = document.getElementById('filter-cat').value; const month = document.getElementById('filter-month').value;
+    let url = '/expenses/?'; if (cat) url += 'category='+cat+'&'; if (month) { const [y,m]=month.split('-'); url += 'year='+y+'&month='+m; }
+    const r = await api(url); if (!r.ok) return; const data = await r.json(); const tbody = document.getElementById('expense-table');
+    if (!data.length) { tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:#aaa;padding:24px">No expenses found</td></tr>'; return; }
     tbody.innerHTML = data.map(e => {
       const dateObj = new Date(e.date);
-      const formattedCalendarDate = String(dateObj.getDate()).padStart(2, '0') + '/' + String(dateObj.getMonth() + 1).padStart(2, '0') + '/' + dateObj.getFullYear();
-      
-      return `
-        <tr>
-          <td>${formattedCalendarDate}</td>
-          <td><span class="badge ${e.category}">${e.category}</span></td>
-          <td>${e.description || '-'}</td>
-          <td class="amount-cell">₹${e.amount.toLocaleString('en-IN')}</td>
-          <td>
-            <button class="small-btn add" style="padding:6px 12px;font-size:12px"
-              onclick="openEdit(${e.id},'${e.category}','${e.description||''}',${e.amount})">Edit</button>
-          </td>
-          <td>
-            <button class="small-btn del" onclick="deleteExpense(${e.id})">Delete</button>
-          </td>
-        </tr>`;
+      return `<tr><td>${String(dateObj.getDate()).padStart(2, '0')}/${String(dateObj.getMonth() + 1).padStart(2, '0')}/${dateObj.getFullYear()}</td><td><span class="badge ${e.category}">${e.category}</span></td><td>${e.description || '-'}</td><td class="amount-cell">₹${e.amount.toLocaleString('en-IN')}</td><td><button class="small-btn add" style="padding:6px 12px;font-size:12px" onclick="openEdit(${e.id},'${e.category}','${e.description||''}',${e.amount})">Edit</button></td><td><button class="small-btn del" onclick="deleteExpense(${e.id})">Delete</button></td></tr>`;
     }).join('');
   }
 
-  function openEdit(id, category, description, amount) {
-    document.getElementById('edit-id').value = id;
-    document.getElementById('edit-amount').value = amount;
-    document.getElementById('edit-category').value = category;
-    document.getElementById('edit-desc').value = description;
-    document.getElementById('edit-modal').style.display = 'flex';
-  }
-
-  function closeEdit() {
-    document.getElementById('edit-modal').style.display = 'none';
-  }
-
-  async function saveEdit() {
-    const id          = document.getElementById('edit-id').value;
-    const amount      = parseFloat(document.getElementById('edit-amount').value);
-    const category    = document.getElementById('edit-category').value;
-    const description = document.getElementById('edit-desc').value.trim();
-    const r = await api('/expenses/'+id, {
-      method: 'PUT',
-      body: JSON.stringify({ amount, category, description })
-    });
-    if (r.ok) { closeEdit(); loadExpenses(); loadDashboard(); }
-    else { alert('Failed to update expense'); }
-  }
-
-  async function deleteExpense(id) {
-    if (!confirm('Permanently wipe record?')) return;
-    const r = await api('/expenses/'+id, {method:'DELETE'});
-    if (r.ok) loadExpenses();
-  }
-
+  async function deleteExpense(id) { if (confirm('Wipe record?')) { const r = await api('/expenses/'+id, {method:'DELETE'}); if (r.ok) loadExpenses(); } }
   async function setBudget() {
-    const month = document.getElementById('bud-month').value;
-    const category = document.getElementById('bud-category').value;
-    const limitInput = document.getElementById('bud-limit').value;
-    const limit = parseFloat(limitInput);
-
-    if (!month || !limitInput || limit <= 0) return showMsg('msg-budget','Fill constraints form fields completely','error');
-
+    const month = document.getElementById('bud-month').value; const category = document.getElementById('bud-category').value; const limit = parseFloat(document.getElementById('bud-limit').value);
+    if (!month || !limit || limit <= 0) return;
     const r = await api('/budgets/', { method: 'POST', body: JSON.stringify({ category, monthly_limit: limit, month }) });
-    const d = await r.json();
-    if (r.ok) {
-      showMsg('msg-budget','Constraints mapped successfully!','success');
-      document.getElementById('bud-limit').value = '';
-      loadBudgetProgress();
-    } else {
-      showMsg('msg-budget', d.detail || 'Validation Error','error');
-    }
+    if (r.ok) { document.getElementById('bud-limit').value = ''; loadBudgetProgress(); }
   }
 
   async function loadBudgetProgress() {
-    const month = document.getElementById('bud-month').value || nowMonth();
-    const [y, m] = month.split('-');
-
+    const month = document.getElementById('bud-month').value || nowMonth(); const [y, m] = month.split('-');
     const [br, sr] = await Promise.all([api(`/budgets/?month=${month}`), api(`/reports/monthly-summary?year=${y}&month=${m}`)]);
-    if (!br.ok || !sr.ok) return;
-    
-    const budgets = await br.json();
-    const summary = await sr.json();
-    const spendMap = Object.fromEntries(summary.map(s => [s.category, s.spent]));
-    const container = document.getElementById('budget-progress');
-
-    if (!budgets.length) {
-      container.innerHTML = '<p style="color:#aaa;text-align:center;padding:20px">No thresholds set for this month profile.</p>';
-      return;
-    }
+    if (!br.ok || !sr.ok) return; const budgets = await br.json(); const summary = await sr.json();
+    const spendMap = Object.fromEntries(summary.map(s => [s.category, s.spent])); const container = document.getElementById('budget-progress');
+    if (!budgets.length) { container.innerHTML = '<p style="color:#aaa;text-align:center;padding:20px">No thresholds set.</p>'; return; }
     container.innerHTML = budgets.map(b => {
-      const spent = spendMap[b.category] || 0;
-      const pct = Math.min((spent / b.monthly_limit) * 100, 100);
-      const color = pct >= 100 ? '#ba1a1a' : pct >= 80 ? '#f59e0b' : '#4648d4';
-      return `
-        <div class="budget-item">
-          <div class="bi-header"><span>${b.category}</span><span>₹${spent.toLocaleString('en-IN')} / ₹${b.monthly_limit.toLocaleString('en-IN')}</span></div>
-          <div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:${color}"></div></div>
-        </div>
-      `;
+      const spent = spendMap[b.category] || 0; const pct = Math.min((spent / b.monthly_limit) * 100, 100);
+      return `<div class="budget-item"><div class="bi-header"><span>${b.category}</span><span>₹${spent.toLocaleString('en-IN')} / ₹${b.monthly_limit.toLocaleString('en-IN')}</span></div><div class="progress-bar"><div class="progress-fill" style="width:${pct};background:${pct >= 100 ? '#ba1a1a' : '#4648d4'}"></div></div></div>`;
     }).join('');
   }
 
   async function loadReport() {
-    const month = document.getElementById('rep-month').value || nowMonth();
-    const [y, m] = month.split('-');
-
-    const r = await api(`/reports/monthly-summary?year=${y}&month=${m}`);
-    if (!r.ok) return;
-    const data = await r.json();
-    const tbody = document.getElementById('report-table');
-
-    if (!data.length) {
-      tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#aaa;padding:24px">No active parameters logged.</td></tr>';
-    } else {
-      tbody.innerHTML = data.map(row => `
-        <tr>
-          <td><span class="badge ${row.category}">${row.category}</span></td>
-          <td class="amount-cell">₹${row.spent.toLocaleString('en-IN')}</td>
-          <td class="amount-cell">${row.budget ? '₹'+row.budget.toLocaleString('en-IN') : '<span style="color:#ccc">—</span>'}</td>
-          <td>
-            ${row.over_budget ? '<span style="color:#ba1a1a;font-weight:700">⚠ Over Budget</span>' : row.budget ? '<span style="color:#006c49;font-weight:700">✓ Within Target</span>' : '<span style="color:#aaa">Unmapped Cap</span>'}
-          </td>
-        </tr>
-      `).join('');
+    const month = document.getElementById('rep-month').value || nowMonth(); const [y, m] = month.split('-');
+    const r = await api(`/reports/monthly-summary?year=${y}&month=${m}`); if (!r.ok) return; const data = await r.json(); const tbody = document.getElementById('report-table');
+    if (!data.length) { tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#aaa;padding:24px">No data logged.</td></tr>'; }
+    else {
+      tbody.innerHTML = data.map(row => `<tr><td><span class="badge ${row.category}">${row.category}</span></td><td class="amount-cell">₹${row.spent.toLocaleString('en-IN')}</td><td class="amount-cell">${row.budget ? '₹'+row.budget.toLocaleString('en-IN') : '—'}</td><td>${row.over_budget ? '<span style="color:#ba1a1a;font-weight:700">⚠ Over Budget</span>' : row.budget ? '<span style="color:#006c49;font-weight:700">✓ Within Target</span>' : '<span style="color:#aaa">Unmapped</span>'}</td></tr>`).join('');
     }
-
     if (globalPieInstance) globalPieInstance.destroy();
     const ctx = document.getElementById('pie-chart').getContext('2d');
-    globalPieInstance = new Chart(ctx, {
-      type: 'doughnut',
-      data: {
-        labels: data.map(d => d.category),
-        datasets: [{ data: data.map(d => d.spent), backgroundColor: ['#4648d4','#f59e0b','#006c49','#ba1a1a','#8b5cf6','#06b6d4','#f97316'], borderWidth: 0 }]
-      },
-      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right' } } }
-    });
+    globalPieInstance = new Chart(ctx, { type: 'doughnut', data: { labels: data.map(d => d.category), datasets: [{ data: data.map(d => d.spent), backgroundColor: ['#4648d4','#f59e0b','#006c49','#ba1a1a','#8b5cf6','#06b6d4','#f97316'], borderWidth: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right' } } } });
   }
 </script>
 </body>
