@@ -11,7 +11,7 @@
 
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
-    body { font-family: system-ui, sans-serif; background:#f0f2f5; color:#1a1a2e; min-height:100vh; }
+    body { font-family: system-ui, sans-serif; background:#f4f6fa; color:#1a1a2e; min-height:100vh; }
 
     /* AUTH SCREEN */
     #auth-screen {
@@ -36,8 +36,6 @@
       .auth-wrap { grid-template-columns:1fr; max-width:460px; }
       .auth-left  { display:none; }
     }
-
-    /* LEFT PANEL */
     .auth-left {
       background:#6366f1;
       padding:44px 36px;
@@ -45,309 +43,82 @@
       flex-direction:column;
       justify-content:space-between;
     }
-    .auth-brand {
-      display:flex;
-      align-items:center;
-      gap:10px;
-      margin-bottom:40px;
-    }
-    .auth-brand .icon {
-      width:38px; height:38px;
-      background:rgba(255,255,255,0.18);
-      border-radius:10px;
-      display:flex; align-items:center; justify-content:center;
-      font-size:20px;
-    }
+    .auth-brand { display:flex; align-items:center; gap:10px; margin-bottom:40px; }
+    .auth-brand .icon { width:38px; height:38px; background:rgba(255,255,255,0.18); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:20px; }
     .auth-brand span { color:white; font-size:16px; font-weight:600; }
-    .auth-left h1 {
-      color:white;
-      font-size:26px;
-      font-weight:700;
-      line-height:1.35;
-      margin-bottom:14px;
-    }
-    .auth-left p {
-      color:rgba(255,255,255,0.7);
-      font-size:13px;
-      line-height:1.75;
-      margin-bottom:28px;
-    }
+    .auth-left h1 { color:white; font-size:26px; font-weight:700; line-height:1.35; margin-bottom:14px; }
+    .auth-left p { color:rgba(255,255,255,0.7); font-size:13px; line-height:1.75; margin-bottom:28px; }
     .auth-features { display:flex; flex-direction:column; gap:14px; }
-    .auth-feature {
-      display:flex; align-items:center; gap:10px;
-    }
-    .auth-feature .check {
-      width:22px; height:22px;
-      background:rgba(255,255,255,0.15);
-      border-radius:50%;
-      display:flex; align-items:center; justify-content:center;
-      flex-shrink:0;
-      font-size:12px; color:white;
-    }
+    .auth-feature { display:flex; align-items:center; gap:10px; }
+    .auth-feature .check { width:22px; height:22px; background:rgba(255,255,255,0.15); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:12px; color:white; }
     .auth-feature span { color:rgba(255,255,255,0.85); font-size:13px; }
     .auth-left-footer { color:rgba(255,255,255,0.35); font-size:11px; margin-top:40px; }
-
-    /* RIGHT PANEL */
-    .auth-right {
-      background:white;
-      padding:44px 36px;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-    }
-    .step-dots {
-      display:flex; gap:6px;
-      margin-bottom:24px;
-    }
-    .step-dot {
-      height:6px; width:6px;
-      border-radius:3px;
-      background:#e0e0f0;
-      transition:.3s;
-    }
+    .auth-right { background:white; padding:44px 36px; display:flex; flex-direction:column; justify-content:center; }
+    .step-dots { display:flex; gap:6px; margin-bottom:24px; }
+    .step-dot { height:6px; width:6px; border-radius:3px; background:#e0e0f0; transition:.3s; }
     .step-dot.active { width:22px; background:#6366f1; }
-
     .auth-right h2 { font-size:22px; font-weight:700; color:#1a1a2e; margin-bottom:6px; }
     .auth-right .sub { font-size:13px; color:#888; margin-bottom:28px; line-height:1.6; }
-
     .field { margin-bottom:18px; }
-    .field label {
-      display:block;
-      font-size:11px;
-      font-weight:700;
-      color:#999;
-      letter-spacing:.6px;
-      text-transform:uppercase;
-      margin-bottom:7px;
-    }
+    .field label { display:block; font-size:11px; font-weight:700; color:#999; letter-spacing:.6px; text-transform:uppercase; margin-bottom:7px; }
     .input-wrap { position:relative; display:flex; align-items:center; }
-    .input-wrap i {
-      position:absolute; left:13px;
-      font-size:17px; color:#aaa;
-      pointer-events:none;
-    }
-    .input-wrap input {
-      width:100%;
-      padding:11px 14px 11px 38px;
-      border:1.5px solid #e8e8f0;
-      border-radius:10px;
-      font-size:14px;
-      color:#1a1a2e;
-      background:#fafafa;
-      outline:none;
-      transition:.2s;
-    }
-    .input-wrap input:focus {
-      border-color:#6366f1;
-      background:white;
-    }
-
-    .btn-primary {
-      width:100%;
-      padding:12px;
-      background:#6366f1;
-      color:white;
-      border:none;
-      border-radius:10px;
-      font-size:14px;
-      font-weight:600;
-      cursor:pointer;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
-      transition:.2s;
-      margin-top:4px;
-    }
+    .input-wrap i { position:absolute; left:13px; font-size:17px; color:#aaa; pointer-events:none; }
+    .input-wrap input { width:100%; padding:11px 14px 11px 38px; border:1.5px solid #e8e8f0; border-radius:10px; font-size:14px; color:#1a1a2e; background:#fafafa; outline:none; transition:.2s; }
+    .input-wrap input:focus { border-color:#6366f1; background:white; }
+    .btn-primary { width:100%; padding:12px; background:#6366f1; color:white; border:none; border-radius:10px; font-size:14px; font-weight:600; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition:.2s; margin-top:4px; }
     .btn-primary:hover { background:#4f46e5; }
-    .btn-primary:disabled { background:#c7c8f8; cursor:not-allowed; }
-
-    .btn-ghost {
-      width:100%;
-      padding:11px;
-      background:none;
-      color:#6366f1;
-      border:1.5px solid #e0e0f8;
-      border-radius:10px;
-      font-size:14px;
-      font-weight:600;
-      cursor:pointer;
-      margin-top:10px;
-      transition:.2s;
-    }
-    .btn-ghost:hover { background:#f5f5ff; }
-
-    /* OTP FIXED DESIGN */
-    .otp-inputs { 
-      display:flex; 
-      gap:8px; 
-      margin-bottom:20px; 
-      justify-content: space-between;
-    }
-    .otp-box {
-      width: 100%;
-      max-width: 46px;
-      height: 48px;
-      text-align:center;
-      border:1.5px solid #e8e8f0;
-      border-radius:10px;
-      font-size:20px;
-      font-weight:600;
-      background:#fafafa;
-      color:#1a1a2e;
-      outline:none;
-      transition:.2s;
-    }
+    .otp-inputs { display:flex; gap:8px; margin-bottom:20px; justify-content: space-between; }
+    .otp-box { width: 100%; max-width: 46px; height: 48px; text-align:center; border:1.5px solid #e8e8f0; border-radius:10px; font-size:20px; font-weight:600; background:#fafafa; color:#1a1a2e; outline:none; transition:.2s; }
     .otp-box:focus { border-color:#6366f1; background:white; }
-
-    .timer {
-      text-align:center;
-      font-size:12px;
-      color:#999;
-      margin-top:14px;
-    }
-    .timer span { color:#6366f1; font-weight:600; }
-    .timer a { color:#6366f1; cursor:pointer; font-weight:600; }
-
-    .msg {
-      padding:10px 14px;
-      border-radius:8px;
-      font-size:13px;
-      margin-top:14px;
-      display:none;
-    }
+    .timer { text-align:center; font-size:12px; color:#999; margin-top:14px; }
+    .timer span, .timer a { color:#6366f1; font-weight:600; cursor:pointer; }
+    .msg { padding:10px 14px; border-radius:8px; font-size:13px; margin-top:14px; display:none; }
     .msg.success { background:#f0fdf4; color:#16a34a; border:1px solid #bbf7d0; display:block; }
     .msg.error   { background:#fef2f2; color:#dc2626; border:1px solid #fecaca; display:block; }
+    .success-chip { display:inline-flex; align-items:center; gap:6px; background:#f0fdf4; color:#16a34a; border:1px solid #bbf7d0; font-size:12px; font-weight:600; padding:5px 12px; border-radius:20px; margin-bottom:16px; }
+    .btn-ghost { width:100%; padding:11px; background:none; color:#6366f1; border:1.5px solid #e0e0f8; border-radius:10px; font-size:14px; font-weight:600; cursor:pointer; margin-top:10px; transition:.2s; }
 
-    .success-chip {
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      background:#f0fdf4;
-      color:#16a34a;
-      border:1px solid #bbf7d0;
-      font-size:12px;
-      font-weight:600;
-      padding:5px 12px;
-      border-radius:20px;
-      margin-bottom:16px;
-    }
-
-    /* ENHANCED FULL SCREEN SIDEBAR LAYOUT */
-    #app-screen { 
-      display:none; 
-      min-height: 100vh;
-    }
-    
-    .app-layout {
-      display: flex;
-      min-height: 100vh;
-    }
+    /* CORE SIDEBAR & MAIN LAYOUT */
+    #app-screen { display:none; min-height: 100vh; }
+    .app-layout { display: flex; min-height: 100vh; }
 
     .sidebar {
-      width: 280px; /* Enhanced wider element feel */
-      background: white;
-      border-right: 1px solid #e8e8f0;
+      width: 280px;
+      background: #111222;
       display: flex;
       flex-direction: column;
       position: fixed;
-      top: 0;
-      bottom: 0;
-      left: 0;
+      top: 0; bottom: 0; left: 0;
       z-index: 100;
-      padding: 32px 20px;
+      padding: 32px 24px;
     }
-
-    .sidebar-brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 20px;
-      font-weight: 700;
-      color: #6366f1;
-      margin-bottom: 40px;
-      padding-left: 12px;
-    }
-
-    .sidebar-nav {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      flex: 1;
-    }
-
-    .nav-btn {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 14px 18px;
-      background: none;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      font-weight: 600;
-      color: #666;
-      font-size: 15px;
-      text-align: left;
-      transition: 0.2s;
-      width: 100%;
-    }
+    .sidebar-brand { display: flex; align-items: center; gap: 12px; font-size: 20px; font-weight: 700; color: white; margin-bottom: 40px; }
+    .sidebar-brand .icon { background: #6366f1; width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+    .sidebar-nav { display: flex; flex-direction: column; gap: 8px; flex: 1; }
     
-    .nav-btn:hover {
-      background: #f5f5ff;
-      color: #6366f1;
+    .nav-btn {
+      display: flex; align-items: center; gap: 14px; padding: 14px 18px;
+      background: none; border: none; border-radius: 12px; cursor: pointer;
+      font-weight: 600; color: #a3a3c2; font-size: 15px; text-align: left; transition: 0.2s; width: 100%;
     }
+    .nav-btn:hover { background: rgba(255,255,255,0.05); color: white; }
+    .nav-btn.active { background: #6366f1; color: white; box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3); }
 
-    .nav-btn.active {
-      background: #6366f1;
-      color: white;
-      box-shadow: 0 4px 14px rgba(99, 102, 241, 0.2);
-    }
-
-    .sidebar-footer {
-      padding-top: 20px;
-      border-top: 1px solid #f0f0f5;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .user-profile-info {
-      font-size: 14px;
-      font-weight: 600;
-      color: #2a2a3e;
-      padding-left: 12px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
+    .sidebar-footer { padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; gap: 16px; }
+    .user-profile-info { font-size: 14px; font-weight: 600; color: white; padding-left: 6px; }
+    
     .logout-btn {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 12px;
-      background: #fef2f2;
-      color: #dc2626;
-      border: 1px solid #fecaca;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 14px;
-      transition: 0.2s;
+      width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px;
+      background: rgba(220, 38, 38, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2);
+      border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 14px; transition: 0.2s;
     }
-    .logout-btn:hover {
-      background: #dc2626;
-      color: white;
-    }
+    .logout-btn:hover { background: #dc2626; color: white; }
 
-    /* EXPANDED CONTAINER PANELS */
+    /* WORKSPACE ADJUSTMENTS */
     .main-content {
       flex: 1;
       margin-left: 280px; 
-      padding: 40px 60px; /* Enhanced spacing parameters */
+      padding: 40px 50px;
       width: calc(100% - 280px);
     }
 
@@ -356,52 +127,65 @@
       .sidebar-brand span, .nav-btn span, .user-profile-info { display: none; }
       .nav-btn { justify-content: center; padding: 14px; font-size: 18px; }
       .main-content { margin-left: 80px; padding: 24px; width: calc(100% - 80px); }
-      .sidebar-footer { align-items: center; }
     }
 
-    /* CARD COMPONENTS & GRIDS */
-    .stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:24px; margin-bottom:32px; }
-    .stat-card { background:white; border-radius:16px; padding:24px; border:1px solid #eef0f4; box-shadow: 0 4px 16px rgba(0,0,0,0.015); }
-    .stat-card .label { font-size: 12px; color:#888; font-weight:700; text-transform:uppercase; letter-spacing:.8px; }
-    .stat-card .value { font-size:32px; font-weight:700; color:#1a1a2e; margin-top:8px; }
-    .stat-card .sub { font-size:13px; color:#6366f1; margin-top:6px; font-weight: 500; }
+    /* PREMIUM DASHBOARD ELEMENTS */
+    .stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:24px; margin-bottom:32px; }
+    .stat-card { background:white; border-radius:20px; padding:26px; border:1px solid #eaedf3; box-shadow: 0 4px 18px rgba(0,0,0,0.02); display: flex; justify-content: space-between; align-items: center; }
+    .stat-card .info-side { display: flex; flex-direction: column; }
+    .stat-card .label { font-size: 12px; color:#888; font-weight:700; text-transform:uppercase; letter-spacing:1px; }
+    .stat-card .value { font-size:30px; font-weight:700; color:#1e1e30; margin-top:6px; }
+    .stat-card .sub { font-size:13px; color:#6366f1; margin-top:6px; font-weight: 600; display: flex; align-items: center; gap: 4px; }
+    .stat-card .icon-side { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+    
+    .stat-card.blue .icon-side { background: #eef2ff; color: #6366f1; }
+    .stat-card.green .icon-side { background: #ecfdf5; color: #10b981; }
+    .stat-card.red .icon-side { background: #fef2f2; color: #ef4444; }
 
-    .card { background: white; padding: 32px; border-radius: 20px; border: 1px solid #eef0f4; box-shadow: 0 6px 24px rgba(0,0,0,0.015); margin-bottom: 28px; width: 100%; }
-    .card h3 { font-size:18px; font-weight:700; margin-bottom:24px; color:#1a1a2e; }
-    .row { display: flex; gap: 20px; margin-bottom: 20px; flex-wrap: wrap; }
-    .form-group { flex: 1; min-width: 240px; display: flex; flex-direction: column; gap: 8px; }
-    .form-group label { font-size: 13px; font-weight: 600; color: #555; }
-    .form-group input, .form-group select { padding: 12px 14px; border: 1.5px solid #e8e8f0; border-radius: 10px; font-size: 14px; outline: none; background: white; }
+    /* TWO-COLUMN GRID ARCHITECTURE */
+    .dashboard-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 28px; align-items: start; }
+    @media (max-width: 1150px) { .dashboard-grid { grid-template-columns: 1fr; } }
+
+    .card { background: white; padding: 28px; border-radius: 20px; border: 1px solid #eaedf3; box-shadow: 0 4px 20px rgba(0,0,0,0.015); margin-bottom: 24px; width: 100%; }
+    .card-header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .card h3 { font-size:17px; font-weight:700; color:#1a1a2e; }
+    
+    .row { display: flex; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
+    .form-group { flex: 1; min-width: 180px; display: flex; flex-direction: column; gap: 6px; }
+    .form-group label { font-size: 12px; font-weight: 600; color: #666; }
+    .form-group input, .form-group select { padding: 11px 14px; border: 1.5px solid #e8e8f0; border-radius: 10px; font-size: 14px; outline: none; background: white; }
     .form-group input:focus, .form-group select:focus { border-color: #6366f1; }
 
-    .small-btn { padding: 12px 24px; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 14px; transition: 0.2s; }
+    .small-btn { padding: 11px 20px; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 14px; transition: 0.2s; display: inline-flex; align-items: center; gap: 6px; }
     .small-btn.add { background: #6366f1; color: white; }
-    .small-btn.del { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
-    .small-btn:hover { opacity: 0.85; }
+    .small-btn.del { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; padding: 6px 12px; font-size: 12px; }
+    .small-btn:hover { opacity: 0.9; }
     
-    /* ENHANCED GRAPH HEIGHT CONTAINER */
-    .chart-wrap { position: relative; height: 420px; width: 100%; }
-    table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 15px; }
-    th, td { padding: 16px; text-align: left; border-bottom: 1px solid #e8e8f0; }
-    th { font-size: 12px; text-transform: uppercase; color: #888; font-weight: 700; letter-spacing: 0.5px; }
-    tr:hover td { background:#fafafa; }
+    .chart-wrap { position: relative; height: 320px; width: 100%; }
+    
+    /* CLASSY TABLE STYLING */
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 14px 16px; text-align: left; border-bottom: 1px solid #f0f2f5; }
+    th { font-size: 11px; text-transform: uppercase; color: #999; font-weight: 700; letter-spacing: 0.5px; }
+    td { font-size: 14px; color: #333; }
+    tr:hover td { background:#fafbfe; }
 
-    .badge { display:inline-block; padding:4px 12px; border-radius:20px; font-size: 12px; font-weight:600; text-transform:capitalize; }
-    .badge.food          { background:#fef9c3; color:#854d0e; }
-    .badge.transport     { background:#dbeafe; color:#1e40af; }
-    .badge.utilities     { background:#dcfce7; color:#166534; }
-    .badge.entertainment { background:#f3e8ff; color:#6b21a8; }
-    .badge.health        { background:#ffe4e6; color:#9f1239; }
-    .badge.shopping      { background:#ffedd5; color:#9a3412; }
-    .badge.other         { background:#f1f5f9; color:#475569; }
+    .badge { display:inline-block; padding:4px 10px; border-radius:8px; font-size: 11px; font-weight:700; text-transform:capitalize; }
+    .badge.food          { background:#fffbeb; color:#d97706; }
+    .badge.transport     { background:#eff6ff; color:#2563eb; }
+    .badge.utilities     { background:#ecfdf5; color:#059669; }
+    .badge.entertainment { background:#f5f3ff; color:#7c3aed; }
+    .badge.health        { background:#fdf2f2; color:#dc2626; }
+    .badge.shopping      { background:#fff7ed; color:#ea580c; }
+    .badge.other         { background:#f8fafc; color:#475569; }
 
-    /* BUDGET PROGRESS GRAPH ELEMENTS */
-    .budget-item { margin-bottom:20px; }
-    .budget-item .bi-header { display:flex; justify-content:space-between; font-size:14px; margin-bottom:8px; }
+    /* BUDGET DESIGNS */
+    .budget-item { margin-bottom:18px; }
+    .budget-item .bi-header { display:flex; justify-content:space-between; font-size:13px; margin-bottom:6px; }
     .budget-item .bi-header span:first-child { font-weight:600; text-transform:capitalize; }
     .budget-item .bi-header span:last-child  { color:#777; font-weight: 500; }
-    .progress-bar { height:10px; background:#f0f0f0; border-radius:5px; overflow:hidden; }
-    .progress-fill { height:100%; border-radius:5px; transition:.4s; }
+    .progress-bar { height:8px; background:#f0f2f5; border-radius:4px; overflow:hidden; }
+    .progress-fill { height:100%; border-radius:4px; transition:.4s; }
   </style>
 </head>
 <body>
@@ -410,29 +194,14 @@
   <div class="auth-wrap">
     <div class="auth-left">
       <div>
-        <div class="auth-brand">
-          <div class="icon">💰</div>
-          <span>Finance Tracker</span>
-        </div>
+        <div class="auth-brand"><div class="icon">💰</div><span>Finance Tracker</span></div>
         <h1>Take control of your money</h1>
         <p>Track expenses, set smart budgets, and understand where every rupee goes.</p>
         <div class="auth-features">
-          <div class="auth-feature">
-            <div class="check">✓</div>
-            <span>Email OTP — no passwords to forget</span>
-          </div>
-          <div class="auth-feature">
-            <div class="check">✓</div>
-            <span>7 categories with budget alerts</span>
-          </div>
-          <div class="auth-feature">
-            <div class="check">✓</div>
-            <span>Monthly reports and trend charts</span>
-          </div>
-          <div class="auth-feature">
-            <div class="check">✓</div>
-            <span>Secured with JWT authentication</span>
-          </div>
+          <div class="auth-feature"><div class="check">✓</div><span>Email OTP — no passwords to forget</span></div>
+          <div class="auth-feature"><div class="check">✓</div><span>7 categories with budget alerts</span></div>
+          <div class="auth-feature"><div class="check">✓</div><span>Monthly reports and trend charts</span></div>
+          <div class="auth-feature"><div class="check">✓</div><span>Secured with JWT authentication</span></div>
         </div>
       </div>
       <div class="auth-left-footer">finance-tracker-vopt.onrender.com</div>
@@ -440,33 +209,19 @@
 
     <div class="auth-right">
       <div id="step-email">
-        <div class="step-dots">
-          <div class="step-dot active"></div>
-          <div class="step-dot"></div>
-          <div class="step-dot"></div>
-        </div>
+        <div class="step-dots"><div class="step-dot active"></div><div class="step-dot"></div><div class="step-dot"></div></div>
         <h2>Welcome back</h2>
         <p class="sub">Enter your email address and we'll send you a one-time password to sign in.</p>
         <div class="field">
           <label>Email address</label>
-          <div class="input-wrap">
-            <i class="ti ti-mail"></i>
-            <input type="email" id="auth-email" placeholder="you@example.com">
-          </div>
+          <div class="input-wrap"><i class="ti ti-mail"></i><input type="email" id="auth-email" placeholder="you@example.com"></div>
         </div>
-        <button class="btn-primary" onclick="sendOTP()">
-          <i class="ti ti-send" style="font-size:16px"></i>
-          Send OTP
-        </button>
+        <button class="btn-primary" onclick="sendOTP()"><i class="ti ti-send"></i>Send OTP</button>
         <div id="msg-email" class="msg"></div>
       </div>
 
       <div id="step-otp" style="display:none">
-        <div class="step-dots">
-          <div class="step-dot"></div>
-          <div class="step-dot active"></div>
-          <div class="step-dot"></div>
-        </div>
+        <div class="step-dots"><div class="step-dot"></div><div class="step-dot active"></div><div class="step-dot"></div></div>
         <h2>Check your email</h2>
         <p class="sub" id="otp-sub">Enter the 6-digit code sent to your email.</p>
         <div class="otp-inputs">
@@ -477,42 +232,26 @@
           <input class="otp-box" id="otp4" maxlength="1" oninput="otpNext(this,4)" onkeydown="otpBack(event,4)">
           <input class="otp-box" id="otp5" maxlength="1" oninput="otpNext(this,5)" onkeydown="otpBack(event,5)">
         </div>
-        <button class="btn-primary" onclick="verifyOTP()">
-          <i class="ti ti-shield-check" style="font-size:16px"></i>
-          Verify OTP
-        </button>
+        <button class="btn-primary" onclick="verifyOTP()"><i class="ti ti-shield-check"></i>Verify OTP</button>
         <button class="btn-ghost" onclick="showStep('email')">← Back</button>
         <div class="timer">Expires in <span id="timer-val">5:00</span> · <a onclick="resendOTP()">Resend OTP</a></div>
         <div id="msg-otp" class="msg"></div>
       </div>
 
       <div id="step-register" style="display:none">
-        <div class="step-dots">
-          <div class="step-dot"></div>
-          <div class="step-dot"></div>
-          <div class="step-dot active"></div>
-        </div>
+        <div class="step-dots"><div class="step-dot"></div><div class="step-dot"></div><div class="step-dot active"></div></div>
         <div class="success-chip">✓ OTP verified</div>
         <h2>Create account</h2>
         <p class="sub">Almost there — set a username and password to complete signup.</p>
         <div class="field">
           <label>Username</label>
-          <div class="input-wrap">
-            <i class="ti ti-user"></i>
-            <input type="text" id="reg-username" placeholder="Your name">
-          </div>
+          <div class="input-wrap"><i class="ti ti-user"></i><input type="text" id="reg-username" placeholder="Your name"></div>
         </div>
         <div class="field">
           <label>Password</label>
-          <div class="input-wrap">
-            <i class="ti ti-lock"></i>
-            <input type="password" id="reg-password" placeholder="Create a password (min 6 chars)">
-          </div>
+          <div class="input-wrap"><i class="ti ti-lock"></i><input type="password" id="reg-password" placeholder="Create a password (min 6 chars)"></div>
         </div>
-        <button class="btn-primary" onclick="registerUser()">
-          <i class="ti ti-rocket" style="font-size:16px"></i>
-          Create account
-        </button>
+        <button class="btn-primary" onclick="registerUser()"><i class="ti ti-rocket"></i>Create account</button>
         <div id="msg-register" class="msg"></div>
       </div>
     </div>
@@ -523,36 +262,16 @@
   <div class="app-layout">
     
     <aside class="sidebar">
-      <div class="sidebar-brand">
-        <span class="icon">💰</span>
-        <span>Finance Tracker</span>
-      </div>
-      
+      <div class="sidebar-brand"><div class="icon">💰</div><span>Finance Tracker</span></div>
       <nav class="sidebar-nav">
-        <button class="nav-btn active" onclick="showTab('dashboard')">
-          <i class="ti ti-dashboard" style="font-size:20px"></i>
-          <span>Dashboard</span>
-        </button>
-        <button class="nav-btn" onclick="showTab('expenses')">
-          <i class="ti ti-receipt" style="font-size:20px"></i>
-          <span>Expenses</span>
-        </button>
-        <button class="nav-btn" onclick="showTab('budgets')">
-          <i class="ti ti-wallet" style="font-size:20px"></i>
-          <span>Budgets</span>
-        </button>
-        <button class="nav-btn" onclick="showTab('reports')">
-          <i class="ti ti-chart-pie" style="font-size:20px"></i>
-          <span>Reports</span>
-        </button>
+        <button class="nav-btn active" onclick="showTab('dashboard')"><i class="ti ti-layout-dashboard"></i><span>Dashboard</span></button>
+        <button class="nav-btn" onclick="showTab('expenses')"><i class="ti ti-credit-card"></i><span>Expenses</span></button>
+        <button class="nav-btn" onclick="showTab('budgets')"><i class="ti ti-adjustments"></i><span>Budgets</span></button>
+        <button class="nav-btn" onclick="showTab('reports')"><i class="ti ti-report-analytics"></i><span>Reports</span></button>
       </nav>
-      
       <div class="sidebar-footer">
         <div class="user-profile-info" id="welcome-msg">Hi, User!</div>
-        <button class="logout-btn" onclick="logout()">
-          <i class="ti ti-logout" style="font-size:16px"></i>
-          <span>Logout</span>
-        </button>
+        <button class="logout-btn" onclick="logout()"><i class="ti ti-logout"></i><span>Logout</span></button>
       </div>
     </aside>
 
@@ -560,44 +279,73 @@
       
       <div id="tab-dashboard">
         <div class="stats-grid" id="stats-grid"></div>
-        <div class="card">
-          <h3>Category Spending Trends</h3>
-          <div class="chart-wrap"><canvas id="trend-chart"></canvas></div>
+        
+        <div class="dashboard-grid">
+          <div class="left-pillar">
+            <div class="card">
+              <div class="card-header-flex">
+                <h3>Quick Expense Entry</h3>
+              </div>
+              <div class="row">
+                <div class="form-group">
+                  <label>Amount (₹)</label>
+                  <input type="number" id="dash-exp-amount" placeholder="0.00" min="0">
+                </div>
+                <div class="form-group">
+                  <label>Category</label>
+                  <select id="dash-exp-category">
+                    <option value="food">Food</option>
+                    <option value="transport">Transport</option>
+                    <option value="utilities">Utilities</option>
+                    <option value="entertainment">Entertainment</option>
+                    <option value="health">Health</option>
+                    <option value="shopping">Shopping</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Description</label>
+                  <input type="text" id="dash-exp-desc" placeholder="Cafe lunch, rent...">
+                </div>
+              </div>
+              <button class="small-btn add" onclick="addDashExpense()"><i class="ti ti-plus"></i> Add Entry</button>
+              <div id="msg-dash-expense" class="msg" style="margin-top:12px"></div>
+            </div>
+
+            <div class="card">
+              <div class="card-header-flex">
+                <h3>Recent Activities</h3>
+                <a onclick="showTab('expenses')" style="color:#6366f1; font-weight:600; font-size:13px; cursor:pointer;">View History →</a>
+              </div>
+              <table>
+                <thead>
+                  <tr><th>Date</th><th>Category</th><th>Description</th><th>Amount</th><th>Action</th></tr>
+                </thead>
+                <tbody id="dash-expense-table"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="right-pillar">
+            <div class="card">
+              <h3>Monthly Breakdown</h3>
+              <div class="chart-wrap" style="height:260px; margin-top:15px;">
+                <canvas id="dash-pie-chart"></canvas>
+              </div>
+            </div>
+            <div class="card">
+              <h3>Active Budget Progress</h3>
+              <div id="dash-budget-progress" style="margin-top:10px;"></div>
+            </div>
+          </div>
         </div>
       </div>
 
       <div id="tab-expenses" style="display:none">
         <div class="card">
-          <h3>Add expense</h3>
-          <div class="row">
-            <div class="form-group">
-              <label>Amount (₹)</label>
-              <input type="number" id="exp-amount" placeholder="0.00" min="0">
-            </div>
-            <div class="form-group">
-              <label>Category</label>
-              <select id="exp-category">
-                <option value="food">Food</option>
-                <option value="transport">Transport</option>
-                <option value="utilities">Utilities</option>
-                <option value="entertainment">Entertainment</option>
-                <option value="health">Health</option>
-                <option value="shopping">Shopping</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Description</label>
-              <input type="text" id="exp-desc" placeholder="e.g. Lunch at cafe">
-            </div>
-          </div>
-          <button class="small-btn add" onclick="addExpense()">+ Add Expense</button>
-          <div id="msg-expense" class="msg" style="margin-top:12px"></div>
-        </div>
-        <div class="card">
-          <h3>Recent expenses</h3>
-          <div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap">
-            <select id="filter-cat" onchange="loadExpenses()" style="width:160px">
+          <h3>Transaction History Manager</h3>
+          <div style="display:flex; gap:12px; margin-bottom:20px; flex-wrap:wrap">
+            <select id="filter-cat" onchange="loadExpenses()" style="width:180px">
               <option value="">All categories</option>
               <option value="food">Food</option>
               <option value="transport">Transport</option>
@@ -611,9 +359,7 @@
           </div>
           <table>
             <thead>
-              <tr>
-                <th>Date</th><th>Category</th><th>Description</th><th>Amount</th><th></th>
-              </tr>
+              <tr><th>Date</th><th>Category</th><th>Description</th><th>Amount</th><th></th></tr>
             </thead>
             <tbody id="expense-table"></tbody>
           </table>
@@ -622,14 +368,14 @@
 
       <div id="tab-budgets" style="display:none">
         <div class="card">
-          <h3>Set monthly budget</h3>
+          <h3>Set Spending Caps</h3>
           <div class="row">
             <div class="form-group">
-              <label>Month</label>
+              <label>Target Month</label>
               <input type="month" id="bud-month">
             </div>
             <div class="form-group">
-              <label>Category</label>
+              <label>Category Space</label>
               <select id="bud-category">
                 <option value="food">Food</option>
                 <option value="transport">Transport</option>
@@ -641,37 +387,35 @@
               </select>
             </div>
             <div class="form-group">
-              <label>Limit (₹)</label>
+              <label>Monthly Limit (₹)</label>
               <input type="number" id="bud-limit" placeholder="5000" min="0">
             </div>
           </div>
-          <button class="small-btn add" onclick="setBudget()">Save Budget</button>
+          <button class="small-btn add" onclick="setBudget()"><i class="ti ti-device-floppy"></i> Save Constraints</button>
           <div id="msg-budget" class="msg" style="margin-top:12px"></div>
         </div>
         <div class="card">
-          <h3>Budget vs spending</h3>
+          <h3>Allocations Variance Ledger</h3>
           <div id="budget-progress"></div>
         </div>
       </div>
 
       <div id="tab-reports" style="display:none">
         <div class="card">
-          <h3>Monthly summary</h3>
-          <div style="display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap">
+          <h3>Monthly Trend Performance</h3>
+          <div style="display:flex; gap:12px; margin-bottom:20px; flex-wrap:wrap">
             <input type="month" id="rep-month" style="width:200px">
-            <button class="small-btn add" onclick="loadReport()">Generate</button>
+            <button class="small-btn add" onclick="loadReport()"><i class="ti ti-refresh"></i> Generate Matrix</button>
           </div>
           <table>
             <thead>
-              <tr>
-                <th>Category</th><th>Spent</th><th>Budget</th><th>Status</th>
-              </tr>
+              <tr><th>Category</th><th>Spent</th><th>Budget Target</th><th>Status</th></tr>
             </thead>
             <tbody id="report-table"></tbody>
           </table>
         </div>
         <div class="card">
-          <h3>Spending by category</h3>
+          <h3>Proportional Distribution Chart</h3>
           <div class="chart-wrap"><canvas id="pie-chart"></canvas></div>
         </div>
       </div>
@@ -684,8 +428,8 @@
   const API = '';
   let TOKEN = localStorage.getItem('ft_token') || '';
   let timerInterval = null;
-  let pieChartInstance = null;
-  let trendChartInstance = null;
+  let globalPieInstance = null;
+  let dashPieInstance = null;
 
   function api(path, opts={}) {
     const headers = { 'Content-Type': 'application/json' };
@@ -717,10 +461,8 @@
       const el = document.getElementById('tab-'+t);
       if (el) el.style.display = t===tab ? 'block' : 'none';
     });
-    
     document.querySelectorAll('.nav-btn').forEach(btn => {
-      const isCurrent = btn.getAttribute('onclick').includes(tab);
-      btn.classList.toggle('active', isCurrent);
+      btn.classList.toggle('active', btn.getAttribute('onclick').includes(tab));
     });
 
     if (tab==='dashboard') loadDashboard();
@@ -760,18 +502,12 @@
     const email = document.getElementById('auth-email').value.trim();
     if (!email) return showMsg('msg-email','Enter your email','error');
     
-    const r = await api('/auth/send-otp', {
-      method:'POST', body: JSON.stringify({email})
-    });
+    const r = await api('/auth/send-otp', { method:'POST', body: JSON.stringify({email}) });
     const d = await r.json();
     if (r.ok) {
       showMsg('msg-email', d.msg || 'OTP Sent successfully', 'success');
       document.getElementById('otp-sub').textContent = 'Code sent to ' + email;
-      setTimeout(() => { 
-        showStep('otp'); 
-        startTimer();
-        document.getElementById('otp0')?.focus();
-      }, 800);
+      setTimeout(() => { showStep('otp'); startTimer(); document.getElementById('otp0')?.focus(); }, 800);
     } else {
       showMsg('msg-email', d.detail || 'Error', 'error');
     }
@@ -783,9 +519,7 @@
     if (r.ok) {
       showMsg('msg-otp', 'New OTP sent!', 'success');
       startTimer();
-      for (let i = 0; i < 6; i++) {
-        document.getElementById('otp' + i).value = '';
-      }
+      for (let i = 0; i < 6; i++) document.getElementById('otp' + i).value = '';
       document.getElementById('otp0').focus();
     } else {
       const d = await r.json();
@@ -800,9 +534,7 @@
     if (otp.length !== 6) return showMsg('msg-otp','Enter all 6 digits','error');
     showMsg('msg-otp', 'Verifying...', 'success');
 
-    const r = await api('/auth/verify-otp', {
-      method:'POST', body: JSON.stringify({email, otp})
-    });
+    const r = await api('/auth/verify-otp', { method:'POST', body: JSON.stringify({email, otp}) });
     const d = await r.json();
     if (r.ok) {
       localStorage.setItem('ft_username', d.username);
@@ -825,19 +557,14 @@
 
     if (!username || !password) return showMsg('msg-register','Fill all fields','error');
     
-    const r = await api('/auth/register', {
-      method:'POST', body: JSON.stringify({email, username, password})
-    });
+    const r = await api('/auth/register', { method:'POST', body: JSON.stringify({email, username, password}) });
     const d = await r.json();
     if (r.ok) {
       showMsg('msg-register','Account created! Sending verification code...','success');
-      const lr = await api('/auth/send-otp', {
-        method:'POST', body: JSON.stringify({email})
-      });
+      const lr = await api('/auth/send-otp', { method:'POST', body: JSON.stringify({email}) });
       if (lr.ok) {
         setTimeout(() => {
-          showStep('otp');
-          startTimer();
+          showStep('otp'); startTimer();
           for (let i = 0; i < 6; i++) document.getElementById('otp' + i).value = '';
           document.getElementById('otp0').focus();
           showMsg('msg-otp', 'Account created! Enter the new OTP to log in.', 'success');
@@ -848,10 +575,19 @@
     }
   }
 
+  document.addEventListener('DOMContentLoaded', () => {
+    if (TOKEN) {
+      api('/health').then(r => {
+        if (r.ok) enterApp(localStorage.getItem('ft_username') || '');
+        else logout();
+      }).catch(() => logout());
+    }
+  });
+
   function enterApp(username) {
     document.getElementById('auth-screen').style.display = 'none';
     document.getElementById('app-screen').style.display = 'block';
-    document.getElementById('welcome-msg').textContent = 'Hi, ' + (username || 'there') + '!';
+    document.getElementById('welcome-msg').textContent = 'Hi, ' + (username || 'User') + '!';
     
     const m = nowMonth();
     document.getElementById('bud-month').value = m;
@@ -862,151 +598,145 @@
   }
 
   function logout() {
-    TOKEN = '';
-    localStorage.removeItem('ft_token');
-    localStorage.removeItem('ft_username');
+    TOKEN = ''; localStorage.removeItem('ft_token'); localStorage.removeItem('ft_username');
     document.getElementById('app-screen').style.display = 'none';
     document.getElementById('auth-screen').style.display = 'flex';
     showStep('email');
   }
 
-  /* ── APPLICATION METRICS & MODULES ────────────────── */
+  /* ── INTERACTIVE MODULE EXECUTION ENGINES ────────────────── */
 
   async function loadDashboard() {
     const monthVal = nowMonth();
     const [y, m] = monthVal.split('-');
     
-    const r = await api(`/reports/monthly-summary?year=${y}&month=${m}`);
-    const data = r.ok ? await r.json() : [];
-    
-    const total = data.reduce((s, i) => s + i.spent, 0);
-    const overCount = data.filter(i => i.over_budget).length;
+    const [summaryRes, expensesRes, budgetsRes] = await Promise.all([
+      api(`/reports/monthly-summary?year=${y}&month=${m}`),
+      api(`/expenses/?year=${y}&month=${m}`),
+      api(`/budgets/?month=${monthVal}`)
+    ]);
 
+    const summaryData = summaryRes.ok ? await summaryRes.json() : [];
+    const expensesData = expensesRes.ok ? await expensesRes.json() : [];
+    const budgetsData = budgetsRes.ok ? await budgetsRes.json() : [];
+
+    const totalSpent = summaryData.reduce((s, i) => s + i.spent, 0);
+    const totalBudget = budgetsData.reduce((s, i) => s + i.monthly_limit, 0);
+    const overBudgetCount = summaryData.filter(i => i.over_budget).length;
+
+    // Renders Premium Header Cards with visual icons
     document.getElementById('stats-grid').innerHTML = `
-      <div class="stat-card">
-        <div class="label">This month spent</div>
-        <div class="value">₹${total.toLocaleString('en-IN',{maximumFractionDigits:0})}</div>
-        <div class="sub">${new Date().toLocaleString('default',{month:'long',year:'numeric'})}</div>
+      <div class="stat-card blue">
+        <div class="info-side">
+          <div class="label">Monthly Expenditures</div>
+          <div class="value">₹${totalSpent.toLocaleString('en-IN')}</div>
+          <div class="sub"><i class="ti ti-calendar"></i> ${new Date().toLocaleString('default',{month:'long'})} Summary</div>
+        </div>
+        <div class="icon-side"><i class="ti ti-cash"></i></div>
       </div>
-      <div class="stat-card">
-        <div class="label">Categories tracked</div>
-        <div class="value">${data.length}</div>
-        <div class="sub">active this month</div>
+      <div class="stat-card green">
+        <div class="info-side">
+          <div class="label">Total Budget Caps</div>
+          <div class="value">₹${totalBudget.toLocaleString('en-IN')}</div>
+          <div class="sub"><i class="ti ti-wallet"></i> Max Allocation</div>
+        </div>
+        <div class="icon-side"><i class="ti ti-pig-money"></i></div>
       </div>
-      <div class="stat-card">
-        <div class="label">Over budget</div>
-        <div class="value" style="color:${overCount > 0 ? '#dc2626':'#16a34a'}">${overCount}</div>
-        <div class="sub">categories exceeded</div>
+      <div class="stat-card red">
+        <div class="info-side">
+          <div class="label">Cap Threshold Alert</div>
+          <div class="value" style="color:${overBudgetCount > 0 ? '#dc2626': '#10b981'}">${overBudgetCount}</div>
+          <div class="sub"><i class="ti ti-alert-triangle"></i> Exceeded Spaces</div>
+        </div>
+        <div class="icon-side"><i class="ti ti-bell-ringing"></i></div>
       </div>
     `;
-    loadTrendChart();
-  }
 
-  // FIXED & UPGRADED: Renders a modern Multi-Line Breakdown for all tracking spending categories
-  async function loadTrendChart() {
-    const r = await api('/reports/spending-trend');
-    if (!r.ok) return;
-    const responseData = await r.json();
-    
-    if (trendChartInstance) trendChartInstance.destroy();
-    const ctx = document.getElementById('trend-chart').getContext('2d');
-
-    // Extract unique time periods (e.g., "2026-05", "2026-06")
-    const periods = [...new Set(responseData.map(d => d.period))].sort();
-
-    // Map categories to dynamic brand identity colors
-    const categoryColors = {
-      'food': '#f59e0b',
-      'transport': '#3b82f6',
-      'utilities': '#10b981',
-      'entertainment': '#8b5cf6',
-      'health': '#ef4444',
-      'shopping': '#f97316',
-      'other': '#64748b'
-    };
-
-    // Construct lines map dynamically based on category history array sets
-    const trackingCategories = [...new Set(responseData.map(d => d.category || 'total'))];
-    
-    const datasets = trackingCategories.map(cat => {
-      const color = categoryColors[cat.toLowerCase()] || '#6366f1';
-      
-      // Calculate coordinates values mapping missing spaces safely with 0
-      const pointValues = periods.map(p => {
-        const entry = responseData.find(d => d.period === p && (d.category || 'total').toLowerCase() === cat.toLowerCase());
-        return entry ? (entry.total || entry.spent || 0) : 0;
-      });
-
-      return {
-        label: cat.charAt(0).toUpperCase() + cat.slice(1),
-        data: pointValues,
-        borderColor: color,
-        backgroundColor: color + '15',
-        borderWidth: 3,
-        tension: 0.3,
-        fill: cat.toLowerCase() === 'total' || trackingCategories.length === 1,
-        pointRadius: 4,
-        pointHoverRadius: 7
-      };
-    });
-
-    trendChartInstance = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: periods,
-        datasets: datasets
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            display: true,
-            position: 'top',
-            labels: { boxWidth: 12, usePointStyle: true, font: { weight: 600 } }
-          }
-        },
-        scales: { 
-          y: { beginAtZero: true, grid: { color: '#f0f0f0' } },
-          x: { grid: { display: false } } 
-        }
-      }
-    });
-  }
-
-  async function addExpense() {
-    const amount = parseFloat(document.getElementById('exp-amount').value);
-    const category = document.getElementById('exp-category').value;
-    const description = document.getElementById('exp-desc').value.trim();
-
-    if (!amount || amount <= 0) return showMsg('msg-expense','Enter a valid amount','error');
-
-    const r = await api('/expenses/', {
-      method:'POST',
-      body: JSON.stringify({amount, category, description})
-    });
-    const d = await r.json();
-
-    if (r.ok) {
-      showMsg('msg-expense','Expense added!','success');
-      document.getElementById('exp-amount').value = '';
-      document.getElementById('exp-desc').value = '';
-      loadExpenses();
+    // Render Recent Log directly onto the Dashboard Workspace
+    const dashTbody = document.getElementById('dash-expense-table');
+    if (!expensesData.length) {
+      dashTbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#aaa;padding:20px">No metrics logged this month</td></tr>';
     } else {
-      showMsg('msg-expense', d.detail || 'Error adding expense','error');
+      dashTbody.innerHTML = expensesData.slice(0, 5).map(e => `
+        <tr>
+          <td>${new Date(e.date).toLocaleDateString('en-IN', {day:'2-digit', month:'short'})}</td>
+          <td><span class="badge ${e.category}">${e.category}</span></td>
+          <td>${e.description || '-'}</td>
+          <td style="font-weight:600">₹${e.amount.toLocaleString('en-IN')}</td>
+          <td><button class="small-btn del" onclick="deleteDashExpense(${e.id})">Delete</button></td>
+        </tr>
+      `).join('');
+    }
+
+    // Render dynamic widget mini progress inside Right Column
+    const dashBudgetContainer = document.getElementById('dash-budget-progress');
+    if (!budgetsData.length) {
+      dashBudgetContainer.innerHTML = '<p style="color:#aaa; font-size:13px; text-align:center; padding:10px;">No caps mapped for this period.</p>';
+    } else {
+      const spendMap = Object.fromEntries(summaryData.map(s => [s.category, s.spent]));
+      dashBudgetContainer.innerHTML = budgetsData.slice(0, 3).map(b => {
+        const spent = spendMap[b.category] || 0;
+        const pct = Math.min((spent / b.monthly_limit) * 100, 100);
+        const color = pct >= 100 ? '#ef4444' : pct >= 80 ? '#f59e0b' : '#6366f1';
+        return `
+          <div class="budget-item">
+            <div class="bi-header"><span>${b.category}</span><span>₹${spent} / ₹${b.monthly_limit}</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:${pct}%; background:${color}"></div></div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Render Clean Dashboard Donut Context Chart
+    if (dashPieInstance) dashPieInstance.destroy();
+    if (summaryData.length > 0) {
+      const ctx = document.getElementById('dash-pie-chart').getContext('2d');
+      dashPieInstance = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: summaryData.map(d => d.category),
+          datasets: [{
+            data: summaryData.map(d => d.spent),
+            backgroundColor: ['#6366f1','#f59e0b','#10b981','#ef4444','#8b5cf6','#06b6d4','#f97316'],
+            borderWidth: 0
+          }]
+        },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, usePointStyle: true } } } }
+      });
     }
   }
+
+  async function addDashExpense() {
+    const amount = parseFloat(document.getElementById('dash-exp-amount').value);
+    const category = document.getElementById('dash-exp-category').value;
+    const description = document.getElementById('dash-exp-desc').value.trim();
+
+    if (!amount || amount <= 0) return showMsg('msg-dash-expense','Enter valid parameters','error');
+    
+    const r = await api('/expenses/', { method:'POST', body: JSON.stringify({amount, category, description}) });
+    if (r.ok) {
+      showMsg('msg-dash-expense','Logged successfully!','success');
+      document.getElementById('dash-exp-amount').value = '';
+      document.getElementById('dash-exp-desc').value = '';
+      loadDashboard();
+    }
+  }
+
+  async function deleteDashExpense(id) {
+    if (confirm('Remove transaction record?')) {
+      const r = await api('/expenses/'+id, {method:'DELETE'});
+      if (r.ok) loadDashboard();
+    }
+  }
+
+  /* ── SECURE TRANSACTION MODULE LEDGERS ────────────────── */
 
   async function loadExpenses() {
     const cat = document.getElementById('filter-cat').value;
     const month = document.getElementById('filter-month').value;
     let url = '/expenses/?';
-    
     if (cat) url += `category=${cat}&`;
-    if (month) {
-      const [y, m] = month.split('-');
-      url += `year=${y}&month=${m}`;
-    }
+    if (month) { const [y, m] = month.split('-'); url += `year=${y}&month=${m}`; }
 
     const r = await api(url);
     if (!r.ok) return;
@@ -1014,10 +744,9 @@
     const tbody = document.getElementById('expense-table');
 
     if (!data.length) {
-      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#aaa;padding:24px">No expenses found</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#aaa; padding:24px;">No transactions matched this filter scope.</td></tr>';
       return;
     }
-
     tbody.innerHTML = data.map(e => `
       <tr>
         <td>${new Date(e.date).toLocaleDateString('en-IN')}</td>
@@ -1030,7 +759,7 @@
   }
 
   async function deleteExpense(id) {
-    if (!confirm('Delete this expense?')) return;
+    if (!confirm('Permanently wipe record?')) return;
     const r = await api('/expenses/'+id, {method:'DELETE'});
     if (r.ok) loadExpenses();
   }
@@ -1041,28 +770,16 @@
     const limitInput = document.getElementById('bud-limit').value;
     const limit = parseFloat(limitInput);
 
-    if (!month || !limitInput || limit <= 0) return showMsg('msg-budget','Fill all fields correctly','error');
+    if (!month || !limitInput || limit <= 0) return showMsg('msg-budget','Fill constraints form fields completely','error');
 
-    const r = await api('/budgets/', {
-      method: 'POST',
-      body: JSON.stringify({
-        category: category,
-        monthly_limit: limit,
-        month: month
-      })
-    });
+    const r = await api('/budgets/', { method: 'POST', body: JSON.stringify({ category, monthly_limit: limit, month }) });
     const d = await r.json();
-
     if (r.ok) {
-      showMsg('msg-budget','Budget saved!','success');
+      showMsg('msg-budget','Constraints mapped successfully!','success');
       document.getElementById('bud-limit').value = '';
       loadBudgetProgress();
     } else {
-      let errMsg = 'Error saving budget';
-      if (d.detail) {
-        errMsg = typeof d.detail === 'object' ? JSON.stringify(d.detail) : d.detail;
-      }
-      showMsg('msg-budget', errMsg, 'error');
+      showMsg('msg-budget', d.detail || 'Validation Error','error');
     }
   }
 
@@ -1070,36 +787,26 @@
     const month = document.getElementById('bud-month').value || nowMonth();
     const [y, m] = month.split('-');
 
-    const [br, sr] = await Promise.all([
-      api(`/budgets/?month=${month}`),
-      api(`/reports/monthly-summary?year=${y}&month=${m}`)
-    ]);
-
+    const [br, sr] = await Promise.all([api(`/budgets/?month=${month}`), api(`/reports/monthly-summary?year=${y}&month=${m}`)]);
     if (!br.ok || !sr.ok) return;
+    
     const budgets = await br.json();
     const summary = await sr.json();
-
     const spendMap = Object.fromEntries(summary.map(s => [s.category, s.spent]));
     const container = document.getElementById('budget-progress');
 
     if (!budgets.length) {
-      container.innerHTML = '<p style="color:#aaa;text-align:center;padding:20px">No budgets set for this month</p>';
+      container.innerHTML = '<p style="color:#aaa;text-align:center;padding:20px">No thresholds set for this month profile.</p>';
       return;
     }
-
     container.innerHTML = budgets.map(b => {
       const spent = spendMap[b.category] || 0;
       const pct = Math.min((spent / b.monthly_limit) * 100, 100);
       const color = pct >= 100 ? '#ef4444' : pct >= 80 ? '#f59e0b' : '#6366f1';
       return `
         <div class="budget-item">
-          <div class="bi-header">
-            <span>${b.category}</span>
-            <span>₹${spent.toLocaleString('en-IN')} / ₹${b.monthly_limit.toLocaleString('en-IN')}</span>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill" style="width:${pct}%;background:${color}"></div>
-          </div>
+          <div class="bi-header"><span>${b.category}</span><span>₹${spent.toLocaleString('en-IN')} / ₹${b.monthly_limit.toLocaleString('en-IN')}</span></div>
+          <div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:${color}"></div></div>
         </div>
       `;
     }).join('');
@@ -1115,7 +822,7 @@
     const tbody = document.getElementById('report-table');
 
     if (!data.length) {
-      tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#aaa;padding:24px">No data for this month</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#aaa;padding:24px">No active parameters logged.</td></tr>';
     } else {
       tbody.innerHTML = data.map(row => `
         <tr>
@@ -1123,48 +830,23 @@
           <td style="font-weight:600">₹${row.spent.toLocaleString('en-IN')}</td>
           <td>${row.budget ? '₹'+row.budget.toLocaleString('en-IN') : '<span style="color:#ccc">—</span>'}</td>
           <td>
-            ${row.over_budget
-              ? '<span style="color:#dc2626;font-weight:600">⚠ Over budget</span>'
-              : row.budget
-                ? '<span style="color:#16a34a;font-weight:600">✓ Within budget</span>'
-                : '<span style="color:#aaa">No budget set</span>'
-            }
+            ${row.over_budget ? '<span style="color:#dc2626;font-weight:700">⚠ Over Budget</span>' : row.budget ? '<span style="color:#10b981;font-weight:700">✓ Within Target</span>' : '<span style="color:#aaa">Unmapped Cap</span>'}
           </td>
         </tr>
       `).join('');
     }
 
-    if (pieChartInstance) pieChartInstance.destroy();
+    if (globalPieInstance) globalPieInstance.destroy();
     const ctx = document.getElementById('pie-chart').getContext('2d');
-    const colors = ['#6366f1','#f59e0b','#10b981','#ef4444','#8b5cf6','#06b6d4','#f97316'];
-
-    pieChartInstance = new Chart(ctx, {
+    globalPieInstance = new Chart(ctx, {
       type: 'doughnut',
       data: {
         labels: data.map(d => d.category),
-        datasets: [{
-          data: data.map(d => d.spent),
-          backgroundColor: colors.slice(0, data.length),
-          borderWidth: 0,
-        }]
+        datasets: [{ data: data.map(d => d.spent), backgroundColor: ['#6366f1','#f59e0b','#10b981','#ef4444','#8b5cf6','#06b6d4','#f97316'], borderWidth: 0 }]
       },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: { legend: { position: 'right' } }
-      }
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right' } } }
     });
   }
-
-  window.addEventListener('DOMContentLoaded', () => {
-    if (TOKEN) {
-      api('/health').then(r => {
-        if (r.ok) enterApp(localStorage.getItem('ft_username') || '');
-        else logout();
-      }).catch(() => logout());
-    }
-  });
 </script>
 </body>
 </html>
-
