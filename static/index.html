@@ -359,7 +359,7 @@
           </div>
           <table>
             <thead>
-              <tr><th>Date</th><th>Category</th><th>Description</th><th>Amount</th><th></th></tr>
+              <tr><th>Date</th><th>Category</th><th>Description</th><th>Amount</th><th>Edit</th><th>Delete</th></tr>
             </thead>
             <tbody id="expense-table"></tbody>
           </table>
@@ -421,6 +421,37 @@
       </div>
 
     </main>
+  </div>
+</div>
+
+<div id="edit-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4); z-index:100;align-items:center;justify-content:center;">
+  <div style="background:white;border-radius:16px;padding:28px;width:100%;max-width:420px;margin:20px">
+    <h3 style="margin-bottom:20px;font-size:16px;font-weight:700">Edit Expense</h3>
+    <input type="hidden" id="edit-id">
+    <div class="form-group" style="margin-bottom:14px">
+      <label>Amount (₹)</label>
+      <input type="number" id="edit-amount">
+    </div>
+    <div class="form-group" style="margin-bottom:14px">
+      <label>Category</label>
+      <select id="edit-category">
+        <option value="food">Food</option>
+        <option value="transport">Transport</option>
+        <option value="utilities">Utilities</option>
+        <option value="entertainment">Entertainment</option>
+        <option value="health">Health</option>
+        <option value="shopping">Shopping</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+    <div class="form-group" style="margin-bottom:20px">
+      <label>Description</label>
+      <input type="text" id="edit-desc">
+    </div>
+    <div style="display:flex;gap:10px">
+      <button class="small-btn add" style="flex:1;padding:11px" onclick="saveEdit()">Save changes</button>
+      <button class="small-btn del" style="flex:1;padding:11px" onclick="closeEdit()">Cancel</button>
+    </div>
   </div>
 </div>
 
@@ -624,7 +655,6 @@
     const totalBudget = budgetsData.reduce((s, i) => s + i.monthly_limit, 0);
     const overBudgetCount = summaryData.filter(i => i.over_budget).length;
 
-    // Renders Premium Header Cards with visual icons
     document.getElementById('stats-grid').innerHTML = `
       <div class="stat-card blue">
         <div class="info-side">
@@ -652,7 +682,6 @@
       </div>
     `;
 
-    // Render Recent Log directly onto the Dashboard Workspace
     const dashTbody = document.getElementById('dash-expense-table');
     if (!expensesData.length) {
       dashTbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#aaa;padding:20px">No metrics logged this month</td></tr>';
@@ -668,7 +697,6 @@
       `).join('');
     }
 
-    // Render dynamic widget mini progress inside Right Column
     const dashBudgetContainer = document.getElementById('dash-budget-progress');
     if (!budgetsData.length) {
       dashBudgetContainer.innerHTML = '<p style="color:#aaa; font-size:13px; text-align:center; padding:10px;">No caps mapped for this period.</p>';
@@ -687,7 +715,6 @@
       }).join('');
     }
 
-    // Render Clean Dashboard Donut Context Chart
     if (dashPieInstance) dashPieInstance.destroy();
     if (summaryData.length > 0) {
       const ctx = document.getElementById('dash-pie-chart').getContext('2d');
@@ -732,19 +759,17 @@
   /* ── SECURE TRANSACTION MODULE LEDGERS ────────────────── */
 
   async function loadExpenses() {
-    const cat = document.getElementById('filter-cat').value;
+    const cat   = document.getElementById('filter-cat').value;
     const month = document.getElementById('filter-month').value;
     let url = '/expenses/?';
-    if (cat) url += `category=${cat}&`;
-    if (month) { const [y, m] = month.split('-'); url += `year=${y}&month=${m}`; }
-
+    if (cat) url += 'category='+cat+'&';
+    if (month) { const [y,m]=month.split('-'); url += 'year='+y+'&month='+m; }
     const r = await api(url);
     if (!r.ok) return;
     const data = await r.json();
     const tbody = document.getElementById('expense-table');
-
     if (!data.length) {
-      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#aaa; padding:24px;">No transactions matched this filter scope.</td></tr>';
+      tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:#aaa;padding:24px">No expenses found</td></tr>';
       return;
     }
     tbody.innerHTML = data.map(e => `
@@ -753,9 +778,39 @@
         <td><span class="badge ${e.category}">${e.category}</span></td>
         <td>${e.description || '-'}</td>
         <td style="font-weight:600">₹${e.amount.toLocaleString('en-IN')}</td>
-        <td><button class="small-btn del" onclick="deleteExpense(${e.id})">Delete</button></td>
-      </tr>
-    `).join('');
+        <td>
+          <button class="small-btn add" style="padding:6px 12px;font-size:12px"
+            onclick="openEdit(${e.id},'${e.category}','${e.description||''}',${e.amount})">Edit</button>
+        </td>
+        <td>
+          <button class="small-btn del" onclick="deleteExpense(${e.id})">Delete</button>
+        </td>
+      </tr>`).join('');
+  }
+
+  function openEdit(id, category, description, amount) {
+    document.getElementById('edit-id').value = id;
+    document.getElementById('edit-amount').value = amount;
+    document.getElementById('edit-category').value = category;
+    document.getElementById('edit-desc').value = description;
+    document.getElementById('edit-modal').style.display = 'flex';
+  }
+
+  function closeEdit() {
+    document.getElementById('edit-modal').style.display = 'none';
+  }
+
+  async function saveEdit() {
+    const id          = document.getElementById('edit-id').value;
+    const amount      = parseFloat(document.getElementById('edit-amount').value);
+    const category    = document.getElementById('edit-category').value;
+    const description = document.getElementById('edit-desc').value.trim();
+    const r = await api('/expenses/'+id, {
+      method: 'PUT',
+      body: JSON.stringify({ amount, category, description })
+    });
+    if (r.ok) { closeEdit(); loadExpenses(); loadDashboard(); }
+    else { alert('Failed to update expense'); }
   }
 
   async function deleteExpense(id) {

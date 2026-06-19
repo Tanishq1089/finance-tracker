@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy import extract
 from typing import Optional
@@ -58,3 +58,30 @@ def delete_expense(expense_id: int, db: Session = Depends(get_db),
     db.delete(exp)
     db.commit()
     return {"msg": "Deleted"}
+
+class ExpenseUpdate(BaseModel):
+    amount: float = None
+    category: str = None
+    description: str = None
+
+@router.put("/{expense_id}")
+def update_expense(expense_id: int, data: ExpenseUpdate,
+                   db: Session = Depends(get_db),
+                   user=Depends(get_current_user)):
+    exp = db.query(Expense).filter(
+        Expense.id == expense_id,
+        Expense.user_id == user.id
+    ).first()
+    if not exp:
+        raise HTTPException(status_code=404, detail="Not found")
+    if data.amount is not None:
+        exp.amount = data.amount
+    if data.category is not None:
+        exp.category = data.category
+    if data.description is not None:
+        exp.description = data.description
+    db.commit()
+    db.refresh(exp)
+    return {"id": exp.id, "amount": exp.amount,
+            "category": str(exp.category).split(".")[-1],
+            "description": exp.description, "date": str(exp.date)}
