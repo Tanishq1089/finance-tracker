@@ -11,7 +11,7 @@
 
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
-    body { font-family: system-ui, sans-serif; background:#f4f6fa; color:#1a1a2e; min-height:100vh; }
+    body { font-family: system-ui, sans-serif; background:#f8fafc; color:#1e293b; min-height:100vh; }
 
     /* AUTH SCREEN */
     #auth-screen {
@@ -19,7 +19,7 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      background:#f5f5ff;
+      background:#f1f5f9;
       padding:20px;
     }
     .auth-wrap {
@@ -28,9 +28,9 @@
       width:100%;
       max-width:860px;
       background: white;
-      border-radius:20px;
+      border-radius:24px;
       overflow:hidden;
-      box-shadow:0 8px 40px rgba(99,102,241,0.12);
+      box-shadow:0 10px 50px rgba(99,102,241,0.1);
     }
     @media(max-width:768px){
       .auth-wrap { grid-template-columns:1fr; max-width:460px; }
@@ -38,45 +38,48 @@
     }
     .auth-left {
       background:#6366f1;
-      padding:44px 36px;
+      padding:48px 40px;
       display:flex;
       flex-direction:column;
       justify-content:space-between;
     }
-    .auth-brand { display:flex; align-items:center; gap:10px; margin-bottom:40px; }
-    .auth-brand .icon { width:38px; height:38px; background:rgba(255,255,255,0.18); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:20px; }
-    .auth-brand span { color:white; font-size:16px; font-weight:600; }
-    .auth-left h1 { color:white; font-size:26px; font-weight:700; line-height:1.35; margin-bottom:14px; }
-    .auth-left p { color:rgba(255,255,255,0.7); font-size:13px; line-height:1.75; margin-bottom:28px; }
-    .auth-features { display:flex; flex-direction:column; gap:14px; }
-    .auth-feature { display:flex; align-items:center; gap:10px; }
-    .auth-feature .check { width:22px; height:22px; background:rgba(255,255,255,0.15); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:12px; color:white; }
-    .auth-feature span { color:rgba(255,255,255,0.85); font-size:13px; }
-    .auth-left-footer { color:rgba(255,255,255,0.35); font-size:11px; margin-top:40px; }
-    .auth-right { background:white; padding:44px 36px; display:flex; flex-direction:column; justify-content:center; }
+    .auth-brand { display:flex; align-items:center; gap:12px; margin-bottom:40px; }
+    .auth-brand .icon { width:40px; height:40px; background:rgba(255,255,255,0.18); border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:22px; }
+    .auth-brand span { color:white; font-size:18px; font-weight:600; letter-spacing:-0.5px; }
+    .auth-left h1 { color:white; font-size:28px; font-weight:700; line-height:1.3; margin-bottom:16px; }
+    .auth-left p { color:rgba(255,255,255,0.75); font-size:14px; line-height:1.7; margin-bottom:32px; }
+    .auth-features { display:flex; flex-direction:column; gap:16px; }
+    .auth-feature { display:flex; align-items:center; gap:12px; }
+    .auth-feature .check { width:24px; height:24px; background:rgba(255,255,255,0.15); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:13px; color:white; }
+    .auth-feature span { color:rgba(255,255,255,0.9); font-size:14px; }
+    .auth-left-footer { color:rgba(255,255,255,0.4); font-size:12px; margin-top:40px; }
+    .auth-right { background:white; padding:48px 40px; display:flex; flex-direction:column; justify-content:center; }
     .step-dots { display:flex; gap:6px; margin-bottom:24px; }
-    .step-dot { height:6px; width:6px; border-radius:3px; background:#e0e0f0; transition:.3s; }
-    .step-dot.active { width:22px; background:#6366f1; }
-    .auth-right h2 { font-size:22px; font-weight:700; color:#1a1a2e; margin-bottom:6px; }
-    .auth-right .sub { font-size:13px; color:#888; margin-bottom:28px; line-height:1.6; }
-    .field { margin-bottom:18px; }
-    .field label { display:block; font-size:11px; font-weight:700; color:#999; letter-spacing:.6px; text-transform:uppercase; margin-bottom:7px; }
+    .step-dot { height:6px; width:6px; border-radius:3px; background:#e2e8f0; transition:.3s; }
+    .step-dot.active { width:24px; background:#6366f1; }
+    .auth-right h2 { font-size:24px; font-weight:700; color:#0f172a; margin-bottom:8px; }
+    
+    /* FIXED CSS SELECTOR MATCHING INDUSTRY STANDARDS */
+    .auth-right .sub { font-size:14px; color:#64748b; margin-bottom:32px; line-height:1.6; }
+    
+    .field { margin-bottom:20px; }
+    .field label { display:block; font-size:11px; font-weight:700; color:#94a3b8; letter-spacing:1px; text-transform:uppercase; margin-bottom:8px; }
     .input-wrap { position:relative; display:flex; align-items:center; }
-    .input-wrap i { position:absolute; left:13px; font-size:17px; color:#aaa; pointer-events:none; }
-    .input-wrap input { width:100%; padding:11px 14px 11px 38px; border:1.5px solid #e8e8f0; border-radius:10px; font-size:14px; color:#1a1a2e; background:#fafafa; outline:none; transition:.2s; }
-    .input-wrap input:focus { border-color:#6366f1; background:white; }
-    .btn-primary { width:100%; padding:12px; background:#6366f1; color:white; border:none; border-radius:10px; font-size:14px; font-weight:600; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition:.2s; margin-top:4px; }
-    .btn-primary:hover { background:#4f46e5; }
+    .input-wrap i { position:absolute; left:14px; font-size:18px; color:#94a3b8; pointer-events:none; }
+    .input-wrap input { width:100%; padding:12px 16px 12px 42px; border:1.5px solid #e2e8f0; border-radius:12px; font-size:14px; color:#0f172a; background:#f8fafc; outline:none; transition:.2s; }
+    .input-wrap input:focus { border-color:#6366f1; background:white; box-shadow: 0 0 0 4px rgba(99,102,241,0.1); }
+    .btn-primary { width:100%; padding:14px; background:#6366f1; color:white; border:none; border-radius:12px; font-size:14px; font-weight:600; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition:.2s; margin-top:4px; }
+    .btn-primary:hover { background:#4f46e5; transform:translateY(-1px); }
     .otp-inputs { display:flex; gap:8px; margin-bottom:20px; justify-content: space-between; }
-    .otp-box { width: 100%; max-width: 46px; height: 48px; text-align:center; border:1.5px solid #e8e8f0; border-radius:10px; font-size:20px; font-weight:600; background:#fafafa; color:#1a1a2e; outline:none; transition:.2s; }
-    .otp-box:focus { border-color:#6366f1; background:white; }
-    .timer { text-align:center; font-size:12px; color:#999; margin-top:14px; }
+    .otp-box { width: 100%; max-width: 48px; height: 52px; text-align:center; border:1.5px solid #e2e8f0; border-radius:12px; font-size:22px; font-weight:600; background:#f8fafc; color:#0f172a; outline:none; transition:.2s; }
+    .otp-box:focus { border-color:#6366f1; background:white; box-shadow: 0 0 0 4px rgba(99,102,241,0.1); }
+    .timer { text-align:center; font-size:13px; color:#64748b; margin-top:16px; }
     .timer span, .timer a { color:#6366f1; font-weight:600; cursor:pointer; }
-    .msg { padding:10px 14px; border-radius:8px; font-size:13px; margin-top:14px; display:none; }
+    .msg { padding:12px 16px; border-radius:10px; font-size:14px; margin-top:16px; display:none; }
     .msg.success { background:#f0fdf4; color:#16a34a; border:1px solid #bbf7d0; display:block; }
     .msg.error   { background:#fef2f2; color:#dc2626; border:1px solid #fecaca; display:block; }
-    .success-chip { display:inline-flex; align-items:center; gap:6px; background:#f0fdf4; color:#16a34a; border:1px solid #bbf7d0; font-size:12px; font-weight:600; padding:5px 12px; border-radius:20px; margin-bottom:16px; }
-    .btn-ghost { width:100%; padding:11px; background:none; color:#6366f1; border:1.5px solid #e0e0f8; border-radius:10px; font-size:14px; font-weight:600; cursor:pointer; margin-top:10px; transition:.2s; }
+    .success-chip { display:inline-flex; align-items:center; gap:6px; background:#f0fdf4; color:#16a34a; border:1px solid #bbf7d0; font-size:13px; font-weight:600; padding:6px 14px; border-radius:20px; margin-bottom:20px; }
+    .btn-ghost { width:100%; padding:12px; background:none; color:#6366f1; border:1.5px solid #e2e8f0; border-radius:12px; font-size:14px; font-weight:600; cursor:pointer; margin-top:12px; transition:.2s; }
 
     /* CORE SIDEBAR & MAIN LAYOUT */
     #app-screen { display:none; min-height: 100vh; }
@@ -84,41 +87,41 @@
 
     .sidebar {
       width: 280px;
-      background: #111222;
+      background: #0f172a;
       display: flex;
       flex-direction: column;
       position: fixed;
       top: 0; bottom: 0; left: 0;
       z-index: 100;
-      padding: 32px 24px;
+      padding: 36px 24px;
     }
-    .sidebar-brand { display: flex; align-items: center; gap: 12px; font-size: 20px; font-weight: 700; color: white; margin-bottom: 40px; }
-    .sidebar-brand .icon { background: #6366f1; width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
-    .sidebar-nav { display: flex; flex-direction: column; gap: 8px; flex: 1; }
+    .sidebar-brand { display: flex; align-items: center; gap: 12px; font-size: 20px; font-weight: 700; color: white; margin-bottom: 44px; }
+    .sidebar-brand .icon { background: #6366f1; width: 38px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+    .sidebar-nav { display: flex; flex-direction: column; gap: 10px; flex: 1; }
     
     .nav-btn {
       display: flex; align-items: center; gap: 14px; padding: 14px 18px;
       background: none; border: none; border-radius: 12px; cursor: pointer;
-      font-weight: 600; color: #a3a3c2; font-size: 15px; text-align: left; transition: 0.2s; width: 100%;
+      font-weight: 600; color: #94a3b8; font-size: 15px; text-align: left; transition: 0.2s; width: 100%;
     }
-    .nav-btn:hover { background: rgba(255,255,255,0.05); color: white; }
-    .nav-btn.active { background: #6366f1; color: white; box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3); }
+    .nav-btn:hover { background: rgba(255,255,255,0.04); color: white; }
+    .nav-btn.active { background: #6366f1; color: white; box-shadow: 0 4px 18px rgba(99, 102, 241, 0.35); }
 
-    .sidebar-footer { padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; gap: 16px; }
-    .user-profile-info { font-size: 14px; font-weight: 600; color: white; padding-left: 6px; }
+    .sidebar-footer { padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; gap: 18px; }
+    .user-profile-info { font-size: 14px; font-weight: 600; color: #f1f5f9; padding-left: 6px; }
     
     .logout-btn {
       width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px;
-      background: rgba(220, 38, 38, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2);
+      background: rgba(239, 68, 68, 0.08); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.15);
       border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 14px; transition: 0.2s;
     }
-    .logout-btn:hover { background: #dc2626; color: white; }
+    .logout-btn:hover { background: #ef4444; color: white; }
 
     /* WORKSPACE ADJUSTMENTS */
     .main-content {
       flex: 1;
       margin-left: 280px; 
-      padding: 40px 50px;
+      padding: 44px 56px;
       width: calc(100% - 280px);
     }
 
@@ -129,63 +132,97 @@
       .main-content { margin-left: 80px; padding: 24px; width: calc(100% - 80px); }
     }
 
-    /* PREMIUM DASHBOARD ELEMENTS */
-    .stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:24px; margin-bottom:32px; }
-    .stat-card { background:white; border-radius:20px; padding:26px; border:1px solid #eaedf3; box-shadow: 0 4px 18px rgba(0,0,0,0.02); display: flex; justify-content: space-between; align-items: center; }
+    /* WELCOME HEADER LAYOUT */
+    .welcome-header {
+      margin-bottom: 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .welcome-header h2 { font-size: 28px; font-weight: 800; color: #0f172a; letter-spacing: -0.5px; }
+    .welcome-header p { font-size: 14px; color: #64748b; margin-top: 4px; font-weight: 500; }
+    .welcome-date-badge { display: flex; align-items: center; gap: 8px; background: white; border: 1.5px solid #e2e8f0; padding: 10px 16px; border-radius: 14px; font-size: 13px; font-weight: 600; color: #475569; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
+
+    /* DASHBOARD STATISTIC CARDS */
+    .stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:24px; margin-bottom:36px; }
+    .stat-card { background:white; border-radius:24px; padding:28px; border:1px solid #e2e8f0; box-shadow:0 4px 20px rgba(15,23,42,0.015); display: flex; justify-content: space-between; align-items: center; transition: 0.2s; }
     .stat-card .info-side { display: flex; flex-direction: column; }
-    .stat-card .label { font-size: 12px; color:#888; font-weight:700; text-transform:uppercase; letter-spacing:1px; }
-    .stat-card .value { font-size:30px; font-weight:700; color:#1e1e30; margin-top:6px; }
-    .stat-card .sub { font-size:13px; color:#6366f1; margin-top:6px; font-weight: 600; display: flex; align-items: center; gap: 4px; }
-    .stat-card .icon-side { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+    .stat-card .label { font-size: 11px; color:#64748b; font-weight:700; text-transform:uppercase; letter-spacing:1px; }
+    .stat-card .value { font-size: 32px; font-weight:800; color:#0f172a; margin-top:6px; letter-spacing: -0.5px; }
+    .stat-card .sub { font-size:13px; color:#6366f1; margin-top:8px; font-weight: 600; display: flex; align-items: center; gap: 4px; }
+    .stat-card .icon-side { width: 56px; height: 56px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
     
     .stat-card.blue .icon-side { background: #eef2ff; color: #6366f1; }
     .stat-card.green .icon-side { background: #ecfdf5; color: #10b981; }
     .stat-card.red .icon-side { background: #fef2f2; color: #ef4444; }
 
+    /* UNIFIED DROPDOWNS BAR */
+    .filter-bar-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: white;
+      padding: 16px 24px;
+      border-radius: 18px;
+      border: 1.5px solid #e2e8f0;
+      box-shadow: 0 4px 14px rgba(15,23,42,0.01);
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    .filter-bar-row h3 { font-size: 16px; font-weight: 700; color: #0f172a; margin-right: 8px; }
+    .filter-control-wrap { display: flex; align-items: center; gap: 10px; background: #f8fafc; border: 1.5px solid #e2e8f0; padding: 8px 14px; border-radius: 12px; transition: 0.2s; }
+    .filter-control-wrap:focus-within { border-color: #6366f1; background: white; }
+    .filter-control-wrap i { color: #94a3b8; font-size: 16px; }
+    .filter-control-wrap select, .filter-control-wrap input { background: none; border: none; outline: none; font-size: 14px; font-weight: 600; color: #334155; cursor: pointer; padding-right: 4px; }
+
     /* TWO-COLUMN GRID ARCHITECTURE */
-    .dashboard-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 28px; align-items: start; }
+    .dashboard-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 32px; align-items: start; }
     @media (max-width: 1150px) { .dashboard-grid { grid-template-columns: 1fr; } }
 
-    .card { background: white; padding: 28px; border-radius: 20px; border: 1px solid #eaedf3; box-shadow: 0 4px 20px rgba(0,0,0,0.015); margin-bottom: 24px; width: 100%; }
-    .card-header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-    .card h3 { font-size:17px; font-weight:700; color:#1a1a2e; }
+    .card { background: white; padding: 32px; border-radius: 24px; border: 1px solid #e2e8f0; box-shadow: 0 4px 24px rgba(15,23,42,0.01); margin-bottom: 28px; width: 100%; }
+    .card-header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .card h3 { font-size:18px; font-weight:700; color:#0f172a; }
     
-    .row { display: flex; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
-    .form-group { flex: 1; min-width: 180px; display: flex; flex-direction: column; gap: 6px; }
-    .form-group label { font-size: 12px; font-weight: 600; color: #666; }
-    .form-group input, .form-group select { padding: 11px 14px; border: 1.5px solid #e8e8f0; border-radius: 10px; font-size: 14px; outline: none; background: white; }
-    .form-group input:focus, .form-group select:focus { border-color: #6366f1; }
+    .row { display: flex; gap: 20px; margin-bottom: 20px; flex-wrap: wrap; }
+    .form-group { flex: 1; min-width: 180px; display: flex; flex-direction: column; gap: 8px; }
+    .form-group label { font-size: 12px; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.5px; }
+    .form-group input, .form-group select { padding: 12px 16px; border: 1.5px solid #e2e8f0; border-radius: 12px; font-size: 14px; outline: none; background: #f8fafc; transition: 0.2s; }
+    .form-group input:focus, .form-group select:focus { border-color: #6366f1; background: white; box-shadow: 0 0 0 4px rgba(99,102,241,0.08); }
 
-    .small-btn { padding: 11px 20px; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 14px; transition: 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+    .small-btn { padding: 12px 22px; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; font-size: 14px; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
     .small-btn.add { background: #6366f1; color: white; }
-    .small-btn.del { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; padding: 6px 12px; font-size: 12px; }
-    .small-btn:hover { opacity: 0.9; }
+    .small-btn.add:hover { background: #4f46e5; }
+    .small-btn.del { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; padding: 8px 16px; font-size: 13px; }
+    .small-btn.del:hover { background: #dc2626; color: white; }
+    .small-btn:hover { transform: translateY(-1px); }
     
     .chart-wrap { position: relative; height: 320px; width: 100%; }
     
-    /* CLASSY TABLE STYLING */
+    /* CLASSY PREMIUM TABLE STYLING */
     table { width: 100%; border-collapse: collapse; }
-    th, td { padding: 14px 16px; text-align: left; border-bottom: 1px solid #f0f2f5; }
-    th { font-size: 11px; text-transform: uppercase; color: #999; font-weight: 700; letter-spacing: 0.5px; }
-    td { font-size: 14px; color: #333; }
-    tr:hover td { background:#fafbfe; }
+    th, td { padding: 16px 20px; text-align: left; border-bottom: 1px solid #f1f5f9; }
+    th { font-size: 11px; text-transform: uppercase; color: #64748b; font-weight: 700; letter-spacing: 1px; background: #f8fafc; }
+    th:first-child { border-top-left-radius: 12px; border-bottom-left-radius: 12px; }
+    th:last-child { border-top-right-radius: 12px; border-bottom-right-radius: 12px; }
+    td { font-size: 14px; color: #334155; font-weight: 500; }
+    tr:hover td { background:#f8fafc; }
 
-    .badge { display:inline-block; padding:4px 10px; border-radius:8px; font-size: 11px; font-weight:700; text-transform:capitalize; }
-    .badge.food          { background:#fffbeb; color:#d97706; }
-    .badge.transport     { background:#eff6ff; color:#2563eb; }
-    .badge.utilities     { background:#ecfdf5; color:#059669; }
-    .badge.entertainment { background:#f5f3ff; color:#7c3aed; }
-    .badge.health        { background:#fdf2f2; color:#dc2626; }
-    .badge.shopping      { background:#fff7ed; color:#ea580c; }
+    .badge { display:inline-block; padding:4px 10px; border-radius:8px; font-size: 12px; font-weight:700; text-transform:capitalize; }
+    .badge.food          { background:#fffbeb; color:#b45309; }
+    .badge.transport     { background:#eff6ff; color:#1d4ed8; }
+    .badge.utilities     { background:#ecfdf5; color:#047857; }
+    .badge.entertainment { background:#f5f3ff; color:#6d28d9; }
+    .badge.health        { background:#fdf2f2; color:#b91c1c; }
+    .badge.shopping      { background:#fff7ed; color:#c2410c; }
     .badge.other         { background:#f8fafc; color:#475569; }
 
-    /* BUDGET DESIGNS */
-    .budget-item { margin-bottom:18px; }
-    .budget-item .bi-header { display:flex; justify-content:space-between; font-size:13px; margin-bottom:6px; }
-    .budget-item .bi-header span:first-child { font-weight:600; text-transform:capitalize; }
-    .budget-item .bi-header span:last-child  { color:#777; font-weight: 500; }
-    .progress-bar { height:8px; background:#f0f2f5; border-radius:4px; overflow:hidden; }
-    .progress-fill { height:100%; border-radius:4px; transition:.4s; }
+    /* BUDGET PROGRESS MODULES */
+    .budget-item { margin-bottom:20px; }
+    .budget-item .bi-header { display:flex; justify-content:space-between; font-size:14px; margin-bottom:8px; }
+    .budget-item .bi-header span:first-child { font-weight:700; text-transform:capitalize; color: #1e293b; }
+    .budget-item .bi-header span:last-child  { color:#64748b; font-weight: 600; }
+    .progress-bar { height:10px; background:#f1f5f9; border-radius:6px; overflow:hidden; }
+    .progress-fill { height:100%; border-radius:6px; transition:.4s; }
   </style>
 </head>
 <body>
@@ -278,6 +315,17 @@
     <main class="main-content">
       
       <div id="tab-dashboard">
+        <div class="welcome-header">
+          <div>
+            <h2 id="dashboard-user-greeting">Welcome back, User!</h2>
+            <p>Here is your absolute summary overview for this financial month parameter metrics.</p>
+          </div>
+          <div class="welcome-date-badge">
+            <i class="ti ti-calendar-event"></i>
+            <span id="live-dashboard-timestamp">June, 2026</span>
+          </div>
+        </div>
+
         <div class="stats-grid" id="stats-grid"></div>
         
         <div class="dashboard-grid">
@@ -315,7 +363,7 @@
             <div class="card">
               <div class="card-header-flex">
                 <h3>Recent Activities</h3>
-                <a onclick="showTab('expenses')" style="color:#6366f1; font-weight:600; font-size:13px; cursor:pointer;">View History →</a>
+                <a onclick="showTab('expenses')" style="color:#6366f1; font-weight:700; font-size:13px; cursor:pointer;">View History →</a>
               </div>
               <table>
                 <thead>
@@ -342,11 +390,13 @@
       </div>
 
       <div id="tab-expenses" style="display:none">
-        <div class="card">
+        <div class="filter-bar-row">
           <h3>Transaction History Manager</h3>
-          <div style="display:flex; gap:12px; margin-bottom:20px; flex-wrap:wrap">
-            <select id="filter-cat" onchange="loadExpenses()" style="width:180px">
-              <option value="">All categories</option>
+          
+          <div class="filter-control-wrap">
+            <i class="ti ti-category"></i>
+            <select id="filter-cat" onchange="loadExpenses()">
+              <option value="">All Categories</option>
               <option value="food">Food</option>
               <option value="transport">Transport</option>
               <option value="utilities">Utilities</option>
@@ -355,8 +405,15 @@
               <option value="shopping">Shopping</option>
               <option value="other">Other</option>
             </select>
-            <input type="month" id="filter-month" onchange="loadExpenses()" style="width:180px">
           </div>
+
+          <div class="filter-control-wrap">
+            <i class="ti ti-calendar"></i>
+            <input type="month" id="filter-month" onchange="loadExpenses()">
+          </div>
+        </div>
+
+        <div class="card" style="padding-top: 10px;">
           <table>
             <thead>
               <tr><th>Date</th><th>Category</th><th>Description</th><th>Amount</th><th>Edit</th><th>Delete</th></tr>
@@ -369,26 +426,35 @@
       <div id="tab-budgets" style="display:none">
         <div class="card">
           <h3>Set Spending Caps</h3>
-          <div class="row">
+          <div class="row" style="margin-top: 10px; margin-bottom: 24px;">
             <div class="form-group">
               <label>Target Month</label>
-              <input type="month" id="bud-month">
+              <div class="filter-control-wrap" style="background: white;">
+                <i class="ti ti-calendar" style="margin-right:4px;"></i>
+                <input type="month" id="bud-month" style="width:100%;">
+              </div>
             </div>
             <div class="form-group">
               <label>Category Space</label>
-              <select id="bud-category">
-                <option value="food">Food</option>
-                <option value="transport">Transport</option>
-                <option value="utilities">Utilities</option>
-                <option value="entertainment">Entertainment</option>
-                <option value="health">Health</option>
-                <option value="shopping">Shopping</option>
-                <option value="other">Other</option>
-              </select>
+              <div class="filter-control-wrap" style="background: white;">
+                <i class="ti ti-category" style="margin-right:4px;"></i>
+                <select id="bud-category" style="width:100%;">
+                  <option value="food">Food</option>
+                  <option value="transport">Transport</option>
+                  <option value="utilities">Utilities</option>
+                  <option value="entertainment">Entertainment</option>
+                  <option value="health">Health</option>
+                  <option value="shopping">Shopping</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
             </div>
             <div class="form-group">
               <label>Monthly Limit (₹)</label>
-              <input type="number" id="bud-limit" placeholder="5000" min="0">
+              <div class="filter-control-wrap" style="background: white;">
+                <i class="ti ti-currency-rupee" style="margin-right:4px;"></i>
+                <input type="number" id="bud-limit" placeholder="5000" min="0" style="width:100%;">
+              </div>
             </div>
           </div>
           <button class="small-btn add" onclick="setBudget()"><i class="ti ti-device-floppy"></i> Save Constraints</button>
@@ -401,12 +467,18 @@
       </div>
 
       <div id="tab-reports" style="display:none">
-        <div class="card">
+        <div class="filter-bar-row">
           <h3>Monthly Trend Performance</h3>
-          <div style="display:flex; gap:12px; margin-bottom:20px; flex-wrap:wrap">
-            <input type="month" id="rep-month" style="width:200px">
-            <button class="small-btn add" onclick="loadReport()"><i class="ti ti-refresh"></i> Generate Matrix</button>
+          
+          <div class="filter-control-wrap">
+            <i class="ti ti-calendar"></i>
+            <input type="month" id="rep-month">
           </div>
+
+          <button class="small-btn add" onclick="loadReport()"><i class="ti ti-refresh"></i> Generate Matrix</button>
+        </div>
+
+        <div class="card">
           <table>
             <thead>
               <tr><th>Category</th><th>Spent</th><th>Budget Target</th><th>Status</th></tr>
@@ -424,17 +496,17 @@
   </div>
 </div>
 
-<div id="edit-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4); z-index:100;align-items:center;justify-content:center;">
-  <div style="background:white;border-radius:16px;padding:28px;width:100%;max-width:420px;margin:20px">
-    <h3 style="margin-bottom:20px;font-size:16px;font-weight:700">Edit Expense</h3>
+<div id="edit-modal" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,0.3); backdrop-filter: blur(4px); z-index:100;align-items:center;justify-content:center;">
+  <div style="background:white;border-radius:24px;padding:36px;width:100%;max-width:440px;margin:20px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); border: 1px solid #e2e8f0;">
+    <h3 style="margin-bottom:24px;font-size:18px;font-weight:800; color:#0f172a; letter-spacing:-0.5px;">Edit Expense Transaction</h3>
     <input type="hidden" id="edit-id">
-    <div class="form-group" style="margin-bottom:14px">
+    <div class="form-group" style="margin-bottom:18px">
       <label>Amount (₹)</label>
-      <input type="number" id="edit-amount">
+      <input type="number" id="edit-amount" style="background:#f8fafc;">
     </div>
-    <div class="form-group" style="margin-bottom:14px">
+    <div class="form-group" style="margin-bottom:18px">
       <label>Category</label>
-      <select id="edit-category">
+      <select id="edit-category" style="background:#f8fafc;">
         <option value="food">Food</option>
         <option value="transport">Transport</option>
         <option value="utilities">Utilities</option>
@@ -444,13 +516,13 @@
         <option value="other">Other</option>
       </select>
     </div>
-    <div class="form-group" style="margin-bottom:20px">
+    <div class="form-group" style="margin-bottom:24px">
       <label>Description</label>
-      <input type="text" id="edit-desc">
+      <input type="text" id="edit-desc" style="background:#f8fafc;">
     </div>
-    <div style="display:flex;gap:10px">
-      <button class="small-btn add" style="flex:1;padding:11px" onclick="saveEdit()">Save changes</button>
-      <button class="small-btn del" style="flex:1;padding:11px" onclick="closeEdit()">Cancel</button>
+    <div style="display:flex;gap:12px">
+      <button class="small-btn add" style="flex:1;padding:12px; justify-content:center;" onclick="saveEdit()">Save changes</button>
+      <button class="small-btn del" style="flex:1;padding:12px; justify-content:center;" onclick="closeEdit()">Cancel</button>
     </div>
   </div>
 </div>
@@ -618,7 +690,14 @@
   function enterApp(username) {
     document.getElementById('auth-screen').style.display = 'none';
     document.getElementById('app-screen').style.display = 'block';
-    document.getElementById('welcome-msg').textContent = 'Hi, ' + (username || 'User') + '!';
+    
+    const nameString = username || 'User';
+    document.getElementById('welcome-msg').textContent = 'Hi, ' + nameString + '!';
+    document.getElementById('dashboard-user-greeting').textContent = 'Welcome back, ' + nameString + '!';
+    
+    const today = new Date();
+    const formattedDate = today.toLocaleString('default', { month: 'long', year: 'numeric' });
+    document.getElementById('live-dashboard-timestamp').textContent = formattedDate;
     
     const m = nowMonth();
     document.getElementById('bud-month').value = m;
@@ -686,15 +765,20 @@
     if (!expensesData.length) {
       dashTbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#aaa;padding:20px">No metrics logged this month</td></tr>';
     } else {
-      dashTbody.innerHTML = expensesData.slice(0, 5).map(e => `
-        <tr>
-          <td>${new Date(e.date).toLocaleDateString('en-IN', {day:'2-digit', month:'short'})}</td>
-          <td><span class="badge ${e.category}">${e.category}</span></td>
-          <td>${e.description || '-'}</td>
-          <td style="font-weight:600">₹${e.amount.toLocaleString('en-IN')}</td>
-          <td><button class="small-btn del" onclick="deleteDashExpense(${e.id})">Delete</button></td>
-        </tr>
-      `).join('');
+      dashTbody.innerHTML = expensesData.slice(0, 5).map(e => {
+        const dateObj = new Date(e.date);
+        const day = String(dateObj.getDate()).padStart(2, '0');
+        const monthName = dateObj.toLocaleString('default', { month: 'short' });
+        return `
+          <tr>
+            <td>${day} ${monthName}</td>
+            <td><span class="badge ${e.category}">${e.category}</span></td>
+            <td>${e.description || '-'}</td>
+            <td style="font-weight:600">₹${e.amount.toLocaleString('en-IN')}</td>
+            <td><button class="small-btn del" onclick="deleteDashExpense(${e.id})">Delete</button></td>
+          </tr>
+        `;
+      }).join('');
     }
 
     const dashBudgetContainer = document.getElementById('dash-budget-progress');
@@ -708,7 +792,7 @@
         const color = pct >= 100 ? '#ef4444' : pct >= 80 ? '#f59e0b' : '#6366f1';
         return `
           <div class="budget-item">
-            <div class="bi-header"><span>${b.category}</span><span>₹${spent} / ₹${b.monthly_limit}</span></div>
+            <div class="bi-header"><span>${b.category}</span><span>₹${spent.toLocaleString('en-IN')} / ₹${b.monthly_limit.toLocaleString('en-IN')}</span></div>
             <div class="progress-bar"><div class="progress-fill" style="width:${pct}%; background:${color}"></div></div>
           </div>
         `;
@@ -772,20 +856,25 @@
       tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:#aaa;padding:24px">No expenses found</td></tr>';
       return;
     }
-    tbody.innerHTML = data.map(e => `
-      <tr>
-        <td>${new Date(e.date).toLocaleDateString('en-IN')}</td>
-        <td><span class="badge ${e.category}">${e.category}</span></td>
-        <td>${e.description || '-'}</td>
-        <td style="font-weight:600">₹${e.amount.toLocaleString('en-IN')}</td>
-        <td>
-          <button class="small-btn add" style="padding:6px 12px;font-size:12px"
-            onclick="openEdit(${e.id},'${e.category}','${e.description||''}',${e.amount})">Edit</button>
-        </td>
-        <td>
-          <button class="small-btn del" onclick="deleteExpense(${e.id})">Delete</button>
-        </td>
-      </tr>`).join('');
+    tbody.innerHTML = data.map(e => {
+      const dateObj = new Date(e.date);
+      const formattedCalendarDate = String(dateObj.getDate()).padStart(2, '0') + '/' + String(dateObj.getMonth() + 1).padStart(2, '0') + '/' + dateObj.getFullYear();
+      
+      return `
+        <tr>
+          <td>${formattedCalendarDate}</td>
+          <td><span class="badge ${e.category}">${e.category}</span></td>
+          <td>${e.description || '-'}</td>
+          <td style="font-weight:600">₹${e.amount.toLocaleString('en-IN')}</td>
+          <td>
+            <button class="small-btn add" style="padding:6px 12px;font-size:12px"
+              onclick="openEdit(${e.id},'${e.category}','${e.description||''}',${e.amount})">Edit</button>
+          </td>
+          <td>
+            <button class="small-btn del" onclick="deleteExpense(${e.id})">Delete</button>
+          </td>
+        </tr>`;
+    }).join('');
   }
 
   function openEdit(id, category, description, amount) {
