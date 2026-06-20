@@ -10,18 +10,18 @@ from ..routers.auth import get_current_user
 
 router = APIRouter(prefix="/expenses", tags=["expenses"])
 
-# --- UPDATED PYDANTIC SCHEMAS TO SUPPORT HISTORICAL DATES ---
+# --- PYDANTIC SCHEMAS TO SUPPORT HISTORICAL DATES ---
 class ExpenseCreate(BaseModel):
     amount: float
     category: str
     description: str = ""
-    date: Optional[datetime] = None  # ── ADDED: Allows custom transaction date payloads
+    date: Optional[datetime] = None  # Allows custom transaction date payloads
 
 class ExpenseUpdate(BaseModel):
     amount: Optional[float] = None
     category: Optional[str] = None
     description: Optional[str] = None
-    date: Optional[datetime] = None  # ── ADDED: Allows updating transaction dates
+    date: Optional[datetime] = None  # Allows updating transaction dates
 
 # --- ROUTE OVERRIDES & BUSINESS LOGIC ---
 
@@ -35,15 +35,22 @@ def create_expense(data: ExpenseCreate, db: Session = Depends(get_db),
         description=data.description
     )
     
-    # ── CRITICAL FIX: If a custom date is provided from the UI, override the default CURRENT_TIMESTAMP
+    # Override default timestamp if a custom historical date was sent from frontend
     if data.date:
         exp.date = data.date
         
     db.add(exp)
     db.commit()
     db.refresh(exp)
-    return {"id": exp.id, "amount": exp.amount, "category": exp.category,
-            "description": exp.description, "date": str(exp.date)}
+    
+    # Integrated unified clean string serialization format matching GET/PUT maps
+    return {
+        "id": exp.id, 
+        "amount": exp.amount, 
+        "category": str(exp.category).split(".")[-1],
+        "description": exp.description, 
+        "date": exp.date.isoformat()
+    }
 
 @router.get("/")
 def list_expenses(category: Optional[str] = None,
@@ -59,8 +66,15 @@ def list_expenses(category: Optional[str] = None,
     if year:
         q = q.filter(extract("year", Expense.date) == year)
     results = q.order_by(Expense.date.desc()).all()
-    return [{"id": e.id, "amount": e.amount, "category": str(e.category).split(".")[-1],
-             "description": e.description, "date": str(e.date)} for e in results]
+    
+    # FIXED: Replaced str(e.date) with e.date.isoformat() to ensure UI chart syncing
+    return [{
+        "id": e.id, 
+        "amount": e.amount, 
+        "category": str(e.category).split(".")[-1],
+        "description": e.description, 
+        "date": e.date.isoformat()
+    } for e in results]
 
 @router.delete("/{expense_id}")
 def delete_expense(expense_id: int, db: Session = Depends(get_db),
@@ -85,6 +99,7 @@ def update_expense(expense_id: int, data: ExpenseUpdate,
     ).first()
     if not exp:
         raise HTTPException(status_code=404, detail="Not found")
+        
     if data.amount is not None:
         exp.amount = data.amount
     if data.category is not None:
@@ -96,6 +111,12 @@ def update_expense(expense_id: int, data: ExpenseUpdate,
         
     db.commit()
     db.refresh(exp)
-    return {"id": exp.id, "amount": exp.amount,
-            "category": str(exp.category).split(".")[-1],
-            "description": exp.description, "date": str(exp.date)}
+    
+    # FIXED: Replaced str(exp.date) with exp.date.isoformat() to keep data payloads consistent
+    return {
+        "id": exp.id, 
+        "amount": exp.amount,
+        "category": str(exp.category).split(".")[-1],
+        "description": exp.description, 
+        "date": exp.date.isoformat()
+    }
