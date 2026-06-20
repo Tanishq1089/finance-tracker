@@ -773,23 +773,48 @@
   }
 
   async function addDashExpense() {
-    const amount = parseFloat(document.getElementById('dash-exp-amount').value);
-    const category = document.getElementById('dash-exp-category').value;
-    const description = document.getElementById('dash-exp-desc').value.trim();
-    const explicitDate = document.getElementById('dash-exp-date').value;
+    const amountInput = document.getElementById('dash-exp-amount');
+    const categoryInput = document.getElementById('dash-exp-category');
+    const descInput = document.getElementById('dash-exp-desc');
+    const dateInput = document.getElementById('dash-exp-date');
+
+    const amount = parseFloat(amountInput.value);
+    const category = categoryInput.value;
+    const description = descInput.value.trim();
+    const explicitDate = dateInput.value;
     
-    if (!amount || amount <= 0 || !explicitDate) return triggerToast('Provide valid parameters','error');
+    if (!amount || amount <= 0 || !explicitDate) {
+      return triggerToast('Provide valid parameters', 'error');
+    }
     
-    const bodyPayload = { amount, category, description, date: new Date(explicitDate).toISOString() };
-    const r = await api('/expenses/', { method:'POST', body: JSON.stringify(bodyPayload) });
+    // Format the date explicitly into an ISO string for standard backend parsing
+    const bodyPayload = { 
+      amount, 
+      category, 
+      description, 
+      date: new Date(explicitDate).toISOString() 
+    };
+    
+    const r = await api('/expenses/', { method: 'POST', body: JSON.stringify(bodyPayload) });
+    
     if (r.ok) {
       triggerToast('Expense transaction logged successfully');
-      document.getElementById('dash-exp-amount').value = '';
-      document.getElementById('dash-exp-desc').value = '';
-      loadDashboard();
-    } else { triggerToast('Failed to insert record','error'); }
+      
+      // Clear form inputs safely
+      amountInput.value = '';
+      descInput.value = '';
+      
+      // 🚀 FORCE SYNCHRONOUS DROPDOWN ALIGNMENT AND RE-FETCH DATA IMMEDIATELY
+      // This pulls the selected input month value and updates the dashboard state instantly!
+      const targetedMonth = explicitDate.substring(0, 7); // Extracts "YYYY-MM" from "YYYY-MM-DD"
+      document.getElementById('global-month-navigator').value = targetedMonth;
+      
+      // Trigger a complete view re-render
+      syncCalendarState(targetedMonth);
+    } else { 
+      triggerToast('Failed to insert record', 'error'); 
+    }
   }
-
   async function loadExpenses() {
     const cat = document.getElementById('filter-cat').value;
     const month = document.getElementById('filter-month').value;
