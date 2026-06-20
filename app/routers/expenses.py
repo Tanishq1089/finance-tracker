@@ -65,9 +65,10 @@ def list_expenses(category: Optional[str] = None,
         q = q.filter(extract("month", Expense.date) == month)
     if year:
         q = q.filter(extract("year", Expense.date) == year)
-    results = q.order_by(Expense.date.desc()).all()
+        
+    # ── CHANGE THIS SORT LINE HERE FROM Expense.date.desc() TO Expense.id.desc() ──
+    results = q.order_by(Expense.id.desc()).all()
     
-    # FIXED: Replaced str(e.date) with e.date.isoformat() to ensure UI chart syncing
     return [{
         "id": e.id, 
         "amount": e.amount, 
