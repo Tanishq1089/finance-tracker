@@ -1,32 +1,31 @@
-import smtplib
-import ssl
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-from ..config import settings
+import resend
+from app.config import settings
+
+resend.api_key = settings.RESEND_API_KEY
 
 def send_otp_email(to_email: str, otp: str):
-    msg = MIMEMultipart("alternative")
-    msg["Subject"] = "Your Finance Tracker OTP"
-    msg["From"] = settings.MAIL_FROM
-    msg["To"] = to_email
-
-    html = f"""
-    <html><body style="font-family:sans-serif;background:#f5f5f5;padding:40px">
-      <div style="max-width:400px;margin:auto;background:white;border-radius:12px;padding:32px">
-        <h2 style="color:#6366f1;margin:0 0 8px">Finance Tracker</h2>
-        <p style="color:#666;margin:0 0 24px">Your one-time password</p>
-        <div style="background:#f0f0ff;border-radius:8px;padding:20px;text-align:center">
-          <span style="font-size:36px;font-weight:700;letter-spacing:8px;color:#6366f1">{otp}</span>
-        </div>
-        <p style="color:#999;font-size:13px;margin:20px 0 0">
-          Expires in 5 minutes. Do not share this OTP.
-        </p>
-      </div>
-    </body></html>
-    """
-    msg.attach(MIMEText(html, "html"))
-
-    context = ssl.create_default_context()
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
-        server.login(settings.MAIL_USERNAME, settings.MAIL_PASSWORD)
-        server.sendmail(settings.MAIL_FROM, to_email, msg.as_string())
+    try:
+        params = {
+            "from": "Finance Tracker <tanishqsonawane2318@gmail.com>",  # use your verified domain later
+            "to": [to_email],
+            "subject": "Your OTP Code",
+            "html": f"<p>Your OTP is: <strong>{otp}</strong>. It expires in 10 minutes.</p>"
+        }
+        email = resend.Emails.send(params)
+        return email
+    except Exception as e:
+        raise Exception(f"Email send failed: {str(e)}")
+def send_otp_email(to_email: str, otp: str):
+    try:
+        params = {
+            "from": "Finance Tracker <onboarding@resend.dev>",
+            "to": [to_email],
+            "subject": "Your OTP Code",
+            "html": f"<p>Your OTP is: <strong>{otp}</strong>. It expires in 10 minutes.</p>"
+        }
+        email = resend.Emails.send(params)
+        print(f"Resend response: {email}")  # ADD THIS
+        return email
+    except Exception as e:
+        print(f"Resend error: {str(e)}")  # ADD THIS
+        raise Exception(f"Email send failed: {str(e)}")

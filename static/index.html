@@ -23,7 +23,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(rgba(11, 28, 48, 0.75), rgba(11, 28, 48, 0.85)), url('https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&q=80');
+      background: linear-gradient(rgba(11, 28, 48, 0.75), rgba(11, 28, 48, 0.85)), url('assets/screen.png');
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
@@ -675,54 +675,13 @@
   }
 
   async function registerUser() {
-  const email    = document.getElementById('auth-email').value.trim();
-  const username = document.getElementById('reg-username').value.trim();
-  const password = document.getElementById('reg-password').value;
-
-  if (!username) return showMsg('msg-register', 'Enter a username', 'error');
-  if (!password) return showMsg('msg-register', 'Enter a password', 'error');
-  if (password.length < 6) return showMsg('msg-register', 'Password must be at least 6 characters', 'error');
-
-  showMsg('msg-register', 'Creating account...', 'success');
-
-  try {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 10000);
-
-    // call new register-login endpoint
-    const r = await fetch('/auth/register-login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, username, password }),
-      signal: controller.signal
-    });
-    clearTimeout(timeout);
-
-    const d = await r.json();
-
-    if (!r.ok) {
-      return showMsg('msg-register', d.detail || 'Registration failed', 'error');
-    }
-
-    // directly log in — no second OTP
-    showMsg('msg-register', 'Account created! Logging you in...', 'success');
-    localStorage.setItem('ft_username', d.username);
-    TOKEN = d.access_token;
-    localStorage.setItem('ft_token', TOKEN);
-
-    setTimeout(() => {
-      clearInterval(timerInterval);
-      enterApp(d.username);
-    }, 800);
-
-  } catch (err) {
-    if (err.name === 'AbortError') {
-      showMsg('msg-register', 'Request timed out.', 'error');
-    } else {
-      showMsg('msg-register', 'Network error: ' + err.message, 'error');
-    }
+    const email = document.getElementById('auth-email').value.trim();
+    const username = document.getElementById('reg-username').value.trim();
+    const password = document.getElementById('reg-password').value;
+    if (!username || !password) return triggerToast('Fields cannot be omitted','error');
+    const r = await api('/auth/register', { method:'POST', body: JSON.stringify({email, username, password}) });
+    if (r.ok) { triggerToast('Profile established! Generating login sequence...'); setTimeout(async () => { await api('/auth/send-otp', { method:'POST', body: JSON.stringify({email}) }); showStep('otp'); startTimer(); }, 1000); }
   }
-}
 
   // --- PERSISTENT DOM LOAD INITIALIZATION AND CONFIRM ACTIONS ---
   document.addEventListener('DOMContentLoaded', () => {

@@ -103,32 +103,3 @@ def reset_password(data: ResetPasswordRequest, db: Session = Depends(get_db)):
     user.hashed_password = pwd_context.hash(data.new_password)
     db.commit()
     return {"msg": "Password reset successful"}
-
-class RegisterAndLoginRequest(BaseModel):
-    email: str
-    username: str
-    password: str
-
-@router.post("/register-login")
-def register_and_login(data: RegisterAndLoginRequest, db: Session = Depends(get_db)):
-    # check if already exists
-    if db.query(User).filter(User.email == data.email).first():
-        raise HTTPException(status_code=400, detail="Email already registered")
-    
-    # create user
-    user = User(
-        email=data.email,
-        username=data.username,
-        hashed_password=pwd_context.hash(data.password)
-    )
-    db.add(user)
-    db.commit()
-    db.refresh(user)
-
-    # immediately return token — no second OTP needed
-    token = create_access_token({"sub": user.email})
-    return {
-        "access_token": token,
-        "token_type": "bearer",
-        "username": user.username
-    }
